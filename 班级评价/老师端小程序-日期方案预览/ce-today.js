@@ -12,10 +12,10 @@ let ceTodaySearchQuery='';
 function ceTodayCheckSignature(def){return [def.id,def.category,def.type,def.item,def.unitTenths,def.enabled!==false].join('|')}
 function ceTodayDefinitionForId(id){return ceTodayChecks.find(d=>d.id===id)}
 function ceTodayNormalizeMedia(media){return (media||[]).map((m,i)=>typeof m==='string'?{kind:m,name:'演示'+m+(i+1),sizeMB:m==='图片'?2.4:28.6,progress:100}:m)}
-function ceTodayMediaTotal(){return (ceDraft&&ceDraft.media?ceDraft.media:[]).length}
+function ceTodayImageTotal(){return (ceDraft&&ceDraft.media?ceTodayNormalizeMedia(ceDraft.media):[]).filter(m=>m.kind==='图片').length}
 function ceTodayMediaAdd(kind,sizeMB){
   if(!ceDraft)return;
-  if(ceTodayMediaTotal()>=9){toast('图片和视频最多上传9个');return}
+  if(kind==='图片'&&ceTodayImageTotal()>=9){toast('图片上传最多9张');return}
   const max=kind==='图片'?10:100;
   if(sizeMB>max){toast((kind==='图片'?'图片':'视频')+'大小不能超过'+max+'M');return}
   ceDraft.media=ceTodayNormalizeMedia(ceDraft.media);ceDraft.media.push({kind,name:'演示'+kind+(ceDraft.media.length+1),sizeMB,progress:0});ceSheetRender();
@@ -144,7 +144,7 @@ ceSheetRender=function(){
   const oldList=document.getElementById('ce-today-student-groups'),scroll=oldList?oldList.scrollTop:0;
   const tab=cePopupTab,tabs='<div class="ce-popup-tabs">'+[['score','评分'],['media','图文评价'],['students','关联学生']].map(([id,name])=>'<button class="'+(tab===id?'on':'')+'" onclick="cePopupTab=\''+id+'\';ceSheetRender()">'+name+(id==='students'&&ceDraft.students.length?'<span class="ce-badge">'+ceDraft.students.length+'</span>':'')+'</button>').join('')+'</div>';
   let content=ceEditingId?'<div class="ce-history-readonly"><b>评分</b><span>'+ceEscape(ceDraft.type)+'：'+(ceDraft.type==='加分'?'+':'')+Number(ceDraft.score).toFixed(1)+'</span><small>已提交记录的评分不可修改</small></div>':ceTodayScoreCard();
-  if(tab==='media'){ceDraft.media=ceTodayNormalizeMedia(ceDraft.media);content='<div class="ce-popup-item">'+ceEscape(ceDraft.item)+'</div><textarea class="ce-popup-text" maxlength="100" placeholder="请输入图文评价内容（100字以内）" oninput="ceDraft.text=this.value.slice(0,100)">'+ceEscape(ceDraft.text.slice(0,100))+'</textarea><div class="ce-media-actions"><button onclick="ceMediaAdd(\'图片\')">＋ 添加图片</button></div>'+(ceDraft.media.length?'<div class="ce-media-thumbs">'+ceDraft.media.map((m,i)=>'<div class="ce-media-thumb"><span>'+(m.kind==='图片'?'▧':'▶')+'</span><small>'+m.progress+'%</small><button class="remove" aria-label="删除媒体" onclick="ceMediaRemove('+i+')">×</button></div>').join('')+'</div>':'')}
+  if(tab==='media'){ceDraft.media=ceTodayNormalizeMedia(ceDraft.media);content='<div class="ce-popup-item">'+ceEscape(ceDraft.item)+'</div><textarea class="ce-popup-text" maxlength="100" placeholder="请输入图文评价内容（100字以内）" oninput="ceDraft.text=this.value.slice(0,100)">'+ceEscape(ceDraft.text.slice(0,100))+'</textarea><div class="ce-media-actions"><button onclick="ceMediaAdd(\'图片\')">＋ 添加图片</button></div><div class="ce-today-media-hint">支持 PNG、JPEG、JPG图片，最多上传9张，每张大小不超过10M</div>'+(ceDraft.media.length?'<div class="ce-media-thumbs">'+ceDraft.media.map((m,i)=>'<div class="ce-media-thumb"><span>'+(m.kind==='图片'?'▧':'▶')+'</span><small>'+m.progress+'%</small><button class="remove" aria-label="删除媒体" onclick="ceMediaRemove('+i+')">×</button></div>').join('')+'</div>':'')}
   if(tab==='students')content=ceEditingId?'<div class="ce-history-readonly"><b>关联学生</b><span>'+ceEscape(ceTodayStudentLabel(ceDraft.students))+'</span><small>已提交记录的关联学生不可修改</small></div>':'<div class="ce-student-filter">⌕<input value="'+ceEscape(ceStudentQuery)+'" placeholder="请输入学生姓名" oninput="ceTodaySearchStudents(this.value)"></div><div class="ce-student-groups" id="ce-today-student-groups">'+ceTodayStudentRows()+'</div>';
   sheet('<div class="ce-today-editor">'+tabs+'<div class="ce-popup-content">'+content+'</div><div class="ce-popup-footer"><button class="ce-popup-cancel" onclick="'+(ceEditingId?'ceReturnRecords()':'ceDraft=null;closeSheet()')+'">取消</button><button class="ce-popup-confirm" onclick="ceConfirmDraft()">确定</button></div></div>');
   const list=document.getElementById('ce-today-student-groups');if(list)list.scrollTop=scroll;

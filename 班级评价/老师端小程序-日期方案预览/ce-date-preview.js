@@ -147,7 +147,7 @@ ceRecordSetMode=function(){ceRecordMode='mine';ceRecordFilterResetDraft();ceReco
 const cePreviewRecordsPageBase=ceRecordsPage;
 ceRecordsPage=function(){
   ceRecordFilterResetDraft();
-  return cePreviewRecordsPageBase().replace(/<div class="ce-record-mode-switch">[\s\S]*?<\/div>/,'').replace(' ⓘ','').replace('onclick="ceInfo()"','').replace('搜索检查项、学生姓名、评价老师','请输入学生姓名搜索');
+  return cePreviewRecordsPageBase().replace(/<div class="ce-record-mode-switch">[\s\S]*?<\/div>/,'').replace('<button onclick="ceInfo()">我的评价 ⓘ</button>','<button>评级记录</button>').replace(' ⓘ','').replace('onclick="ceInfo()"','').replace('搜索检查项、学生姓名、评价老师','请输入学生姓名搜索');
 };
 
 /* 设置页执行时间：用统一日期范围卡片打开底部日期选择。 */

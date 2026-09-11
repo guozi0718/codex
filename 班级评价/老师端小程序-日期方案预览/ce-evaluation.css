@@ -1,0 +1,68 @@
+/* 班级评价：统一选择标记、折叠箭头和记录操作。 */
+.ce-rank-filter-card .check,.ce-multi-pick-card .check{display:none}
+.ce-fold{display:inline-block;width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid #B8BDC5;margin-right:8px;vertical-align:middle;transition:transform .15s}
+.ce-fold.closed{transform:rotate(-90deg)}
+.grp-arrow path,#cf-edit-req-arrow path,#cf-view-req-arrow path{d:path('M6 9 L18 9 L12 15 Z');fill:#B8BDC5;stroke:none}
+.attc-grp-hd .arr,.sm-grade-hd .arr,.sm-cls-hd .arr{font-size:0!important}
+.attc-grp-hd .arr:before,.sm-grade-hd .arr:before,.sm-cls-hd .arr:before{content:'';display:inline-block;border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid #B8BDC5}
+#ce-multi .ce-body{display:flex;flex-direction:column;min-height:0;overflow:hidden;padding-bottom:0}
+#ce-multi .ce-date-panel,#ce-multi .ce-multi-filter{flex-shrink:0}
+#ce-multi .ce-multi-filter{grid-template-columns:repeat(3,1fr)}
+#ce-multi .ce-multi-filter button{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ce-eval-scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding-bottom:14px}
+.ce-eval-group-title{width:100%;text-align:left}
+.ce-overview-card .ce-class-name{width:100%;font-size:14px;font-weight:600;padding:0 0 14px}
+.ce-overview-scores button{font-size:11px;color:var(--ink-3);text-align:center}
+.ce-overview-scores button+button{border-left:1px solid var(--line)}
+.ce-eval-class-card{cursor:pointer}.ce-eval-class-card .ce-overview-scores{display:flex}.ce-eval-class-card .ce-overview-scores span{flex:1;text-align:center;font-size:11px;color:var(--ink-3)}.ce-eval-class-card .ce-overview-scores span+span{border-left:1px solid var(--line)}
+.ce-multi-pick-title{width:100%;justify-content:flex-start;gap:3px;text-align:left}
+.ce-multi-pick-title .count{color:var(--ink)}
+.ce-record-more{padding:8px;min-width:32px;color:var(--ink-3);font-size:18px;line-height:1;border-radius:8px}
+.ce-record-more:hover{background:var(--bg)}
+.ce-record-card-title{border:0;text-align:left;font-size:14px;font-weight:600;color:var(--ink)}
+.ce-detail-record-card .amount.plus,.ce-detail-record-card .badge.plus{color:var(--teal)}
+.ce-detail-record-card .badge.plus{background:var(--teal-bg)}
+.ce-record-sheet-scroll{height:450px;max-height:55vh;overflow-y:auto;overscroll-behavior:contain;padding:10px;background:#F6F7F9;border-radius:10px}
+.ce-record-menu button{width:100%;padding:16px;border-bottom:1px solid var(--line);font-size:15px;text-align:center}
+.ce-record-menu .danger{color:var(--ink)}
+.ce-confirm-overlay{position:absolute;inset:0;z-index:55;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center}
+.ce-confirm-dialog{background:white;border-radius:16px;width:82%;padding:24px 20px;text-align:center}
+.ce-confirm-dialog h3{text-align:left}
+.ce-confirm-dialog p{color:var(--ink-2);font-size:13px;line-height:1.8;margin:16px 0}
+.ce-confirm-dialog footer{display:flex;gap:12px}.ce-confirm-dialog footer button{flex:1;padding:12px;border-radius:10px;background:var(--bg)}
+.ce-confirm-dialog footer .danger{background:var(--cinnabar);color:white}
+.ce-calendar-day{width:33px;justify-self:center}
+.ce-date-strip button.selected{display:block;width:auto;height:auto;background:none;color:var(--ink-2);line-height:1.45}
+.ce-date-strip .date-number{display:grid;place-items:center;margin:4px auto 0;width:29px;height:29px;border-radius:50%}
+.ce-date-strip button.selected .date-number{background:var(--teal);color:white}
+.ce-date-strip button.outside{opacity:.4}
+.ce-detail-record-card .body{overflow-wrap:anywhere}
+.ce-confirm-dialog footer{gap:12px;border-top:0;margin-top:6px}
+.ce-confirm-dialog footer button{border-radius:24px;padding:11px 10px}
+.ce-confirm-dialog footer .ce-popup-cancel{border:1px solid var(--teal);color:var(--teal);background:#fff}
+.ce-confirm-dialog footer .ce-popup-confirm{background:var(--teal);color:#fff}
+.ce-detail-record-card .top{display:grid;grid-template-columns:30px minmax(0,1fr) auto auto 28px;gap:5px}
+.ce-detail-record-card .seal{width:30px;height:30px}
+.ce-detail-record-card .badge{padding:4px 6px;white-space:nowrap}
+.ce-detail-record-card .amount{margin-left:0;white-space:nowrap}
+.ce-record-more{min-width:28px;padding:7px 3px}
+.ce-record-card-title{font-size:13px;overflow-wrap:anywhere}
+.ce-detail-record-card .meta{font-size:10px}
+.ce-student-group-title:before{content:'';width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid #B8BDC5;margin-right:8px}
+.ce-classpick.ce-locked{max-height:76px;overflow-y:auto;overflow-wrap:anywhere}
+.ce-score-detail-group{background:white;border-radius:9px;overflow:hidden;margin-top:12px}
+.ce-score-detail-group>.ce-score-detail-row{border-top:0}
+.ce-score-detail-row.ce-dimension-toggle{width:100%;text-align:left;background:#fff}
+.ce-score-detail-head,.ce-score-detail-row{min-height:42px;padding-top:0;padding-bottom:0;line-height:1.35}
+.ce-overview-sheet-tabs button{height:46px;padding-top:0;padding-bottom:0;display:flex;align-items:center;justify-content:center}
+
+/* 沿用信息确认页：只隐藏原生滚动条，保留触屏/触控板/滚轮滚动。 */
+.phone,.phone *{scrollbar-width:none;-ms-overflow-style:none}
+.phone::-webkit-scrollbar,.phone *::-webkit-scrollbar{display:none;width:0;height:0}
+
+/* 排行：固定头部及维度栏，剩余高度全部交给独立的纵向列表。 */
+#ce-rank .ce-body{display:flex;flex-direction:column;min-height:0;min-width:0;overflow:hidden;padding-bottom:0}
+#ce-rank .ce-hero,#ce-rank .ce-filter,#ce-rank .ce-chips{flex-shrink:0}
+#ce-rank .ce-rank-list{flex:1 1 0;min-height:0;min-width:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch}
+#ce-rank .ce-chips{flex-wrap:nowrap;min-width:0;max-width:100%;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+#ce-rank .ce-chip{flex:0 0 auto;white-space:nowrap}

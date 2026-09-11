@@ -1,0 +1,59 @@
+/* 仅作用于今日评价检查项弹窗，不改已定版页面或历史记录编辑器。 */
+.ce-today-editor .ce-popup-content{max-height:470px;overflow-y:auto;overscroll-behavior:contain;padding:2px}
+.ce-today-editor .ce-today-score-card{padding:14px;margin-bottom:12px;border:1px solid var(--line);background:#F8FBFE;border-radius:12px}
+.ce-today-editor .ce-today-score-card h3{font-size:14px;line-height:1.65;margin:6px 0 0}
+.ce-today-editor .ce-today-card-label{font-size:12px;color:var(--ink-3);margin-bottom:7px}
+.ce-today-editor .ce-today-rule-row{display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--ink);font-size:13px}
+.ce-today-editor .ce-today-mode{background:var(--teal-bg);color:var(--teal);padding:4px 9px;border-radius:12px;font-size:11px}
+.ce-today-editor .ce-today-help{font-size:11px;line-height:1.75;color:var(--ink-3);margin-top:9px}
+.ce-today-editor .ce-today-score-control{display:flex;align-items:center;justify-content:center;gap:18px;margin:20px 0}
+.ce-today-editor .ce-today-score-control button{height:32px;width:32px;flex-shrink:0;border:1px solid var(--teal);border-radius:50%;color:var(--teal);font-size:20px;background:white}
+.ce-today-editor .ce-today-score-control button:disabled{color:#ADB6C3;border-color:#D9E1EB;background:#EDF1F6;cursor:default}
+.ce-today-editor .ce-today-score-control label{display:flex;align-items:center;gap:3px;border-bottom:1px solid var(--line);font-size:22px;color:var(--ink)}
+.ce-today-editor .ce-today-score-control input{width:83px;min-width:0;text-align:center;background:transparent;border:0;outline:none;font-size:22px;font-weight:600;color:var(--ink);font-family:inherit;padding:4px 0}
+.ce-today-editor .ce-today-score-control input:disabled{opacity:1;-webkit-text-fill-color:var(--ink)}
+.ce-today-editor .ce-today-student-title{width:100%;display:flex;align-items:center;text-align:left;font-size:12px;font-weight:600;color:var(--ink);padding:0 0 9px}
+.ce-today-editor .ce-today-student-title b{color:var(--teal)}
+.ce-today-editor .ce-student-groups{max-height:330px}
+.ce-today-editor .ce-popup-footer{position:sticky;bottom:0;background:white;padding-top:10px}
+.ce-today-editor .ce-today-media-limit{font-size:11px;color:var(--ink-3);margin:-2px 0 10px;text-align:right}
+.ce-today-editor .ce-media-actions{display:flex;gap:9px;margin:10px 0}
+.ce-today-editor .ce-media-actions button{flex:1;min-height:42px;border:1px dashed #b9c4d2;border-radius:10px;color:var(--teal);background:#fbfdfd;font-size:13px}
+.ce-today-editor .ce-media-thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 4px}
+.ce-today-editor .ce-media-thumb{height:66px;border-radius:9px;background:#edf3f7;display:flex;align-items:center;justify-content:center;position:relative;color:var(--teal);font-size:23px}
+.ce-today-editor .ce-media-thumb small{position:absolute;left:5px;bottom:4px;color:var(--ink-2);font-size:10px}
+.ce-today-editor .ce-media-thumb .remove{position:absolute;right:3px;top:3px;width:18px;height:18px;border-radius:50%;background:rgba(35,48,71,.7);color:white;line-height:16px;font-size:14px}
+.ce-today-editor .ce-today-demo-link{display:block;margin:10px auto 0;color:var(--teal);font-size:12px;text-decoration:underline}
+.ce-today-editor .ce-student-groups{overflow-y:auto;overscroll-behavior:contain}
+
+/* 今日评价：一级维度窄列纵向滑动，二级维度横向滑动，检查项只允许纵向滑动。 */
+#ce-today .ce-body{display:flex;flex-direction:column;min-height:0;overflow:hidden;padding-bottom:0}
+#ce-today .ce-today-top{flex:none}
+#ce-today .ce-eval-layout{flex:1;min-height:0;overflow:hidden}
+#ce-today .ce-today-cats-scroll{width:84px;overflow-y:auto;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch}
+#ce-today .ce-today-cats-scroll button{font-size:12px;padding-left:9px}
+#ce-today .ce-options{display:flex;flex-direction:column;min-height:0;max-height:none;overflow:hidden;padding-bottom:88px}
+#ce-today .ce-subchips{flex:0 0 auto;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;white-space:nowrap}
+#ce-today .ce-subchip{font-size:12px}
+.ce-today-dimension-title{flex:0 0 auto;color:var(--ink-2);font-size:12px;font-weight:700;padding:0 0 10px}
+#ce-today .ce-today-option-scroll{display:block;flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;padding:0 2px 10px}
+#ce-today .ce-today-subgroup{scroll-margin-top:4px}
+#ce-today .ce-today-subgroup h4{padding:6px 2px 8px;color:var(--ink-2);font-size:12px;font-weight:600}
+#ce-today .ce-today-option-scroll .ce-option{min-height:0;width:100%;margin:0 0 10px;white-space:normal}
+#ce-today .ce-tabbar{display:none}
+#ce-today .ce-actionbar{bottom:0}
+#ce-today .ce-today-search input{border:0;outline:0;background:transparent;min-width:0;flex:1;color:var(--ink);font:inherit}
+#ce-today .ce-today-search input::placeholder{color:var(--ink-3)}
+.ce-review-card b{font-variant-numeric:tabular-nums}
+.ce-review-card.ce-review-minus b{color:var(--cinnabar)}
+.ce-review-card.ce-review-plus b{color:var(--teal)}
+.ce-review-card .ce-review-content{display:flex;align-items:flex-start;overflow-wrap:anywhere;word-break:break-word}.ce-review-card .ce-review-content-text{min-width:0;white-space:normal;overflow-wrap:anywhere;word-break:break-word;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
+.ce-review-card .ce-review-label{white-space:nowrap}
+.ce-segment button .ce-tab-count{font-size:12px;color:var(--ink-2);font-weight:400}.ce-segment button .ce-tab-count b{color:var(--teal);font-weight:600}
+.ce-record-evaluation-row{display:flex;align-items:flex-start;min-width:0}.ce-record-evaluation-label{flex:none}.ce-record-evaluation-content{display:-webkit-box;flex:1;min-width:0;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;white-space:normal;overflow-wrap:anywhere;word-break:break-word}
+.ce-actionbar .ce-classpick-detail{display:block;color:var(--navy);font-size:11px;margin-top:2px;text-align:left}
+.ce-class-detail-sheet h3{text-align:center;margin-bottom:4px}.ce-class-detail-scroll{max-height:58vh;overflow-y:auto;overscroll-behavior:contain;background:#F6F7F9;border-radius:12px;padding:8px}.ce-class-detail-card{background:#fff;border-radius:10px;padding:11px 12px;margin-bottom:8px}.ce-class-detail-card:last-child{margin-bottom:0}.ce-class-detail-card header{display:flex;justify-content:space-between;align-items:center;font-size:14px;border-bottom:1px solid var(--line);padding-bottom:8px}.ce-class-detail-card header span{font-weight:700;color:var(--ink)}.ce-class-detail-summary{display:flex;gap:18px;font-size:11px;padding:8px 0}.ce-class-detail-summary .plus,.ce-class-detail-item .plus{color:var(--teal)}.ce-class-detail-summary .minus,.ce-class-detail-item .minus{color:var(--cinnabar)}.ce-class-detail-item{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-top:1px solid #F2F4F7;font-size:12px;line-height:1.35}.ce-class-detail-item span{min-width:0;overflow-wrap:anywhere}.ce-class-detail-item small{display:block;color:var(--ink-3);font-size:10px;margin-top:3px}.ce-class-detail-item b{flex:none;font-size:12px}.ce-class-detail-item.muted{color:var(--ink-3)}.ce-class-detail-empty{text-align:center;color:var(--ink-3);font-size:12px;padding:24px 8px}.ce-class-lock-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:#F6F7F9}.ce-class-lock-card{min-height:50px;background:#fff;border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:13px;font-weight:600;text-align:center;padding:8px}
+.ce-today-editor .ce-today-score-card{line-height:1.55}
+.ce-today-editor .ce-history-readonly{display:flex;flex-direction:column;gap:10px;padding:16px 14px;border:1px solid var(--line);border-radius:12px;background:#F8FBFE;color:var(--ink);font-size:14px;line-height:1.6}
+.ce-today-editor .ce-history-readonly span{font-size:18px;font-weight:700}
+.ce-today-editor .ce-history-readonly small{color:var(--ink-3);font-size:12px}

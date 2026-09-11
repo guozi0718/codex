@@ -1,0 +1,43 @@
+/* 日期相关新增区域，沿用现有颜色和卡片样式。 */
+.ce-preview-selected-day{flex-shrink:0;display:flex;justify-content:space-between;gap:8px;padding:8px 16px 0;background:#fff;color:var(--ink-2);font-size:11px;line-height:18px}
+.ce-preview-selected-day span:last-child{color:var(--ink-3)}
+.ce-preview-record-range{text-align:center;color:var(--ink-3);font-size:11px;line-height:18px;margin:8px 0 0;font-variant-numeric:tabular-nums}
+.ce-preview-custom-dates h3{text-align:center;margin-bottom:16px}
+.ce-preview-date-range-fields{display:grid;grid-template-columns:minmax(0,1fr) 20px minmax(0,1fr);align-items:end;gap:8px}
+.ce-preview-date-range-fields label{display:block;font-size:12px;color:var(--ink-2)}
+.ce-preview-date-range-fields input{display:block;width:100%;height:42px;border:1px solid var(--line);border-radius:8px;background:#f4f6f8;padding:0 7px;color:var(--ink);font:inherit;font-size:12px;margin-top:7px}
+.ce-preview-date-range-fields>span{text-align:center;color:var(--ink-3);padding-bottom:12px}
+.ce-preview-date-note{font-size:12px;color:var(--ink-3);margin:12px 0 0;text-align:center}
+.ce-rank-score-head{display:inline-flex;align-items:center;justify-content:flex-end;gap:3px}
+.ce-rank-info{width:16px;height:16px;border:1px solid var(--ink-3);border-radius:50%;color:var(--ink-2);font-size:11px;line-height:14px;text-align:center}
+.ce-rank-info-sheet h3{text-align:center;margin-bottom:16px}
+.ce-rank-info-sheet .ce-modal-body{font-size:13px;line-height:1.85;color:var(--ink-2)}
+.ce-rank-info-sheet .btn{margin-top:16px}
+.ce-eval-date-sheet{padding:2px 0 0}.ce-eval-date-head{padding:0 4px 14px;border-bottom:1px solid #edf0f3}.ce-eval-date-head h3{text-align:center;margin:0;font-size:18px}.ce-eval-calendar-nav{height:42px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;margin-top:8px}.ce-eval-calendar-nav b{text-align:center;font-size:14px;font-variant-numeric:tabular-nums}.ce-eval-calendar-nav-btn{border:0;background:transparent;color:var(--ink-2);font-size:12px;padding:8px 0;text-align:left}.ce-eval-calendar-nav-btn:last-child{text-align:right}.ce-eval-calendar-nav-btn.disabled{color:#c5cbd3}.ce-eval-calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px 2px;padding-top:4px}.ce-eval-calendar-weekday{height:24px;display:flex;align-items:center;justify-content:center;color:var(--ink-3);font-size:12px}.ce-eval-calendar-day{height:34px;border:0;border-radius:50%;background:transparent;color:var(--ink);font-size:13px;font-variant-numeric:tabular-nums}.ce-eval-calendar-day.selected{background:var(--teal);color:#fff;font-weight:600}.ce-eval-calendar-day.disabled{color:#c5cbd3}.ce-eval-calendar-day.blank{visibility:hidden}.ce-eval-date-sheet .ce-popup-footer{margin-top:16px}
+.ce-multi-action-icon{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;margin-right:4px;color:var(--teal);font-size:16px;font-weight:600;vertical-align:-2px}
+.ce-preview-item-filter-list{height:224px;max-height:224px;overflow-y:auto;display:flex;flex-direction:column;gap:6px}
+.ce-preview-item-filter-card{display:block;width:100%;min-height:34px;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:8px 10px}
+.ce-settings-date-sheet h3{text-align:center;margin-bottom:16px}
+.ce-settings-date-card{display:grid;grid-template-columns:minmax(0,1fr) 20px minmax(0,1fr);align-items:end;gap:8px;background:#f7f8fa;border-radius:10px;padding:12px 10px}
+.ce-settings-date-card>div{min-width:0}.ce-settings-date-card span{display:block;color:var(--ink-2);font-size:12px;margin-bottom:7px}
+.ce-settings-date-card input{width:100%;height:38px;border:1px solid var(--line);border-radius:7px;background:#fff;padding:0 5px;color:var(--ink);font:inherit;font-size:11px}
+.ce-settings-date-card>i{font-style:normal;text-align:center;color:var(--ink-3);padding-bottom:11px}
+.ce-settings-date-sheet>p{font-size:12px;color:var(--ink-3);text-align:center;margin:12px 0 0}
+.ce-duty-teacher-label{display:flex;align-items:center;justify-content:space-between!important;margin-bottom:12px!important}
+.ce-duty-teacher-label em{font-style:normal;color:var(--ink-2)}.ce-duty-teacher-label em b{color:var(--teal);font-weight:500}
+.ce-required-mark{font-style:normal;color:#ff5a36;margin-left:2px}
+.ce-duty-date-trigger{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex:1;min-width:0;text-align:right;color:var(--ink-2);font-size:12px}
+.ce-duty-date-trigger span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ce-duty-date-trigger i{font-style:normal;color:var(--ink-3);font-size:20px;line-height:1}
+#ce-multi .ce-multi-actions button:nth-child(2):before{content:'✎';display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;margin-right:4px;color:var(--teal);font-size:16px;font-weight:600;vertical-align:-2px}
+
+/* 全局操作按钮：次操作白底描边，主操作蓝底白字。 */
+:root{--action-blue:#2F7BF6;--action-blue-dark:#2563D9;--action-secondary-border:#D5DAE2;--action-secondary-text:#4E5969}
+.btn.pri,.ce-done,.ce-duty-footer{background:var(--action-blue)!important;color:#fff!important}
+.btn.pri:hover,.ce-done:hover,.ce-duty-footer:hover{background:var(--action-blue-dark)!important}
+.btn.ghost{border-color:var(--action-secondary-border);color:var(--action-secondary-text);background:#fff}
+.ce-popup-cancel,.ce-rank-sheet-foot .cancel,.ce-overview-footer .cancel,.ce-confirm-dialog footer .ce-popup-cancel{border:1px solid var(--action-secondary-border)!important;color:var(--action-secondary-text)!important;background:#fff!important}
+.ce-popup-confirm,.ce-rank-sheet-foot .go,.ce-overview-footer .go,.ce-confirm-dialog footer .ce-popup-confirm{background:var(--action-blue)!important;color:#fff!important}
+.ce-popup-confirm:hover,.ce-rank-sheet-foot .go:hover,.ce-overview-footer .go:hover,.ce-confirm-dialog footer .ce-popup-confirm:hover{background:var(--action-blue-dark)!important}
+.ce-settings-confirm footer{gap:10px;border-top:0;padding:12px 16px}
+.ce-settings-confirm footer button{border:1px solid var(--action-secondary-border);border-radius:22px;background:#fff;color:var(--action-secondary-text);padding:10px 8px}
+.ce-settings-confirm footer button+button,.ce-settings-confirm footer .danger{border:0;background:var(--action-blue);color:#fff!important}

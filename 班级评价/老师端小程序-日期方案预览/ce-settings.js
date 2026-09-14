@@ -51,7 +51,7 @@ function ceSettingsPage(){
   return '<div class="ce-settings-page ce-settings-home"><div class="ce-settings-card"><button class="ce-setting ce-settings-entry" onclick="ceSettingsOpenTeachers()"><span>值周老师管理</span><span>›</span></button></div></div>';
 }
 function ceSettingsOpenTeachers(){ceSettingsState.view='teachers';ceSettingsState.search='';ceRender()}
-function ceSettingsBack(){if(ceSettingsState.view==='teachers'){ceSettingsState.view='home';ceSettingsState.search='';ceRender()}else go('sc-home')}
+function ceSettingsBack(){if(ceSettingsState.view==='teachers'){ceSettingsState.view='home';ceSettingsState.search='';ceRender()}else ceReturnTeacherHome()}
 function ceSettingsToggleGroup(id){const g=ceSettingsGroups.find(x=>x.id===id);if(g){g.expanded=!g.expanded;ceSettingsRender()}}
 function ceSettingsRender(){const body=document.getElementById('ce-settings-body');if(body)body.innerHTML=ceSettingsPage();ceSettingsSyncHeader()}
 function ceSettingsSyncHeader(){

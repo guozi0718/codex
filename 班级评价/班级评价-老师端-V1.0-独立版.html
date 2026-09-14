@@ -3314,7 +3314,7 @@ body.no-shell .phone{border-radius:0;box-shadow:none}
   <!-- ================= 班级评价模块（首页最后入口） ================= -->
   <div class="screen ce-screen" id="ce-rank">
     <div class="statusbar"><span>9:41</span><span class="right">●●● 〸 <b>▮▮▮</b></span></div>
-    <div class="sub-hd"><button class="back" onclick="go('sc-home')">‹</button><b>班级评价</b><span class="capsule" style="margin-left:auto"><i>⋯</i><i>◎</i></span></div>
+    <div class="sub-hd"><button class="back" onclick="ceReturnTeacherHome()">‹</button><b>班级评价</b><span class="capsule" style="margin-left:auto"><i>⋯</i><i>◎</i></span></div>
     <div class="ce-body" id="ce-rank-body"></div>
     <div class="ce-tabbar">
       <button class="ce-tab on" onclick="go('ce-rank')"><i class="ce-ti">☆</i>排行</button>
@@ -3337,7 +3337,7 @@ body.no-shell .phone{border-radius:0;box-shadow:none}
   </div>
   <div class="screen ce-screen" id="ce-multi">
     <div class="statusbar"><span>9:41</span><span class="right">●●● 〸 <b>▮▮▮</b></span></div>
-    <div class="sub-hd"><button class="back" onclick="go('ce-rank')">‹</button><b>班级评价</b><span class="capsule" style="margin-left:auto"><i>⋯</i><i>◎</i></span></div>
+    <div class="sub-hd"><button class="back" onclick="ceReturnTeacherHome()">‹</button><b>班级评价</b><span class="capsule" style="margin-left:auto"><i>⋯</i><i>◎</i></span></div>
     <div class="ce-body" id="ce-multi-body"></div>
     <div class="ce-multi-actions"><button onclick="ceScanClassSheet()"><span class="ce-scan-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3M7 12h10"/></svg></span>扫校徽码评价</button><button onclick="ceMultiSelectSheet()">多班评价</button></div>
     <div class="ce-tabbar">
@@ -3349,7 +3349,7 @@ body.no-shell .phone{border-radius:0;box-shadow:none}
   </div>
   <div class="screen ce-screen" id="ce-records">
     <div class="statusbar"><span>9:41</span><span class="right">●●● 〸 <b>▮▮▮</b></span></div>
-    <div class="sub-hd"><button class="back" onclick="go('sc-home')">‹</button><b>班级评价</b><span class="capsule" style="margin-left:auto"><i>⋯</i><i>◎</i></span></div>
+    <div class="sub-hd"><button class="back" onclick="ceReturnTeacherHome()">‹</button><b>班级评价</b><span class="capsule" style="margin-left:auto"><i>⋯</i><i>◎</i></span></div>
     <div class="ce-body" id="ce-records-body"></div>
     <div class="ce-tabbar">
       <button class="ce-tab" onclick="go('ce-rank')"><i class="ce-ti">☆</i>排行</button>
@@ -3360,7 +3360,7 @@ body.no-shell .phone{border-radius:0;box-shadow:none}
   </div>
   <div class="screen ce-screen" id="ce-settings">
     <div class="statusbar"><span>9:41</span><span class="right">●●● 〸 <b>▮▮▮</b></span></div>
-    <div class="sub-hd"><button class="back" onclick="go('sc-home')">‹</button><b>班级评价</b><span class="capsule" style="margin-left:auto"><i>⋯</i><i>◎</i></span></div>
+    <div class="sub-hd"><button class="back" onclick="ceReturnTeacherHome()">‹</button><b>班级评价</b><span class="capsule" style="margin-left:auto"><i>⋯</i><i>◎</i></span></div>
     <div class="ce-body" id="ce-settings-body"></div>
     <div class="ce-tabbar">
       <button class="ce-tab" onclick="go('ce-rank')"><i class="ce-ti">☆</i>排行</button>
@@ -8227,7 +8227,7 @@ function ceSettingsPage(){
   return '<div class="ce-settings-page ce-settings-home"><div class="ce-settings-card"><button class="ce-setting ce-settings-entry" onclick="ceSettingsOpenTeachers()"><span>值周老师管理</span><span>›</span></button></div></div>';
 }
 function ceSettingsOpenTeachers(){ceSettingsState.view='teachers';ceSettingsState.search='';ceRender()}
-function ceSettingsBack(){if(ceSettingsState.view==='teachers'){ceSettingsState.view='home';ceSettingsState.search='';ceRender()}else go('sc-home')}
+function ceSettingsBack(){if(ceSettingsState.view==='teachers'){ceSettingsState.view='home';ceSettingsState.search='';ceRender()}else ceReturnTeacherHome()}
 function ceSettingsToggleGroup(id){const g=ceSettingsGroups.find(x=>x.id===id);if(g){g.expanded=!g.expanded;ceSettingsRender()}}
 function ceSettingsRender(){const body=document.getElementById('ce-settings-body');if(body)body.innerHTML=ceSettingsPage();ceSettingsSyncHeader()}
 function ceSettingsSyncHeader(){
@@ -8586,6 +8586,8 @@ ceResetTabDefault=function(id){
 <script>
 /* V1.0 PRD adapter. Local prototype simulation; no production APIs. */
 const ceV1={role:'校长',businessDate:ceDateKey(new Date()),sessionDate:null,busy:false,submitMode:'success',submissions:{},groupAudit:[]};
+const ceTeacherHomeUrl='https://olivebird.netlify.app/ssb/teacher.html#sc-home';
+function ceReturnTeacherHome(){window.location.href=ceTeacherHomeUrl}
 ceLedger.submissions=ceLedger.submissions||{};
 ceLedger.records.forEach(r=>{if(!r.createdBy)r.createdBy=r.people==='王老师'?ceRecordCurrentTeacherId:'other-teacher'});
 function ceV1Unit(v){return Math.min(1000,Math.max(0,Math.round(Number(v)||0)))}
@@ -8632,6 +8634,7 @@ go=function(id){
 function ceV1Nav(){
  document.querySelectorAll('.ce-tabbar button').forEach(b=>{if(b.getAttribute('onclick')?.includes('ce-settings'))b.hidden=ceV1.role!=='校长'});
  const back=document.querySelector('#ce-today .sub-hd .back');if(back)back.onclick=()=>go(ceV1.todayReturn||'ce-multi');
+ ['ce-rank','ce-multi','ce-records'].forEach(id=>{const mainBack=document.querySelector('#'+id+' .sub-hd .back');if(mainBack)mainBack.onclick=ceReturnTeacherHome});
 }
 function ceV1ClassDetailSheet(){
   const classes=ceSessionClasses().filter(Boolean);

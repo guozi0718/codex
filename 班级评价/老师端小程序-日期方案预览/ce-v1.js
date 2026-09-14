@@ -1,5 +1,7 @@
 /* V1.0 PRD adapter. Local prototype simulation; no production APIs. */
 const ceV1={role:'校长',businessDate:ceDateKey(new Date()),sessionDate:null,busy:false,submitMode:'success',submissions:{},groupAudit:[]};
+const ceTeacherHomeUrl='https://olivebird.netlify.app/ssb/teacher.html#sc-home';
+function ceReturnTeacherHome(){window.location.href=ceTeacherHomeUrl}
 ceLedger.submissions=ceLedger.submissions||{};
 ceLedger.records.forEach(r=>{if(!r.createdBy)r.createdBy=r.people==='王老师'?ceRecordCurrentTeacherId:'other-teacher'});
 function ceV1Unit(v){return Math.min(1000,Math.max(0,Math.round(Number(v)||0)))}
@@ -46,6 +48,7 @@ go=function(id){
 function ceV1Nav(){
  document.querySelectorAll('.ce-tabbar button').forEach(b=>{if(b.getAttribute('onclick')?.includes('ce-settings'))b.hidden=ceV1.role!=='校长'});
  const back=document.querySelector('#ce-today .sub-hd .back');if(back)back.onclick=()=>go(ceV1.todayReturn||'ce-multi');
+ ['ce-rank','ce-multi','ce-records'].forEach(id=>{const mainBack=document.querySelector('#'+id+' .sub-hd .back');if(mainBack)mainBack.onclick=ceReturnTeacherHome});
 }
 function ceV1ClassDetailSheet(){
   const classes=ceSessionClasses().filter(Boolean);

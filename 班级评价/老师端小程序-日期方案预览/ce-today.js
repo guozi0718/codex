@@ -5,10 +5,11 @@ const ceTodayChecks=ceCategories.flatMap((category,ci)=>Object.entries(ceSubcate
   return {id:`demo-check-${ci}-${si}-${type==='扣分'?'minus':'plus'}-${i}`,category:category+'·'+subcategory,primary:category,secondary:subcategory,type,item,unitTenths:match?Math.round(Number(match[1])*10):(fallback?Math.round(Number(fallback[1])*10):0),enabled:true,source:'学校端Web的检查项设置'};
 }))));
 // 加分、扣分共用单检查项分值范围；累计总分不限制。
-const ceTodayLimits={manualDeductMaxTenths:1000,manualPlusMaxTenths:1000};
-const ceTodayMaxMessage='单个检查项不允许超过100.0分';
+const ceTodayLimits={manualDeductMaxTenths:99999,manualPlusMaxTenths:99999};
+const ceTodayMinTenths=1;
+const ceTodayMinMessage='单个检查项最低为0.1分';
+const ceTodayMaxMessage='单个检查项不允许超过9999.9分';
 const ceTodayLegacy={sheetRender:ceSheetRender,confirmDraft:ceConfirmDraft,scoreAdjust:ceScoreAdjust,finish:ceFinish};
-let ceTodaySearchQuery='';
 function ceTodayCheckSignature(def){return [def.id,def.category,def.type,def.item,def.unitTenths,def.enabled!==false].join('|')}
 function ceTodayDefinitionForId(id){return ceTodayChecks.find(d=>d.id===id)}
 function ceTodayNormalizeMedia(media){return (media||[]).map((m,i)=>typeof m==='string'?{kind:m,name:'演示'+m+(i+1),sizeMB:m==='图片'?2.4:28.6,progress:100}:m)}
@@ -42,7 +43,7 @@ function ceTodayValidate(entry){
     const text=String(entry.manualInput??(entry.manualTenths/10));
     if(!/^\d+(?:\.\d)?$/.test(text)){toast('请输入分值，最多一位小数');return false}
     const amount=Math.round(Number(text)*10),max=ceTodayManualMax(entry.type);
-    if(amount<entry.unitTenths){toast('单次'+entry.type+'不能低于默认值'+(entry.unitTenths/10).toFixed(1)+'分');return false}
+    if(amount<ceTodayMinTenths){toast(ceTodayMinMessage);return false}
     if(max!==null&&amount>max){toast(ceTodayMaxMessage);return false}
     entry.manualTenths=amount;
   }else{
@@ -58,7 +59,7 @@ function ceTodayOpenDefinition(def,stored){
   const old=stored||ceState.entries.find(e=>e.checkId===def.id);
   ceEditingId=null;
   const students=old?(old.students||[]).slice():(ceState.scanOnly&&ceState.scanStudent?[ceState.scanStudent]:[]);
-  const manualTenths=old&&Number.isInteger(old.manualTenths)?old.manualTenths:old&&!students.length?Math.round(Math.abs(old.score)*10):def.unitTenths;
+  const manualTenths=Math.max(ceTodayMinTenths,old&&Number.isInteger(old.manualTenths)?old.manualTenths:old&&!students.length?Math.round(Math.abs(old.score)*10):def.unitTenths);
   ceDraft={checkId:def.id,type:def.type,index:def.index,item:def.item,category:def.category,unitTenths:def.unitTenths,checkSignature:ceTodayCheckSignature(def),manualTenths,manualInput:(manualTenths/10).toFixed(1),score:0,text:old?old.text||'':'',students,media:ceTodayNormalizeMedia(old&&old.media?old.media.slice():[]),studentFolds:{}};
   ceTodaySyncScore(ceDraft);cePopupTab='score';ceStudentQuery='';ceSheetRender();
 }
@@ -76,7 +77,7 @@ function ceTodayManualInput(value){
   const max=ceTodayManualMax(ceDraft.type),amount=Math.round(Number(value)*10);
   if(Number.isFinite(Number(value))&&max!==null&&Number(value)>max/10){toast(ceTodayMaxMessage);const input=document.getElementById('ce-today-score-input');if(input)input.value=ceDraft.manualInput;return}
   ceDraft.manualInput=value;
-  if(/^\d+(?:\.\d)?$/.test(value)&&amount>=ceDraft.unitTenths&&(max===null||amount<=max)){ceDraft.manualTenths=amount;ceTodaySyncScore(ceDraft)}
+  if(/^\d+(?:\.\d)?$/.test(value)&&amount>=ceTodayMinTenths&&(max===null||amount<=max)){ceDraft.manualTenths=amount;ceTodaySyncScore(ceDraft)}
 }
 function ceTodayManualBlur(){if(ceDraft&&ceTodayValidate(ceDraft)){ceDraft.manualInput=(ceDraft.manualTenths/10).toFixed(1);const input=document.getElementById('ce-today-score-input');if(input)input.value=ceDraft.manualInput}}
 ceScoreAdjust=function(delta){
@@ -84,7 +85,7 @@ ceScoreAdjust=function(delta){
   if(!ceDraft)return;
   const amount=ceDraft.manualTenths+Math.round(delta*ceDraft.unitTenths),max=ceTodayManualMax(ceDraft.type);
   if(max!==null&&amount>max){toast(ceTodayMaxMessage);return}
-  ceDraft.manualTenths=Math.max(ceDraft.unitTenths,max===null?amount:Math.min(max,amount));
+  ceDraft.manualTenths=Math.max(ceTodayMinTenths,max===null?amount:Math.min(max,amount));
   ceDraft.manualInput=(ceDraft.manualTenths/10).toFixed(1);ceTodaySyncScore(ceDraft);ceSheetRender();
 };
 function ceTodayToggleStudent(id){
@@ -98,12 +99,8 @@ function ceTodayStudentRows(){return ceStudentGroups().map((g,i)=>{
   return '<div class="ce-student-group"><button class="ce-today-student-title" onclick="ceDraft.studentFolds['+i+']=!ceDraft.studentFolds['+i+'];ceSheetRender()">'+ceFold(folded)+ceEscape(ceClassDisplayName(g.name))+'（<b>'+selected+'</b>/'+g.students.length+'）</button>'+(folded?'':'<div class="ce-student-list">'+filtered.map(s=>{const id=g.name+'::'+s;return '<button class="ce-student-chip '+(ceDraft.students.includes(id)?'on':'')+'" aria-pressed="'+ceDraft.students.includes(id)+'" onclick="ceTodayToggleStudent(\''+ceEscape(id)+'\')">'+(q?ceEscape(ceClassDisplayName(g.name))+' · ':'')+ceEscape(s)+'</button>'}).join('')+'</div>'+(filtered.length?'':'<div class="ce-today-help">暂无匹配学生</div>'))+'</div>';
 }).join('')}
 function ceTodaySearchStudents(value){ceStudentQuery=value;const list=document.getElementById('ce-today-student-groups');if(list)list.innerHTML=ceTodayStudentRows()}
-function ceTodayMatches(def){
-  const q=ceTodaySearchQuery.trim().toLowerCase();
-  return !q||[def.primary,def.secondary,def.item].some(v=>String(v).toLowerCase().includes(q));
-}
 function ceTodayVisibleDefinitions(type){
-  return ceTodayChecks.filter(d=>d.type===type&&(ceTodaySearchQuery.trim()||d.primary===ceState.category&&(ceState.subcategory==='全部维度'||d.secondary===ceState.subcategory))&&ceTodayMatches(d));
+  return ceTodayChecks.filter(d=>d.type===type&&d.primary===ceState.category&&(ceState.subcategory==='全部维度'||d.secondary===ceState.subcategory));
 }
 function ceTodaySubcategoryClick(sub){
   if(ceState.subcategory==='全部维度'){
@@ -129,15 +126,14 @@ ceTodayPage=function(){
   if(ceState.subcategory!=='全部维度'&&!subKeys.includes(ceState.subcategory))ceState.subcategory='全部维度';
   const cats=ceCategories.map(c=>'<button class="'+(ceState.category===c?'on':'')+'" onclick="ceState.category=\''+c+'\';ceState.subcategory=\'全部维度\';ceRender()">'+c+'</button>').join('');
   const seg=['扣分','加分','在评'].map(t=>'<button class="'+(ceState.todayTab===t?'on':'')+'" onclick="ceState.todayTab=\''+t+'\';ceRender()">'+(t==='在评'?'在评<span class="ce-tab-count">（<b>'+ceState.entries.length+'</b>）</span>':t)+'</button>').join('');
-  const search='<div class="ce-search ce-today-search"><span>⌕</span><input value="'+ceEscape(ceTodaySearchQuery)+'" placeholder="请输入关键字搜索" oninput="ceTodaySearchQuery=this.value;ceRender()"></div>';
-  if(ceState.todayTab==='在评')return '<div class="ce-today-top">'+search+'<div class="ce-segment">'+seg+'</div></div>'+ceReviewPage();
-  const defs=ceTodayVisibleDefinitions(type),groups=ceTodaySearchQuery.trim()?ceCategories.map(primary=>Object.keys(ceSubcategories[primary]).map(sub=>{const found=defs.filter(d=>d.primary===primary&&d.secondary===sub);return found.length?'<section class="ce-today-subgroup"><h4>'+ceEscape(primary+' · '+sub)+'</h4>'+found.map(ceTodayCard).join('')+'</section>':''}).join('')).join('')||'<div class="ce-today-help">暂无匹配检查项</div>':ceState.subcategory==='全部维度'?subKeys.map(s=>ceTodaySubgroup(defs,s,type)).join(''):ceTodaySubgroup(defs,ceState.subcategory,type);
+  if(ceState.todayTab==='在评')return '<div class="ce-today-top"><div class="ce-segment">'+seg+'</div></div>'+ceReviewPage();
+  const defs=ceTodayVisibleDefinitions(type),groups=ceState.subcategory==='全部维度'?subKeys.map(s=>ceTodaySubgroup(defs,s,type)).join(''):ceTodaySubgroup(defs,ceState.subcategory,type);
   const subs='<button class="ce-subchip '+(ceState.subcategory==='全部维度'?'on':'')+'" onclick="ceState.subcategory=\'全部维度\';ceRender()">全部维度</button>'+subKeys.map(s=>'<button class="ce-subchip" onclick="ceTodaySubcategoryClick(\''+ceEscape(s)+'\')">'+ceEscape(s)+'</button>').join('');
-  return '<div class="ce-today-top">'+search+'<div class="ce-segment">'+seg+'</div></div><div class="ce-eval-layout"><aside class="ce-cats ce-today-cats-scroll">'+cats+'</aside><section class="ce-options"><div class="ce-subchips">'+subs+'</div><div class="ce-today-dimension-title">'+ceEscape(ceState.category)+' · '+ceEscape(ceState.subcategory)+'</div><div class="ce-option-track ce-today-option-scroll">'+groups+'</div></section></div>';
+  return '<div class="ce-today-top"><div class="ce-segment">'+seg+'</div></div><div class="ce-eval-layout"><aside class="ce-cats ce-today-cats-scroll">'+cats+'</aside><section class="ce-options"><div class="ce-subchips">'+subs+'</div><div class="ce-today-dimension-title">'+ceEscape(ceState.category)+' · '+ceEscape(ceState.subcategory)+'</div><div class="ce-option-track ce-today-option-scroll">'+groups+'</div></section></div>';
 };
 function ceTodayScoreCard(){
   const d=ceDraft;
-  return '<div class="ce-today-score-card"><div class="ce-today-card-label">检查项目</div><h3>'+ceEscape(d.item)+'</h3></div><div class="ce-today-score-card"><div class="ce-today-rule-row"><span>本次'+d.type+'</span></div><div class="ce-today-score-control"><button aria-label="减少'+d.type+'" onclick="ceScoreAdjust(-1)" '+(d.manualTenths<=d.unitTenths?'disabled':'')+'>−</button><label><span>'+(d.type==='扣分'?'−':'+')+'</span><input id="ce-today-score-input" type="text" inputmode="decimal" aria-label="'+d.type+'分值" value="'+ceEscape(d.manualInput)+'" oninput="ceTodayManualInput(this.value)" onblur="ceTodayManualBlur()"></label><button aria-label="增加'+d.type+'" onclick="ceScoreAdjust(1)">＋</button></div></div>';
+  return '<div class="ce-today-score-card"><div class="ce-today-card-label">检查项目</div><h3>'+ceEscape(d.item)+'</h3></div><div class="ce-today-score-card"><div class="ce-today-rule-row"><span>本次'+d.type+'</span></div><div class="ce-today-score-control"><button aria-label="减少'+d.type+'" onclick="ceScoreAdjust(-1)" '+(d.manualTenths<=ceTodayMinTenths?'disabled':'')+'>−</button><label><span>'+(d.type==='扣分'?'−':'+')+'</span><input id="ce-today-score-input" type="text" inputmode="decimal" aria-label="'+d.type+'分值" value="'+ceEscape(d.manualInput)+'" oninput="ceTodayManualInput(this.value)" onblur="ceTodayManualBlur()"></label><button aria-label="增加'+d.type+'" onclick="ceScoreAdjust(1)">＋</button></div></div>';
 }
 ceSheetRender=function(){
   if(!ceDraft)return;ceTodaySyncScore(ceDraft);
@@ -182,11 +178,10 @@ function ceTodayValidateRecordEdit(r){
   if(ceDraft.students.length){
     const groups=ceStudentGroups();
     if(ceDraft.students.some(id=>{const p=id.split('::'),c=ceClassByName(p[0]);return !c||!c.students.includes(p[1])||!groups.some(g=>g.name===p[0])})){toast('关联学生不属于本次评价班级');return false}
-    if(ceDraft.unitTenths*ceDraft.students.length>ceTodayLimits.autoMaxTenths){toast(ceTodayMaxMessage);return false}
   }else{
     const text=String(ceDraft.manualInput??(Math.abs(ceDraft.score)||ceDraft.unitTenths/10));
     if(!/^\d+(?:\.\d)?$/.test(text)){toast('请输入分值，最多一位小数');return false}
-    const amount=Math.round(Number(text)*10);if(amount<ceDraft.unitTenths){toast('单次'+ceDraft.type+'不能低于默认值'+(ceDraft.unitTenths/10).toFixed(1)+'分');return false}
+    const amount=Math.round(Number(text)*10);if(amount<ceTodayMinTenths){toast(ceTodayMinMessage);return false}
     if(amount>ceTodayManualMax(ceDraft.type)){toast(ceTodayMaxMessage);return false}
     ceDraft.manualTenths=amount;
   }

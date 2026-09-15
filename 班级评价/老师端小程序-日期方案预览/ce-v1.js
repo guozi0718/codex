@@ -140,7 +140,7 @@ ceFinish=async function(){
     ceLedger.records.unshift(...records);ceLedger.submissions[batch]=records.map(r=>r.id);
     records.forEach(r=>ceSnapshot(r.classId,r.date));cePersist();
    }
-   ceState.entries=[];ceRecalcSession();ceRefreshTotals();ceV1.busy=false;go('ce-records');toast('评价已提交');
+   ceState.entries=[];ceRecalcSession();ceRefreshTotals();ceV1.busy=false;go('ce-multi');toast('评价已提交');
  }finally{ceV1.busy=false;ceV1.submitMode='success'}
 };
 const ceV1Render=ceRender;

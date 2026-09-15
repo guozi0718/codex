@@ -8157,7 +8157,7 @@ ceFinish=function(){
   }));
   if(!records.length){toast('关联学生不属于本次评价班级');return}
   ceLedger.records.unshift(...records);records.forEach(r=>ceSnapshot(r.classId,r.date));
-  ceState.entries=[];ceRecalcSession();ceRefreshTotals();cePersist();toast('评价已记录');go('ce-records');
+  ceState.entries=[];ceRecalcSession();ceRefreshTotals();cePersist();toast('评价已记录');go('ce-multi');
 };
 
 const ceTodayBaseRender=ceRender;
@@ -8720,7 +8720,7 @@ ceFinish=async function(){
     ceLedger.records.unshift(...records);ceLedger.submissions[batch]=records.map(r=>r.id);
     records.forEach(r=>ceSnapshot(r.classId,r.date));cePersist();
    }
-   ceState.entries=[];ceRecalcSession();ceRefreshTotals();ceV1.busy=false;go('ce-records');toast('评价已提交');
+   ceState.entries=[];ceRecalcSession();ceRefreshTotals();ceV1.busy=false;go('ce-multi');toast('评价已提交');
  }finally{ceV1.busy=false;ceV1.submitMode='success'}
 };
 const ceV1Render=ceRender;

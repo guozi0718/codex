@@ -239,7 +239,7 @@ ceFinish=function(){
   }));
   if(!records.length){toast('关联学生不属于本次评价班级');return}
   ceLedger.records.unshift(...records);records.forEach(r=>ceSnapshot(r.classId,r.date));
-  ceState.entries=[];ceRecalcSession();ceRefreshTotals();cePersist();toast('评价已记录');go('ce-records');
+  ceState.entries=[];ceRecalcSession();ceRefreshTotals();cePersist();toast('评价已记录');go('ce-multi');
 };
 
 const ceTodayBaseRender=ceRender;

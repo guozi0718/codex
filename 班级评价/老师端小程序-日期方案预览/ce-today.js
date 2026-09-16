@@ -133,7 +133,7 @@ ceTodayPage=function(){
 };
 function ceTodayScoreCard(){
   const d=ceDraft;
-  return '<div class="ce-today-score-card"><div class="ce-today-card-label">检查项目</div><h3>'+ceEscape(d.item)+'</h3></div><div class="ce-today-score-card"><div class="ce-today-rule-row"><span>本次'+d.type+'</span></div><div class="ce-today-score-control"><button aria-label="减少'+d.type+'" onclick="ceScoreAdjust(-1)" '+(d.manualTenths<=ceTodayMinTenths?'disabled':'')+'>−</button><label><span>'+(d.type==='扣分'?'−':'+')+'</span><input id="ce-today-score-input" type="text" inputmode="decimal" aria-label="'+d.type+'分值" value="'+ceEscape(d.manualInput)+'" oninput="ceTodayManualInput(this.value)" onblur="ceTodayManualBlur()"></label><button aria-label="增加'+d.type+'" onclick="ceScoreAdjust(1)">＋</button></div></div>';
+  return '<div class="ce-today-score-card"><div class="ce-today-card-label">检查项目</div><h3>'+ceEscape(d.item)+'</h3></div><div class="ce-today-score-card"><div class="ce-today-rule-row"><span>本次'+d.type+'</span></div><div class="ce-today-score-control"><button aria-label="减少'+d.type+'" onclick="ceScoreAdjust(-1)" '+(d.manualTenths<=ceTodayMinTenths?'disabled':'')+'>−</button><label><input id="ce-today-score-input" type="text" inputmode="decimal" aria-label="'+d.type+'分值" value="'+ceEscape(d.manualInput)+'" oninput="ceTodayManualInput(this.value)" onblur="ceTodayManualBlur()"></label><button aria-label="增加'+d.type+'" onclick="ceScoreAdjust(1)">＋</button></div></div>';
 }
 ceSheetRender=function(){
   if(!ceDraft)return;ceTodaySyncScore(ceDraft);

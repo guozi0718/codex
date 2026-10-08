@@ -108,7 +108,7 @@ body {
 }
 
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script><style>/*! tailwindcss v4.3.1 | MIT License | https://tailwindcss.com */
+    <style>/*! tailwindcss v4.3.1 | MIT License | https://tailwindcss.com */
 @layer properties;
 @layer theme, base, components, utilities;
 @layer theme {
@@ -994,7 +994,7 @@ body {
   }
 }
 </style>
-    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <script src="./原型图标-本地-V1.0-20261008.js"></script>
     <style type="text/tailwindcss">
   @theme inline {
     --color-background: var(--edu-background);
@@ -4455,29 +4455,7 @@ function openPhotoViewer(el){
 
 <div data-trae-edit-ui="true" class="trae-image-download-btn" title="Download image" style="position: fixed; display: none; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 6px; background: var(--trae-bg-menu, #222427); border: 1px solid var(--trae-border-l2, rgba(255,255,255,0.12)); box-shadow: var(--trae-floating-shadow, 0px 2px 8px 0px rgba(0,0,0,0.2)); color: var(--trae-icon-default, #f5f9fe); cursor: pointer; z-index: 89990; transition: background 0.15s; pointer-events: auto;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M8 2v8m0 0L5 7m3 3l3-3M3 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-    </svg></div><script id="care-v2-city-sync">
-(function(){
-  function renderCityCareDetail(section){section.innerHTML='<div class="flex items-center gap-2 mb-3"><span class="w-1 h-4 rounded-full" style="background:var(--edu-primary);"></span><h3 class="text-[14px] font-semibold" style="color:var(--edu-foreground);">关爱情况</h3></div><div class="rounded-lg p-4" style="background:var(--edu-neutral-50);"><div class="grid grid-cols-3 gap-x-6 gap-y-3"><div><div class="text-[12px] mb-1" style="color:var(--edu-muted-foreground);">关爱状态</div><span class="text-[12px] px-2 py-0.5 rounded" style="background:#e8faf3;color:#078362;">进行中</span></div><div><div class="text-[12px] mb-1" style="color:var(--edu-muted-foreground);">关爱时间</div><div class="text-[13px]" style="color:var(--edu-foreground);">2026-05-08</div></div><div><div class="text-[12px] mb-1" style="color:var(--edu-muted-foreground);">实施人员</div><div class="text-[13px]" style="color:var(--edu-foreground);">王老师、李老师</div></div><div><div class="text-[12px] mb-1" style="color:var(--edu-muted-foreground);">关爱类型</div><div class="text-[13px]" style="color:var(--edu-foreground);">家庭关怀</div></div><div><div class="text-[12px] mb-1" style="color:var(--edu-muted-foreground);">关爱方式</div><div class="text-[13px]" style="color:var(--edu-foreground);">家访</div></div><div><div class="text-[12px] mb-1" style="color:var(--edu-muted-foreground);">证明材料</div><div class="text-[13px]" style="color:var(--edu-foreground);">2张</div></div><div class="col-span-3"><div class="text-[12px] mb-1" style="color:var(--edu-muted-foreground);">关爱结果</div><div class="text-[13px] leading-relaxed" style="color:var(--edu-foreground);">已完成家庭沟通，家长确认后续返校安排，并约定持续关注学生返校适应情况。</div></div><div><div class="text-[12px] mb-1" style="color:var(--edu-muted-foreground);">继续跟进</div><div class="text-[13px]" style="color:var(--edu-foreground);">需要</div></div><div><div class="text-[12px] mb-1" style="color:var(--edu-muted-foreground);">下次跟进日期</div><div class="text-[13px]" style="color:var(--state-warning);">2026-05-12</div></div></div></div>'}
-  function setCityDetailTab(tab){var visit=document.querySelector('#modal-detail [data-dom-id="section-verify-timeline"]'),care=document.querySelector('#modal-detail [data-dom-id="section-care"]');if(!visit||!care)return;visit.style.display=tab==='visit'?'block':'none';care.style.display=tab==='care'?'block':'none';document.querySelectorAll('#modal-detail .care-detail-tab').forEach(function(b){b.classList.toggle('on',b.dataset.tab===tab)})}
-  function initCityDetail(){var modal=document.getElementById('modal-detail'),visit=modal&&modal.querySelector('[data-dom-id="section-verify-timeline"]'),care=modal&&modal.querySelector('[data-dom-id="section-care"]');if(!modal||!visit||!care||modal.dataset.careV2)return;var tabs=document.createElement('div');tabs.className='care-detail-tabs';tabs.innerHTML='<button class="care-detail-tab on" data-tab="visit" onclick="setCityDetailTab(\'visit\')">处理结果</button><button class="care-detail-tab" data-tab="care" onclick="setCityDetailTab(\'care\')">关爱情况</button>';visit.parentNode.insertBefore(tabs,visit);renderCityCareDetail(care);modal.dataset.careV2='1';setCityDetailTab('visit')}
-  var s=document.createElement('style');s.textContent='#modal-detail .care-detail-tabs{display:flex;border-bottom:1px solid var(--edu-border);margin:0 0 18px}#modal-detail .care-detail-tab{flex:1;border:0;background:none;padding:11px 0;font-size:14px;color:var(--edu-muted-foreground);border-bottom:2px solid transparent}#modal-detail .care-detail-tab.on{color:var(--edu-primary);font-weight:600;border-bottom-color:var(--edu-primary)}';document.head.appendChild(s);
-  function normalizeCityCareDateLabels(){document.querySelectorAll('#modal-detail *').forEach(function(el){if(el.children.length===0&&el.textContent.trim()==='关爱时间')el.textContent='关爱日期'})}
-  window.setCityDetailTab=setCityDetailTab;initCityDetail();normalizeCityCareDateLabels();
-})();
-</script><script id="care-proof-detail-city">
-(function(){
-  function render(){
-    var field=Array.from(document.querySelectorAll('#modal-detail [data-dom-id="section-care"] .text-\\[12px\\]')).find(function(el){return el.textContent.trim()==='证明材料'});
-    var source=Array.from(document.querySelectorAll('#modal-detail [data-dom-id="section-verify-timeline"] img')).map(function(img){return img.src}).filter(Boolean).slice(0,3);
-    if(!field||!source.length)return;
-    var value=field.nextElementSibling;if(!value)return;
-    var grid=document.createElement('div');grid.className='grid grid-cols-3 gap-2';
-    source.forEach(function(src,i){var img=document.createElement('img');img.src=src;img.alt='证明材料'+(i+1);img.className='w-full aspect-square object-cover rounded cursor-pointer hover:opacity-80 transition-opacity border';img.style.borderColor='#e8e8e8';img.onclick=function(){if(typeof openPhotoViewer==='function')openPhotoViewer(img)};grid.appendChild(img)});
-    value.innerHTML='';value.appendChild(grid);
-  }
-  render();
-})();
-</script>
+    </svg></div>
 <!-- ================= 独立关爱监管 V1.0（教育局端副本新增） ================= -->
 <style id="city-care-menu-v1-style">
 #section-care-menu-v1{position:fixed;inset:0 0 0 232px;z-index:30;overflow:auto;background:#f5f7fa;color:#1f2937;font-family:"Microsoft YaHei",sans-serif}.ecm-wrap{min-height:100%;padding:22px 28px 40px}.ecm-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.ecm-head h1{font-size:20px;margin:0;font-weight:650}.ecm-head p{font-size:12px;color:#8a94a6;margin:6px 0 0}.ecm-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}.ecm-stat{background:#fff;border:1px solid #e5eaf1;border-radius:8px;padding:15px 18px}.ecm-stat span{font-size:12px;color:#8a94a6}.ecm-stat b{display:block;font-size:25px;color:#1b2535;margin-top:7px}.ecm-stat.blue b{color:#1677ff}.ecm-stat.orange b{color:#d88815}.ecm-stat.green b{color:#078362}.ecm-panel{background:#fff;border:1px solid #e5eaf1;border-radius:8px;padding:16px}.ecm-toolbar{display:flex;gap:8px;margin-bottom:14px}.ecm-toolbar input,.ecm-toolbar select{height:34px;border:1px solid #dce3ed;border-radius:5px;padding:0 10px;color:#354052;background:#fff}.ecm-toolbar input{width:230px}.ecm-table{width:100%;border-collapse:collapse;font-size:13px}.ecm-table th,.ecm-table td{padding:12px 10px;border-bottom:1px solid #f0f2f5;text-align:left;vertical-align:top}.ecm-table th{background:#fafbfc;color:#7c8798;font-weight:500}.ecm-table tr:hover td{background:#fbfdff}.ecm-tag{display:inline-block;padding:3px 7px;border-radius:4px;font-size:11px;background:#eef5ff;color:#1677ff}.ecm-tag.green{background:#e9f8f2;color:#078362}.ecm-tag.orange{background:#fff4e3;color:#b56f0c}.ecm-tag.purple{background:#f1eaff;color:#7852c7}.ecm-link{border:0;background:none;color:#1677ff;cursor:pointer;font-size:12px}.ecm-muted{color:#8a94a6;font-size:12px}.ecm-mask{position:fixed;inset:0 0 0 232px;z-index:60;background:rgba(16,30,50,.35);display:none;align-items:center;justify-content:center}.ecm-mask.on{display:flex}.ecm-modal{background:#fff;border-radius:10px;width:620px;max-height:85vh;overflow:auto;box-shadow:0 18px 50px rgba(22,45,78,.2)}.ecm-modal-head{display:flex;align-items:center;justify-content:space-between;padding:17px 20px;border-bottom:1px solid #edf0f5}.ecm-modal-head h3{margin:0;font-size:16px}.ecm-close{border:0;background:none;font-size:22px;color:#8a94a6;cursor:pointer}.ecm-modal-body{padding:18px 20px}.ecm-source{background:#f4f8fd;border:1px solid #dce9f8;padding:10px 12px;border-radius:6px;color:#536275;font-size:12px;margin-bottom:15px}.ecm-dl{display:grid;grid-template-columns:110px 1fr;gap:13px 10px;font-size:13px}.ecm-dl dt{color:#8a94a6}.ecm-dl dd{margin:0;line-height:1.6}.ecm-foot{display:flex;justify-content:flex-end;padding:13px 20px;border-top:1px solid #edf0f5}.ecm-btn{border:1px solid #d9e1ee;border-radius:6px;background:#fff;color:#354052;padding:8px 14px;cursor:pointer;font-size:13px}
@@ -4553,36 +4531,7 @@ if(location.hash==='#city-care')cityCareOpen();
 });
 </script>
 <style id="reg-care-latest-style">#section-care-menu-v1 .care-record-table{min-width:1400px}#section-care-menu-v1 .care-record-table td{text-align:center;vertical-align:middle}#section-care-menu-v1 .care-record-table td:nth-child(5){text-align:left}</style>
-<script id="reg-care-latest-addon">
-window.addEventListener('load',function(){
-  var data=window.careRegV3Data||[],level=window.CARE_REGULATOR_LEVEL||'city',section=document.getElementById('section-care-menu-v1');
-  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-  function summary(r){return r.sourceKey==='warning'?(r.warning&&r.warning.reason||'预警原因未记录'):r.sourceKey==='psych'?'重点关注学生':'日常记录'}
-  function staff(s){s=String(s||'');if(s.length<=7)return s;var names=s.split(/[、，,]/).filter(Boolean);return(names[0]||s.slice(0,4))+'…等'+names.length+'人'}
-  function refineRecords(){if(!section)return;var table=section.querySelector('.crv3-table');if(!table||!table.tHead||!table.tHead.rows.length)return;var header=table.tHead.rows[0];if(!header.cells.length||header.cells[0].textContent.trim()!=='学生姓名'||header.querySelector('.care-grade-th'))return;
-    ['年级','班级'].forEach(function(label,index){var th=document.createElement('th');th.textContent=label;th.className=index===0?'care-grade-th':'care-class-th';header.insertBefore(th,header.cells[index+1])});
-    Array.from(table.tBodies[0].rows).forEach(function(row){var action=row.querySelector('[onclick^="cityCareView("]');if(!action)return;var match=action.getAttribute('onclick').match(/\((\d+)\)/),r=match&&data[Number(match[1])];if(!r)return;row.cells[0].textContent=r.name;var grade=document.createElement('td'),klass=document.createElement('td');grade.textContent=r.grade;klass.textContent=r.className;row.insertBefore(grade,row.cells[1]);row.insertBefore(klass,row.cells[2]);row.cells[4].textContent=summary(r);row.cells[6].textContent=staff(r.people);row.cells[6].title=r.people||''});table.classList.add('care-record-table');
-    if(!table.tBodies[0].rows.length){var empty=table.tBodies[0].insertRow(),cell=empty.insertCell();cell.colSpan=12;cell.className='crv3-empty';cell.textContent='暂无记录'}
-  }
-  var oldRender=window.careRegV3Render;
-  window.careRegV3Render=function(){if(typeof oldRender==='function')oldRender();refineRecords()};
-  var oldView=window.cityCareView;
-  window.cityCareView=function(index){if(typeof oldView==='function')oldView(index);var r=data[index],modal=document.getElementById('city-care-modal-v1');if(!r||!modal)return;var rows=Array.from(modal.querySelectorAll('.crv3-row')),src=rows.find(function(x){return(x.querySelector('.label')||{}).textContent==='关爱来源'}),ds=rows.find(function(x){return(x.querySelector('.label')||{}).textContent==='数据源'});if(ds){var v=ds.querySelector('.value');if(v)v.textContent=summary(r)}else if(src){var row=document.createElement('div'),label=document.createElement('div'),value=document.createElement('div');row.className='crv3-row';label.className='label';label.textContent='数据源';value.className='value';value.textContent=summary(r);row.appendChild(label);row.appendChild(value);src.after(row)}};
-  if(level==='province'){
-    data.forEach(function(r){if(!r.city)r.city='宝鸡市'});
-    function province(){document.querySelectorAll('[id^="section-"]').forEach(function(x){x.classList.add('hidden')});section.classList.remove('hidden');var list=data.filter(function(r){var src=document.getElementById('pr-source'),state=document.getElementById('pr-status'),start=document.getElementById('pr-start'),end=document.getElementById('pr-end');return(!src||src.value==='all'||r.sourceKey===src.value)&&(!state||state.value==='all'||r.status===state.value)&&(!start||!start.value||r.date>=start.value)&&(!end||!end.value||r.date<=end.value)}),cities=[...new Set(list.map(function(r){return r.city}))],rows=cities.map(function(city){var x=list.filter(function(r){return r.city===city}),people=new Set(x.map(function(r){return r.school+'|'+r.name}));return '<tr><td><button class="crv3-name" onclick="provinceCareCity()">'+esc(city)+'</button></td><td>'+people.size+'</td><td>'+x.length+'</td><td>'+x.filter(function(r){return r.status==='need'}).length+'</td><td>'+x.filter(function(r){return r.status==='done'}).length+'</td><td>'+x.filter(function(r){return r.sourceKey==='warning'}).length+'</td><td>'+x.filter(function(r){return r.sourceKey==='psych'}).length+'</td><td>'+x.filter(function(r){return r.sourceKey==='daily'}).length+'</td></tr>'}).join('');section.innerHTML='<div class="crv3-wrap"><div class="crv3-panel"><div class="crv3-head"><h2>陕西省 / 地市关爱汇总</h2></div><div class="crv3-toolbar"><label>日期</label><div class="crv3-range"><input id="pr-start" type="date" value="2026-09-01"><span>-</span><input id="pr-end" type="date" value="2026-09-30"></div><label>关爱来源</label><select id="pr-source"><option value="all">全部</option><option value="warning">预警信息</option><option value="psych">心理测评</option><option value="daily">日常上传</option></select><label>关爱状态</label><select id="pr-status"><option value="all">全部</option><option value="need">待跟进</option><option value="done">已完结</option></select><span class="crv3-spacer"></span><button class="crv3-btn query" onclick="provinceCareQuery()">查询</button><button class="crv3-btn reset" onclick="provinceCareReset()">重置</button></div><div class="crv3-muted" style="margin:0 0 10px">原型示例仅接入宝鸡市记录；统计不代表陕西省实际数据。</div><div class="crv3-table-wrap"><table class="crv3-table"><thead><tr><th>地市名称</th><th>关爱学生数</th><th>关爱记录数</th><th>待跟进</th><th>已完结</th><th>预警信息来源</th><th>心理测评来源</th><th>日常上传来源</th></tr></thead><tbody>'+rows+'</tbody></table></div></div></div>'}
-    var oldOpen=window.cityCareOpen,oldBack=window.careRegV3Back;
-    window.provinceCareCity=function(){if(typeof oldOpen==='function')oldOpen();refineRecords()};
-    window.provinceCareQuery=function(){var values=['pr-start','pr-end','pr-source','pr-status'].map(function(id){var e=document.getElementById(id);return e&&e.value});province();['pr-start','pr-end','pr-source','pr-status'].forEach(function(id,i){var e=document.getElementById(id);if(e)e.value=values[i]});var src=document.getElementById('pr-source');if(src)src.dispatchEvent(new Event('change'))};
-    window.provinceCareReset=function(){province()};
-    window.cityCareOpen=province;
-    window.careRegV3Back=function(){var heading=(section.querySelector('.crv3-head h2')||{}).textContent||'';if(heading.indexOf('区县关爱汇总')>=0){province();return}if(typeof oldBack==='function')oldBack();refineRecords()};
-    var menu=document.querySelector('.city-menu-item[data-key="care"]');if(menu)menu.textContent='关爱监管';
-    province();
-  }else refineRecords();
-});
 
-</script>
 <style id="care-v24-style">
 .care-help-wrap{position:absolute;z-index:40;top:17px;right:48px;font:12px "Microsoft YaHei",sans-serif}
 #sc-care-add .care-help-wrap,#sc-care-detail .care-help-wrap{right:86px;top:22px}
@@ -4609,21 +4558,7 @@ window.addEventListener('load',function(){
 .reg-care-timeline{margin-bottom:10px!important}.reg-care-timeline-head{display:flex;align-items:center;gap:10px;margin-bottom:7px;padding-bottom:8px;border-bottom:1px solid #e8edf4;font-size:13px}.reg-care-timeline-head span:nth-child(2){margin-left:auto;color:#8190a5}
 
 </style>
-<script id="care-v24-endpoint">
-window.addEventListener('load',function(){
-  var records=window.careRegV3Data||[];
-  records.forEach(function(r,i){r.id=r.id||'reg-care-seed-'+i;r.caseId=r.caseId||r.id});
-  if(records[0]&&records[0].name==='张小明'&&!records.some(function(r){return r.id==='reg-demo-follow-1'})){var first=records[0];first.superseded=true;records.unshift(Object.assign({},first,{id:'reg-demo-follow-1',parentId:first.id,caseId:first.caseId,date:'2026-09-23',type:'返校适应',method:'面谈',result:'【原型示例】已与学生面谈返校适应情况，约定下周继续关注。',next:'2026-09-30',proofs:[],demo:true,superseded:false}))}
-  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]})}
-  function full(r){if(r.sourceKey==='daily')return '日常记录';if(r.sourceKey==='psych')return r.name+'｜重点关注学生｜测评结论：'+(r.psych&&r.psych.result||'未记录')+'｜'+(r.psych&&r.psych.time||'时间未记录');return r.name+'｜'+(r.warning&&r.warning.type||'预警类型未记录')+'｜'+(r.warning&&r.warning.reason||'预警原因未记录')+'｜'+(r.warning&&r.warning.time||'时间未记录')}
-  function row(k,v){return '<div class="crv3-row"><div class="label">'+esc(k)+'</div><div class="value">'+esc(v||'--')+'</div></div>'}
-  function proofs(r){var list=(r.proofs||[]).slice(0,9);return list.length?'<div class="crv3-proof">'+list.map(function(src,i){return '<img src="'+esc(src)+'" alt="证明材料'+(i+1)+'" onclick="if(window.openPhotoViewer)openPhotoViewer(this)">'}).join('')+'</div>':'--'}
-  var oldRender=window.careRegV3Render;window.careRegV3Render=function(){if(typeof oldRender==='function')oldRender();var table=document.querySelector('#section-care-menu-v1 .care-record-table');if(table&&table.tHead&&table.tHead.rows[0].cells[0].textContent.trim()==='学生姓名'){var last=table.tHead.rows[0].lastElementChild;if(last)last.classList.add('care-sticky-operation');Array.from(table.tBodies[0].rows).forEach(function(tr){var cell=tr.lastElementChild,link=cell&&cell.querySelector('.crv3-link'),match=link&&(link.getAttribute('onclick')||'').match(/\((\d+)\)/),record=match&&records[Number(match[1])];if(record&&record.superseded){tr.hidden=true;return}if(link)cell.classList.add('care-sticky-operation')})}};
-  var oldView=window.cityCareView;window.cityCareView=function(index){if(typeof oldView==='function')oldView(index);var r=records[index],modal=document.getElementById('city-care-modal-v1');if(!r||!modal)return;var list=records.filter(function(x){return(x.caseId||x.id)===(r.caseId||r.id)}).sort(function(a,b){return b.date.localeCompare(a.date)}),cards=modal.querySelectorAll('.crv3-modal-card'),heading=modal.querySelectorAll('.crv3-detail-title')[1];if(cards.length<2)return;if(heading)heading.textContent='关爱情况（共'+list.length+'次）';var html=list.map(function(item,i){return '<div class="crv3-modal-card reg-care-timeline"><div class="reg-care-timeline-head"><b>第'+(list.length-i)+'次关爱</b><span>'+esc(item.date)+'</span><span class="crv3-tag '+item.status+'">'+(item.status==='need'?'待跟进':'已完结')+'</span></div>'+row('实施人员',item.people)+row('关爱来源',item.source)+row('数据源',full(item))+row('关爱类型',item.type)+row('关爱方式',item.method)+row('关爱结果',item.result)+'<div class="crv3-row"><div class="label">证明材料</div><div class="value">'+proofs(item)+'</div></div>'+row('继续跟进',item.status==='need'?'需要':'暂不需要')+(item.status==='need'?row('下次跟进日期',item.next):'')+'</div>'}).join('');var box=document.createElement('div');box.className='reg-care-history';box.innerHTML=html;cards[1].replaceWith(box)};
-  if(window.CARE_REGULATOR_LEVEL==='province'&&typeof cityCareOpen==='function')cityCareOpen();else if(typeof careRegV3Render==='function')careRegV3Render();
-});
 
-</script>
 <script id="care-v24-common">
 (function(){
   var groups={
@@ -4678,124 +4613,7 @@ window.addEventListener('load',function(){
 })();
 
 </script>
-<script id="dropout-care-alignment-20260928">
-(function () {
-  'use strict';
-  var role = document.getElementById('sc-care-add') ? 'teacher' :
-    document.getElementById('care-school-date') ? 'school' :
-    document.querySelector('#modal-detail [data-dom-id="section-care"]') ? 'regulator' : '';
-  if (!role) return;
 
-  var warning = {name:'张小明',grade:'七年级（2025级）',cls:'2班',school:'市实验一小',type:'连续缺勤',reason:'连续缺勤3个工作日',time:'2026-05-05 18:05'};
-  var chains = {};
-  var key = function (w) { return [w.name,w.type,w.reason,w.time].join('|'); };
-  var initial = [
-    {date:'2026-09-23',people:'王老师、李老师、陈老师',type:'返校适应',method:'面谈',result:'【原型示例】已与学生面谈返校适应情况，约定下周继续关注。',follow:'需要',next:'2026-09-30',proofs:[]},
-    {date:'2026-09-18',people:'王老师、李老师',type:'家庭关怀',method:'家访',result:'【原型示例】已与家长沟通返校安排，约定持续关注学生返校适应情况。',follow:'需要',next:'2026-09-25',proofs:[]}
-  ];
-  chains[key(warning)] = initial;
-  function esc(value) { return String(value == null ? '' : value).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]}); }
-  function currentChain() { return chains[key(warning)] || (chains[key(warning)] = []); }
-  function fullSource() { return [warning.name,warning.type,warning.reason,warning.time].join('｜'); }
-  function photoHTML(record) {
-    var photos=(record.proofs||[]).slice(0,9);
-    return photos.length ? '<div class="drop-care-photos">'+photos.map(function(src,i){return '<button type="button" class="drop-care-photo" aria-label="查看证明材料'+(i+1)+'" onclick="dropCareViewPhoto(this)"><img src="'+esc(src)+'" alt="证明材料'+(i+1)+'"></button>';}).join('')+'</div>' : '--';
-  }
-  window.dropCareViewPhoto=function(button){var img=button.querySelector('img');if(!img)return;if(typeof window.openPhotoViewer==='function'){window.openPhotoViewer(img);return;}var overlay=document.createElement('div');overlay.className='drop-care-viewer';overlay.onclick=function(){overlay.remove()};var full=document.createElement('img');full.src=img.src;full.alt=img.alt;overlay.appendChild(full);document.body.appendChild(overlay)};
-  function field(label,value,raw) { return '<div class="drop-care-field"><span class="drop-care-label">'+esc(label)+'</span><span class="drop-care-value">'+(raw?value:esc(value||'--'))+'</span></div>'; }
-  function recordHTML(record,index) {
-    var status=record.follow==='需要'?'待跟进':'已完结';
-    var action=index===0&&role!=='regulator'?'<div class="drop-care-actions"><button type="button" '+(status==='已完结'?'disabled':'onclick="dropCareContinue()"')+' class="drop-care-follow">继续跟进</button></div>':'';
-    return '<div class="drop-care-record"><div class="drop-care-record-title">第'+(currentChain().length-index)+'次关爱 <span class="drop-care-date">'+esc(record.date)+'</span><span class="drop-care-status '+(status==='待跟进'?'todo':'done')+'">'+status+'</span></div>'+
-      field('实施人员',record.people)+field('关爱来源','预警信息')+
-      field('数据源',fullSource())+field('关爱类型',record.type)+field('关爱方式',record.method)+field('关爱结果',record.result)+
-      field('证明材料',photoHTML(record),true)+field('继续跟进',record.follow)+(record.follow==='需要'?field('下次跟进日期',record.next):'')+action+'</div>';
-  }
-  function contentHTML(){var a=currentChain();return '<div class="drop-care-heading">关爱情况 <span>共'+a.length+'次</span></div>'+(a.length?a.map(recordHTML).join(''):'<div class="drop-care-empty">暂无关爱记录</div>');}
-  var style=document.createElement('style');style.id='dropout-care-alignment-style';style.textContent=
-    '.drop-care-record{background:#fff;border:1px solid #e8edf4;border-radius:8px;padding:14px 16px;margin-bottom:12px}.drop-care-record-title{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;margin-bottom:8px;color:#18324d}.drop-care-date{margin-left:auto;color:#8799b1;font-size:12px;font-weight:400}.drop-care-status{font-size:12px;font-weight:400;border-radius:3px;padding:2px 7px}.drop-care-status.todo{background:#fff3e5;color:#b56b00}.drop-care-status.done{background:#e8f8f0;color:#087b5d}.drop-care-field{display:flex;align-items:flex-start;gap:0;padding:5px 0;font-size:13px;line-height:20px;border:0!important}.drop-care-label{width:92px;flex:0 0 92px;color:#8799b1}.drop-care-value{flex:1;min-width:0;text-align:left!important;overflow-wrap:anywhere;color:#233850}.drop-care-photos{display:grid;grid-template-columns:repeat(3,58px);gap:8px}.drop-care-photo{width:58px;height:58px;border:0;padding:0;background:none;cursor:pointer}.drop-care-photo img{width:100%;height:100%;object-fit:cover;border-radius:5px}.drop-care-actions{display:flex;justify-content:flex-end;margin-top:10px}.drop-care-follow{border:1px solid #2d7bf0;background:#2d7bf0;color:#fff;border-radius:6px;padding:5px 12px;font-size:12px;cursor:pointer}.drop-care-follow:disabled{background:#eef1f5;border-color:#eef1f5;color:#a0aaba;cursor:not-allowed}.drop-care-heading{font-size:14px;font-weight:600;color:#233850;margin-bottom:10px}.drop-care-heading span{font-size:12px;font-weight:400;color:#8799b1;margin-left:6px}.drop-care-empty{padding:22px;text-align:center;color:#8799b1;background:#fff;border-radius:8px}.drop-care-viewer{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;cursor:zoom-out}.drop-care-viewer img{max-width:92vw;max-height:92vh;object-fit:contain}';
-  document.head.appendChild(style);
-  function readWarningFromCard(card) {
-    if(!card)return;
-    var name=(card.querySelector('.stu-nm')||{}).textContent||'';name=name.replace(/待处理|已处理|处理中|已劝返|待核实/g,'').trim();
-    var sub=(card.querySelector('.stu-sub')||{}).textContent||'';
-    var pairs={};card.querySelectorAll('.kv').forEach(function(x){var k=x.querySelector('.k'),v=x.querySelector('.v');if(k&&v)pairs[k.textContent.trim()]=v.textContent.trim()});
-    if(name)warning={name:name,grade:(sub.split('·')[0]||warning.grade).trim(),cls:(sub.split('·')[1]||warning.cls).trim(),school:warning.school,type:pairs['预警类型']||warning.type,reason:pairs['预警原因']||warning.reason,time:pairs['预警时间']||warning.time};
-  }
-  function readWarningFromRow(row) {
-    if(!row)return;
-    var cells=Array.from(row.querySelectorAll('td')).map(function(td){return td.textContent.trim()});
-    if(cells.length<6)return;
-    warning={name:cells[0],grade:cells[1],cls:cells[2],school:warning.school,type:cells[3],reason:cells[4],time:cells[5]};
-  }
-  function blobPhotos(nodes){return Array.from(nodes||[]).map(function(img){return img.src}).filter(Boolean).slice(0,9)}
-  function notify(message){if(role==='teacher'&&typeof window.toast==='function')window.toast(message);else if(typeof window.showToast==='function')window.showToast(message);else alert(message)}
-  function validate(data){if(!data.date){notify('请选择关爱日期');return false}if(!data.people){notify('请选择实施人员');return false}if(!data.type){notify('请选择关爱类型');return false}if(!data.method){notify('请选择关爱方式');return false}if(!data.result){notify('请填写关爱过程和关爱结果');return false}if(!data.follow){notify('请选择是否继续跟进');return false}if(data.follow==='需要'&&!data.next){notify('请选择下次跟进日期');return false}return true}
-  function save(data){currentChain().unshift(data);render();notify('已新增关爱记录')}
-  function render(){
-    if(role==='teacher'){
-      var section=document.getElementById('detail-care-section');if(section)section.innerHTML=contentHTML();
-    }else{
-      var section=document.querySelector('#modal-detail [data-dom-id="section-care"]');if(section)section.innerHTML=contentHTML();
-    }
-  }
-  if(role==='teacher'){
-    var dropoutMode=false,opening=false;
-    var oldGo=window.go;
-    window.go=function(id){if(id==='sc-care-add'&&!opening)dropoutMode=false;var result=oldGo.apply(this,arguments);if(id==='sc-detail')render();return result};
-    function openDropout(){opening=true;dropoutMode=true;window.go('sc-care-add');opening=false;
-      var card=document.querySelector('#sc-care-add .pad>.card:first-child');if(card){var n=card.querySelector('.stu-nm'),g=card.querySelector('.stu-sub'),a=card.querySelector('.avatar');if(n)n.textContent=warning.name;if(g)g.textContent=warning.grade+' · '+warning.cls;if(a)a.textContent=warning.name.slice(0,1)}
-      var source=document.getElementById('care-source');if(source){source.value='warning';if(typeof window.careSourceChange==='function')window.careSourceChange('warning');source.disabled=true}
-      var data=document.getElementById('care-datasource');if(data){var option=Array.from(data.options).find(function(x){return x.textContent===fullSource()});if(!option){option=document.createElement('option');option.value=fullSource();option.textContent=fullSource();data.appendChild(option)}data.value=option.value;data.disabled=true}
-      var display=document.getElementById('care-full-source');if(display){display.textContent=fullSource();display.classList.add('locked')}
-      var title=document.querySelector('#sc-care-add .sub-hd b');if(title)title.textContent=currentChain().length&&currentChain()[0].follow==='需要'?'新增关爱跟进':'新增关爱';
-      var back=document.querySelector('#sc-care-add .sub-hd .back');if(back)back.onclick=function(){window.go('sc-detail');if(typeof window.setTeacherDetailTab==='function')window.setTeacherDetailTab('care')};
-      if(currentChain().length&&currentChain()[0].follow==='需要'){var type=document.getElementById('care-type');if(type)type.value=currentChain()[0].type;}
-    }
-    window.dropCareContinue=function(){if(currentChain().length&&currentChain()[0].follow==='需要')openDropout()};
-    var list=document.getElementById('wl-cards');if(list)list.addEventListener('click',function(e){var card=e.target.closest('.card');if(!card)return;readWarningFromCard(card);var button=e.target.closest('button');if(button&&button.textContent.trim()==='关爱'){e.preventDefault();e.stopImmediatePropagation();openDropout()}},true);
-    var teacherProof=document.getElementById('care-proof-grid');if(teacherProof)teacherProof.addEventListener('click',function(e){if(dropoutMode&&e.target.matches('img'))window.dropCareViewPhoto(e.target.parentElement)});
-    var oldSubmit=window.submitCareRecord;window.submitCareRecord=function(){if(!dropoutMode)return oldSubmit.apply(this,arguments);
-      var val=function(id){return (document.getElementById(id)||{}).value||''},people=document.getElementById('care-people-val');
-      var data={date:val('care-date'),people:people&&people.dataset.value||'',type:val('care-type'),method:val('care-method'),result:val('care-result').trim(),follow:val('care-follow'),next:val('care-next'),proofs:blobPhotos(document.querySelectorAll('#care-proof-grid .care-proof-item img'))};
-      if(!validate(data))return;save(data);dropoutMode=false;window.go('sc-detail');if(typeof window.setTeacherDetailTab==='function')window.setTeacherDetailTab('care');
-    };
-    render();
-  }
-  if(role==='school'){
-    document.addEventListener('click',function(e){var target=e.target.closest('[data-dom-id^="btn-care-"],[data-dom-id^="btn-view-detail-"]');if(target)readWarningFromRow(target.closest('tr'))},true);
-    var oldShow=window.showCareModal;
-    window.showCareModal=function(name,grade,cls){if(name)warning.name=name;if(grade)warning.grade=grade;if(cls)warning.cls=cls;oldShow.apply(this,arguments);setTimeout(prepareSchoolForm,0)};
-    window.dropCareContinue=function(){if(currentChain().length&&currentChain()[0].follow==='需要')window.showCareModal(warning.name,warning.grade,warning.cls)};
-    function schoolField(id){return document.getElementById(id)}
-    function schoolDateSkin(id){var input=schoolField(id);if(!input||input.dataset.dropCareDateSkin)return;input.dataset.dropCareDateSkin='1';var parent=input.parentElement;parent.style.position='relative';var display=document.createElement('span');display.className='drop-care-date-display';display.textContent=input.value||'请选择日期';parent.appendChild(display);input.addEventListener('change',function(){display.textContent=input.value||'请选择日期'});input.addEventListener('input',function(){display.textContent=input.value||'请选择日期'});}
-    function prepareSchoolForm(){var fields=schoolField('care-school-fields');if(!fields)return;
-      var grid=schoolField('care-school-proof-grid');if(grid&&typeof window.removeCareSchoolEvidence==='function'){while(grid.querySelector('img'))window.removeCareSchoolEvidence(0)}
-      var context=schoolField('care-school-context');if(context)context.innerHTML='<div style="font-weight:600">'+esc(warning.name)+' <span style="font-weight:400;color:#8799b1">'+esc(warning.grade+' · '+warning.cls)+'</span></div>';
-      if(!schoolField('drop-care-school-source')){var source=document.createElement('label');source.className='care-field-label block text-sm text-gray-700';source.innerHTML='关爱来源<span class="care-required">*</span><input id="drop-care-school-source" class="mt-1 w-full border rounded px-3 py-2 text-sm" value="预警信息" readonly>';var data=document.createElement('label');data.className=source.className;data.innerHTML='数据源<span class="care-required">*</span><div id="drop-care-school-data" class="mt-1 w-full border rounded px-3 py-2 text-sm" style="min-height:40px;background:#f7f9fc;overflow-wrap:anywhere"></div>';var type=schoolField('care-school-type');fields.insertBefore(source,type.parentElement);fields.insertBefore(data,type.parentElement)}
-      schoolField('drop-care-school-data').textContent=fullSource();
-      ['care-school-date','care-school-next'].forEach(function(id){schoolDateSkin(id);var input=schoolField(id),display=input&&input.parentElement.querySelector('.drop-care-date-display');if(display)display.textContent=input.value||'请选择日期'});
-      var hint=document.querySelector('#care-school-proof-label > div:last-child');if(hint)hint.textContent='支持JPEG、JPG、PNG格式图片，最多九张，每张不超过10M';
-      var next=schoolField('care-school-next');if(next){next.value='';var nextDisplay=next.parentElement.querySelector('.drop-care-date-display');if(nextDisplay)nextDisplay.textContent='请选择日期'}var result=schoolField('care-school-result');if(result)result.value='';
-      var title=document.querySelector('#modal-care h2');if(title)title.textContent=currentChain().length&&currentChain()[0].follow==='需要'?'新增关爱跟进':'新增关爱';
-      if(currentChain().length&&currentChain()[0].follow==='需要'){var type=schoolField('care-school-type');if(type)type.value=currentChain()[0].type;}
-    }
-    var oldSubmit=window.submitCareSchool;window.submitCareSchool=function(){var people=schoolField('care-school-people-val'),val=function(id){return (schoolField(id)||{}).value||''};var data={date:val('care-school-date'),people:people&&people.dataset.value||'',type:val('care-school-type'),method:val('care-school-method'),result:val('care-school-result').trim(),follow:val('care-school-follow'),next:val('care-school-next'),proofs:blobPhotos(document.querySelectorAll('#care-school-proof-grid img'))};if(!validate(data))return;save(data);if(typeof window.closeCareModal==='function')window.closeCareModal()};
-    var proofInput=schoolField('care-school-proof-input');if(proofInput)proofInput.setAttribute('accept','.jpeg,.jpg,.png,image/jpeg,image/png');
-    var schoolProof=schoolField('care-school-proof-grid');if(schoolProof)schoolProof.addEventListener('click',function(e){if(e.target.matches('img'))window.dropCareViewPhoto(e.target.parentElement)});
-    var dateStyle=document.createElement('style');dateStyle.textContent='#modal-care .drop-care-date-display{position:absolute;left:13px;bottom:10px;font-size:14px;color:#24344d;pointer-events:none}#modal-care input[data-drop-care-date-skin="1"]::-webkit-datetime-edit{color:transparent}#modal-care input[data-drop-care-date-skin="1"]{color:transparent!important}';document.head.appendChild(dateStyle);
-    var originalProof=window.schoolEvidenceChange;window.schoolEvidenceChange=function(input){var existing=document.querySelectorAll('#care-school-proof-grid img').length,files=Array.from(input.files||[]),valid=[];files.forEach(function(file){if(!/image\/(jpeg|png)/i.test(file.type)){notify('暂不支持该格式图片，请上传JPEG、JPG或PNG格式图片');return}if(file.size>10*1024*1024){notify('单张图片不能超过10M');return}if(existing+valid.length>=9){notify('图片上传最多九张');return}valid.push(file)});if(!valid.length){input.value='';return}if(typeof DataTransfer!=='function'){notify('图片上传失败，请重试');input.value='';return}var transfer=new DataTransfer();valid.forEach(function(file){transfer.items.add(file)});input.files=transfer.files;originalProof(input)};
-    var detail=window.showDetailModal;window.showDetailModal=function(){var result=detail.apply(this,arguments);render();return result};
-    render();
-  }
-  if(role==='regulator'){
-    var first=document.querySelector('[data-dom-id="row-warning-1"]');if(first){readWarningFromRow(first);if(!chains[key(warning)])chains[key(warning)]=initial.map(function(item){return Object.assign({},item)})}
-    document.addEventListener('click',function(e){var target=e.target.closest('[data-dom-id^="btn-view-detail-"]');if(target)readWarningFromRow(target.closest('tr'))},true);
-    var detail=window.showDetailModal;if(typeof detail==='function')window.showDetailModal=function(){var result=detail.apply(this,arguments);render();return result};render();
-  }
-})();
-
-</script>
 <script id="care-regulator-authorization-20260928">
 window.addEventListener('load',function(){
   // 原型权限演示：默认授权；地址添加 ?careAuth=0 可查看未授权点击详情的反馈。
@@ -4811,37 +4629,13 @@ window.addEventListener('load',function(){
   };
 });
 </script>
-<script id="regulator-care-case-20260928">
-window.addEventListener('load',function(){
-  var records=window.careRegV3Data||[];
-  function year(d){var n=Number(String(d||'2026-09').slice(0,4)),m=Number(String(d||'2026-09').slice(5,7));return String(m>=9?n:n-1)}
-  function key(r){return r.caseId||r.id}
-  function normalize(){var byId={},buckets={};records.forEach(function(r,i){if(!r.id)r.id='care-seed-'+i;byId[r.id]=r;if(!r.createdById)r.createdById='teacher-seed-demo-'+i;if(!r.createdByRole)r.createdByRole='老师';if(!r.createdPermissionSnapshot)r.createdPermissionSnapshot={menu:true,detail:true,edit:true,delete:true,continue:true,source:'职务管理演示快照'}});function origin(r,seen){seen=seen||{};if(!r||seen[r.id])return r&&r.id;seen[r.id]=true;var parent=r.parentId&&byId[r.parentId];return parent?origin(parent,seen):r.id}records.forEach(function(r){r.caseId=origin(r);(buckets[r.caseId]||(buckets[r.caseId]=[])).push(r)});Object.keys(buckets).forEach(function(k){buckets[k].sort(function(a,b){return b.date.localeCompare(a.date)||records.indexOf(a)-records.indexOf(b)}).forEach(function(r,i){r.superseded=i>0})})}
-  var oldRender=window.careRegV3Render;window.careRegV3Render=function(){normalize();if(typeof oldRender==='function')oldRender.apply(this,arguments);document.querySelectorAll('#section-care-menu-v1 .care-record-table tbody tr').forEach(function(tr){var link=tr.querySelector('.crv3-link'),match=link&&(link.getAttribute('onclick')||'').match(/\((\d+)\)/),r=match&&records[Number(match[1])];if(!r)return;if(r.superseded){tr.hidden=true;return}link.textContent='个案详情'})};
-  var oldView=window.cityCareView;window.cityCareView=function(){var out=typeof oldView==='function'?oldView.apply(this,arguments):undefined;if(window.CARE_REGULATOR_AUTHORIZED!==false){var title=document.querySelector('#city-care-modal-v1 .ecm-modal-head h3');if(title)title.textContent='关爱个案详情'}return out};
-  normalize();if(typeof window.careRegV3Render==='function')window.careRegV3Render();
-});
-</script>
+
 <style id="care-web-hierarchy-filter-style-20260928">
 #section-care-menu-v1 .care-hierarchy-filter{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;font-size:13px}
 #section-care-menu-v1 .care-hierarchy-filter span{color:#111827}
 #section-care-menu-v1 .care-hierarchy-filter select{height:34px;min-width:112px;max-width:148px;border:1px solid #d8dee9;border-radius:3px;background:#fff;color:#374151;padding:0 8px;font:inherit}
 </style>
-<script id="care-web-hierarchy-filter-20260928">
-window.addEventListener('load',function(){
-  var school=!!window.schoolCareV3Data,records=school?window.schoolCareV3Data:window.careRegV3Data,renderName=school?'schoolV3Render':'careRegV3Render',inputId=school?'sv3-q':'crv3-q',state={year:'',grade:'',klass:'',school:''};
-  if(!records||typeof window[renderName]!=='function')return;
-  function year(date){var y=Number(String(date||'2026-09').slice(0,4)),m=Number(String(date||'2026-09').slice(5,7));return String(m>=9?y:y-1)}
-  function schoolName(){if(school)return records[0]&&records[0].school||'';var title=(document.querySelector('#section-care-menu-v1 .crv3-head h2')||{}).textContent||'';return title.split('/')[0].trim()}
-  function master(){var source=window.CARE_SCHOOL_STUDENT_ROSTER||window.CARE_STUDENT_MASTER,items=Array.isArray(source)?source:source&&source[state.school];if(!Array.isArray(items)){items=records.map(function(r){return{name:r.name,school:r.school,grade:r.grade,className:r.className,academicYear:year(r.date)}});items.push({name:'王小华',school:state.school,grade:'八年级（2024级）',className:'3班',academicYear:'2026',demoOnly:true},{name:'赵明宇',school:state.school,grade:'六年级（2026级）',className:'1班',academicYear:'2026',demoOnly:true})}return items.filter(function(r){return !state.school||!r.school||r.school===state.school})}
-  function uniq(values){return Array.from(new Set(values.filter(Boolean))).sort()}
-  function fill(select,values,placeholder,selected){select.innerHTML='<option value="">'+placeholder+'</option>'+uniq(values).map(function(v){var o=document.createElement('option');o.value=String(v);o.textContent=String(v);return o.outerHTML}).join('');select.value=selected;if(select.value!==selected)select.value='';return select.value}
-  function recordForRow(row){if(school){var i=Number(row.dataset.careRecordIndex);return Number.isInteger(i)?records[i]:null}var link=row.querySelector('[onclick^="cityCareView("]'),match=link&&(link.getAttribute('onclick')||'').match(/\((\d+)\)/);return match?records[Number(match[1])]:null}
-  function apply(){var table=document.querySelector(school?'#section-care-menu-v1 .scm-v3-table':'#section-care-menu-v1 .care-record-table');if(!table||!table.tBodies.length)return;var body=table.tBodies[0],old=body.querySelector('[data-care-filter-empty]');if(old)old.remove();var found=0;Array.from(body.rows).forEach(function(row){var r=recordForRow(row);if(!r)return;var visible=!r.superseded&&(!state.year||year(r.date)===state.year)&&(!state.grade||r.grade===state.grade)&&(!state.klass||r.className===state.klass);row.hidden=!visible;if(visible)found++});if(found===0&&!body.querySelector('.scm-v3-empty,.crv3-empty')){var tr=document.createElement('tr');tr.dataset.careFilterEmpty='1';var td=document.createElement('td');td.colSpan=table.tHead&&table.tHead.rows[0]?table.tHead.rows[0].cells.length:12;td.textContent='暂无符合条件的关爱个案';td.style.cssText='text-align:center;padding:32px;color:#9aa6b5';tr.appendChild(td);body.appendChild(tr)}}
-  function inject(){var input=document.getElementById(inputId);if(!input)return;var currentSchool=schoolName();if(state.school!==currentSchool){state={year:'',grade:'',klass:'',school:currentSchool}}var label=input.previousElementSibling;if(!label||!label.parentElement)return;var parent=label.parentElement,ids=['care-filter-year','care-filter-grade','care-filter-class'];if(!document.getElementById(ids[0]))[['学年',ids[0]],['年级',ids[1]],['班级',ids[2]]].forEach(function(pair){var holder=document.createElement('label');holder.className='care-hierarchy-filter';holder.innerHTML='<span>'+pair[0]+'</span><select id="'+pair[1]+'"></select>';parent.insertBefore(holder,label)});var y=document.getElementById(ids[0]),g=document.getElementById(ids[1]),c=document.getElementById(ids[2]),people=master(),years=people.map(function(x){return String(x.academicYear||x.schoolYear||x.year||'').match(/\d{4}/)?.[0]}).concat(records.filter(function(x){return !state.school||x.school===state.school}).map(function(x){return year(x.date)}));state.year=fill(y,years,'全部学年',state.year);var yPeople=people.filter(function(x){return !state.year||String(x.academicYear||x.schoolYear||x.year||state.year).indexOf(state.year)>=0});state.grade=fill(g,yPeople.map(function(x){return x.grade}),'全部年级',state.grade);var gPeople=yPeople.filter(function(x){return !state.grade||x.grade===state.grade});state.klass=fill(c,gPeople.map(function(x){return x.className||x.klass}),'全部班级',state.klass);var selected=gPeople.filter(function(x){return !state.klass||(x.className||x.klass)===state.klass}),list=document.getElementById('care-filter-students');if(!list){list=document.createElement('datalist');list.id='care-filter-students';parent.appendChild(list)}list.innerHTML=uniq(selected.map(function(x){return x.name})).map(function(x){return '<option value="'+String(x).replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"></option>'}).join('');input.setAttribute('list','care-filter-students');y.onchange=function(){state.year=y.value;state.grade='';state.klass='';inject();apply()};g.onchange=function(){state.grade=g.value;state.klass='';inject();apply()};c.onchange=function(){state.klass=c.value;inject();apply()};apply()}
-  var oldRender=window[renderName];window[renderName]=function(){var out=oldRender.apply(this,arguments);inject();return out};inject();
-});
-</script>
+
 <style id="regulator-case-columns-20260929">
 #section-care-menu-v1 .care-record-table{min-width:1320px}
 #section-care-menu-v1 .care-record-table td{vertical-align:middle;text-align:center}
@@ -4850,23 +4644,9 @@ window.addEventListener('load',function(){
 #section-care-menu-v1 .care-record-table th.care-case-operation{background:#f2f5fa;z-index:3}
 #city-care-modal-v1 .crv3-row .value{white-space:normal;overflow-wrap:anywhere}
 </style>
-<script id="regulator-case-columns-20260929">
-window.addEventListener('load',function(){
- var records=window.careRegV3Data||[],render=window.careRegV3Render,view=window.cityCareView;
- records.forEach(function(r){if(r.sourceKey==='daily'){r.source='老师/学生反馈';r.sourceInfo=r.sourceInfo||'老师反馈：学生近期需要学习辅导'}});
- function key(r){return r.caseId||r.id}
- function group(r){return records.filter(function(x){return !x.deletedAt&&key(x)===key(r)}).sort(function(a,b){return a.date.localeCompare(b.date)})}
- function source(r){return r.sourceKey==='warning'?'预警信息':r.sourceKey==='psych'?'心理测评':r.sourceKey==='parent'?'家长反馈':'老师/学生反馈'}
- function info(r){if(r.sourceInfo)return r.sourceInfo;if(r.sourceKey==='warning')return r.name+'｜'+(r.warning&&r.warning.type||'预警类型未记录')+'｜'+(r.warning&&r.warning.reason||'预警原因未记录')+'｜'+(r.warning&&r.warning.time||'预警时间未记录');if(r.sourceKey==='psych')return r.name+'｜重点关注学生｜'+(r.psych&&r.psych.time||'测评时间未记录');return r.dataSource||'日常记录'}
- function short(s){s=String(s||'--');return Array.from(s).length>10?Array.from(s).slice(0,10).join('')+'...':s}
- function cell(text,cls,title){var td=document.createElement('td');td.textContent=text;td.className=cls||'';if(title)td.title=title;return td}
- function transform(){var table=document.querySelector('#section-care-menu-v1 .care-record-table'),body=table&&table.tBodies[0];if(!table||!body||table.tHead.rows[0].cells[0].textContent.trim()!=='学生姓名')return;var headers=['学生姓名','年级','班级','创建日期','关爱来源','来源信息','关爱次数','最近关爱日期','关爱结果','关爱状态','操作'];table.tHead.rows[0].replaceChildren(...headers.map(function(x,i){var th=document.createElement('th');th.textContent=x;if(i===headers.length-1)th.className='care-case-operation';return th}));Array.from(body.rows).forEach(function(tr){var operation=tr.lastElementChild,link=operation&&operation.querySelector('[onclick^="cityCareView("]'),match=link&&(link.getAttribute('onclick')||'').match(/\((\d+)\)/),r=match&&records[Number(match[1])];if(!r){if(tr.cells.length===1)tr.cells[0].colSpan=headers.length;return}var chain=group(r),first=chain[0]||r,latest=chain[chain.length-1]||r,result=latest.result||'--',message=info(first),count=cell('');var open=document.createElement('button');open.type='button';open.className='crv3-link';open.textContent=chain.length+'次';open.title='查看关爱个案详情';open.onclick=function(){window.cityCareView(records.indexOf(r))};count.appendChild(open);operation.className='care-case-operation';tr.replaceChildren(cell(r.name),cell(r.grade),cell(r.className),cell(first.caseCreatedAt||first.date),cell(source(first)),cell(short(message),'care-case-info',message),count,cell(latest.date),cell(short(result),'care-case-result',result),cell(latest.status==='need'?'待跟进':'已完结'),operation)})}
- function decorateSummary(){var filter=document.getElementById('crv3-source');if(filter){var daily=filter.querySelector('option[value="daily"]');if(daily)daily.textContent='老师/学生反馈';if(!filter.querySelector('option[value="parent"]'))filter.add(new Option('家长反馈','parent'))}var table=document.querySelector('#section-care-menu-v1 .crv3-table:not(.care-record-table)');if(!table||!table.tHead)return;var heads=Array.from(table.tHead.rows[0].cells),old=heads.find(function(th){return th.textContent.trim()==='日常上传来源'});if(!old)return;old.textContent='老师/学生反馈来源';if(!heads.some(function(th){return th.textContent.trim()==='家长反馈来源'})){var parent=document.createElement('th');parent.textContent='家长反馈来源';old.after(parent);Array.from(table.tBodies[0].rows).forEach(function(tr){var td=document.createElement('td');td.textContent='0';tr.appendChild(td)})}}
- if(typeof render==='function')window.careRegV3Render=function(){var result=render.apply(this,arguments);transform();decorateSummary();return result};
- if(typeof view==='function')window.cityCareView=function(){var result=view.apply(this,arguments),modal=document.getElementById('city-care-modal-v1'),r=records[Number(arguments[0])],first=r&&group(r)[0];if(modal)modal.querySelectorAll('.crv3-row').forEach(function(row){var label=row.querySelector('.label'),value=row.querySelector('.value');if(!label||!value)return;if(label.textContent.trim()==='数据源'){label.textContent='来源信息';value.textContent=first?info(first):value.textContent;value.style.whiteSpace='normal'}else if(label.textContent.trim()==='关爱来源'&&first)value.textContent=source(first)});return result};
- transform();decorateSummary();
-});
-</script>
+
 <script src="./关爱个案-交互-V3.0-20260929.js"></script>
+<link rel="stylesheet" href="./控辍预警-关爱风格-V2.0-20260930.css">
 <script src="./关爱监管层级-交互-V3.1-20260930.js"></script>
+<script src="./控辍预警-Web联动-V2.0-20260930.js"></script>
 </body></html>

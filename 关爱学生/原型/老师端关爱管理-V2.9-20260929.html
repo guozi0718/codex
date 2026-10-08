@@ -1361,7 +1361,7 @@ body.no-shell .phone { border-radius: 0px; box-shadow: none; }
       </div>
     </div>
     <div class="body"><div class="pad" style="padding-top:12px">
-      <div class="banner" style="cursor:pointer" onclick="go('sc-apply');applyTab('collect')">
+      <div class="banner" style="cursor:pointer" onclick="go('sc-apply')">
         <div class="bn-top">
           <h3>智能校徽登记办理与补办</h3>
           <p>共同打造更智能、安全、温馨的校园环境</p>
@@ -1369,7 +1369,7 @@ body.no-shell .phone { border-radius: 0px; box-shadow: none; }
         <div class="bn-foot"><span>智能校徽申请与补办入口</span><button>查看活动</button></div>
       </div>
       <div class="gmenu">
-        <button onclick="go('sc-apply');applyTab('collect')"><span class="gi" style="background:linear-gradient(150deg,#6AAEFF,#2E7CF0)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="4" width="15" height="16" rx="2"></rect><circle cx="12" cy="10" r="2.3"></circle><path d="M8.5 16.5c.7-1.6 2-2.4 3.5-2.4s2.8.8 3.5 2.4"></path></svg></span>智能校徽</button>
+        <button onclick="go('sc-apply')"><span class="gi" style="background:linear-gradient(150deg,#6AAEFF,#2E7CF0)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="4" width="15" height="16" rx="2"></rect><circle cx="12" cy="10" r="2.3"></circle><path d="M8.5 16.5c.7-1.6 2-2.4 3.5-2.4s2.8.8 3.5 2.4"></path></svg></span>智能校徽</button>
         <!-- 第一阶段隐藏：素质评价宫格入口（后续阶段）。显隐由首页演示说明「显示素质评价入口」开关控制（localStorage proto-eval，默认隐藏，与家长端共享） -->
         <button id="gi-eval" style="display:none" onclick="go('sc-eval')"><span class="gi" style="background:linear-gradient(150deg,#FF9BC0,#F45E9E)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.8l2.2 4.4 4.8.7-3.5 3.4.8 4.8-4.3-2.3-4.3 2.3.8-4.8-3.5-3.4 4.8-.7z"></path></svg></span>素质评价</button>
         <button onclick="go('sc-att')"><span class="gi" style="background:linear-gradient(150deg,#6FA9FF,#3D7BF0)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="5.5" width="15" height="14" rx="2"></rect><path d="M8.5 3.5v3M15.5 3.5v3"></path><path d="M8.9 13.4l2.3 2.3 4.2-4.5"></path></svg></span>校园签到</button>
@@ -2160,7 +2160,7 @@ body.no-shell .phone { border-radius: 0px; box-shadow: none; }
       <div class="sub-hd"><button class="back" onclick="go('sc-home')">‹</button><b>智慧放学</b><span class="capsule" style="margin-left:auto"><span class="half"><span class="cap-dots"><i></i><i></i><i></i></span></span><span class="half"><span class="cap-ring"></span></span></span></div>
       <div class="dm-date">
         <span id="dm-date-label">2026年09月15日</span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="dmNav()"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" disabled title="该演示操作尚未接入"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg>
       </div>
       <div class="dm-seg">
         <button class="seg on" data-dp="am" onclick="dmPeriod('am')">上午</button>
@@ -3291,7 +3291,7 @@ body.no-shell .phone { border-radius: 0px; box-shadow: none; }
         <div class="kv"><span class="k">提交时间</span><span class="v">今天 10:12</span></div>
       </div>
       <button class="btn pri blk" style="padding:12px" onclick="go('sc-login')">返回登录页</button>
-      <button class="btn ghost blk" style="margin-top:10px" onclick="location.href='admin.html#teacher'">前往管理端待确认列表（演示）</button>
+      <button class="btn ghost blk" style="margin-top:10px" disabled title="当前交付包未包含该页面">前往管理端待确认列表（演示）</button>
     </div></div>
   </div>
 
@@ -3444,7 +3444,7 @@ body.no-shell .phone { border-radius: 0px; box-shadow: none; }
   <!-- ================= 控辍劝返（双Tab） ================= -->
   <div class="screen" id="sc-list">
     <div class="statusbar"><span>9:41</span><span class="right" style="display: flex; align-items: center; gap: 6px;"><svg width="20" height="13" viewBox="0 0 20 13" fill="none"><path d="M1.65039 7.58008C1.95012 7.58014 2.21992 7.64999 2.46973 7.7998C2.71973 7.9498 2.92031 8.15039 3.07031 8.40039C3.22009 8.6502 3.29 8.92001 3.29004 9.21973V10.6904C3.28997 10.9901 3.22011 11.26 3.07031 11.5098C2.92031 11.7598 2.71973 11.9604 2.46973 12.1104C2.21993 12.2601 1.95009 12.33 1.65039 12.3301C1.35054 12.3301 1.07022 12.2602 0.820312 12.1104C0.570312 11.9604 0.369727 11.7598 0.219727 11.5098C0.0699196 11.26 6.65565e-05 10.9901 0 10.6904V9.21973C4.28388e-05 8.92 0.0699405 8.6502 0.219727 8.40039C0.369727 8.15039 0.570312 7.9498 0.820312 7.7998C1.07023 7.64994 1.35052 7.58008 1.65039 7.58008ZM7 5.36035C7.3 5.36035 7.57031 5.43008 7.82031 5.58008C8.0701 5.73001 8.26999 5.9299 8.41992 6.17969C8.56992 6.42969 8.63965 6.7 8.63965 7V10.6904C8.63958 10.9902 8.56979 11.2599 8.41992 11.5098C8.26994 11.7597 8.07028 11.9604 7.82031 12.1104C7.57031 12.2604 7.3 12.3301 7 12.3301C6.70004 12.3301 6.4199 12.2603 6.16992 12.1104C5.91992 11.9604 5.72031 11.7598 5.57031 11.5098C5.4204 11.2599 5.34968 10.9803 5.34961 10.6904V7C5.34961 6.7 5.42031 6.42969 5.57031 6.17969C5.72027 5.92989 5.92009 5.73 6.16992 5.58008C6.41992 5.43008 6.7 5.36035 7 5.36035ZM17.6904 0C17.9901 6.55189e-05 18.26 0.0699202 18.5098 0.219727C18.7598 0.369727 18.9604 0.570312 19.1104 0.820312C19.2601 1.07011 19.33 1.33994 19.3301 1.63965V10.6904C19.33 10.9901 19.2601 11.26 19.1104 11.5098C18.9604 11.7598 18.7598 11.9604 18.5098 12.1104C18.26 12.2601 17.9901 12.33 17.6904 12.3301C17.3906 12.3301 17.1102 12.2602 16.8604 12.1104C16.6104 11.9604 16.4098 11.7598 16.2598 11.5098C16.11 11.26 16.0401 10.9901 16.04 10.6904V1.63965C16.0401 1.33992 16.11 1.07012 16.2598 0.820312C16.4098 0.570312 16.6104 0.369727 16.8604 0.219727C17.1103 0.0698807 17.3906 0 17.6904 0ZM12.3496 2.79004C12.6495 2.79004 12.92 2.85984 13.1699 3.00977C13.4199 3.15977 13.6195 3.36035 13.7695 3.61035C13.9195 3.86025 13.9902 4.12983 13.9902 4.42969V10.6797C13.9902 10.9797 13.9195 11.25 13.7695 11.5C13.6196 11.7499 13.4198 11.9497 13.1699 12.0996C12.9199 12.2496 12.6496 12.3203 12.3496 12.3203C12.0498 12.3203 11.7694 12.2603 11.5195 12.1104C11.2696 11.9704 11.0699 11.7697 10.9199 11.5098C10.77 11.2598 10.7002 10.9796 10.7002 10.6797V4.42969C10.7002 4.12993 10.7701 3.86018 10.9199 3.61035C11.0699 3.36044 11.2696 3.15975 11.5195 3.00977C11.7694 2.85983 12.0498 2.7901 12.3496 2.79004Z" fill="currentColor"></path></svg><svg width="17" height="13" viewBox="0 0 17 13" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.358555 4.76929C0.777728 5.20063 1.43114 5.12668 1.96127 4.65838C3.71194 3.08094 5.8941 2.26757 8.33517 2.26757C10.7762 2.26757 12.9707 3.10559 14.7091 4.65838C15.2269 5.13901 15.8803 5.1883 16.3118 4.76929C16.7433 4.32564 16.8049 3.66016 16.3611 3.19185C14.5118 1.30632 11.4913 0 8.33517 0C5.17904 0 2.1462 1.31864 0.309241 3.20418C-0.134589 3.66016 -0.085275 4.32564 0.358555 4.78162V4.76929ZM3.40372 7.86256C3.88454 8.33086 4.50097 8.28156 5.04343 7.83791C5.93109 7.13546 7.11463 6.65483 8.33517 6.66715C9.54337 6.66715 10.7269 7.13546 11.6269 7.85023C12.1694 8.29389 12.8105 8.31854 13.2789 7.85023C13.7351 7.38193 13.8091 6.66715 13.3283 6.2235C12.1324 5.15133 10.3324 4.39958 8.3475 4.39958C6.36259 4.39958 4.55028 5.15133 3.36674 6.2235C2.94756 6.61786 2.86126 7.29566 3.41605 7.86256H3.40372ZM7.52148 11.954C8.05161 12.4593 8.6064 12.4593 9.13653 11.954L10.1351 10.9928C10.6653 10.4752 10.7762 9.82203 10.1721 9.37838C9.66666 9.02099 9.02557 8.78684 8.33517 8.78684C7.64477 8.78684 6.99135 9.02099 6.4982 9.3907C5.8941 9.82203 6.01739 10.4875 6.54752 10.9928L7.53381 11.954H7.52148Z" fill="currentColor"></path></svg><svg width="26" height="13" viewBox="0 0 34 17"><rect x="1" y="1.2" width="27.5" height="14.6" rx="4.8" fill="none" stroke="currentColor" stroke-width="1.6" opacity=".45"></rect><rect x="3.6" y="3.8" width="17" height="9.4" rx="2.4" fill="currentColor"></rect><path d="M30.6 5.7 a3.3 3.3 0 0 1 0 5.6 z" fill="currentColor" opacity=".45"></path></svg></span></div>
-    <div class="sub-hd"><button class="back" onclick="window.location.href='https://app.ygzypm.com/sites/qnmbw7afetpnnfc-smart-school/#sc-home'">‹</button><b>控辍保学</b><span class="capsule" style="margin-left:auto"><span class="half"><span class="cap-dots"><i></i><i></i><i></i></span></span><span class="half"><span class="cap-ring"></span></span></span></div>
+<div class="sub-hd"><button class="back" type="button" disabled aria-label="返回（暂时停用）" title="返回跳转暂时停用">‹</button><b>控辍保学</b><span class="capsule" style="margin-left:auto"><span class="half"><span class="cap-dots"><i></i><i></i><i></i></span></span><span class="half"><span class="cap-ring"></span></span></span></div>
     <!-- Tab栏 -->
     <div class="fc-tabs" style="display:flex;border-bottom:1px solid var(--line);background:#fff">
       <button class="fc-tab on" data-fctab="warning" onclick="fcTab('warning')" style="flex: 1 1 0%; padding: 13px 0px; text-align: center; font-size: 14px; font-weight: 600; color: var(--navy); border-bottom: 2px solid var(--navy); background: none; border-top: none; border-left: none; border-right: none; cursor: pointer;">预警记录</button>
@@ -3555,46 +3555,10 @@ body.no-shell .phone { border-radius: 0px; box-shadow: none; }
     </div>
   </div>
 
-  <style id="care-form-style">
-    #sc-care-add .care-card{padding:4px 16px 8px}
-    #sc-care-add .care-card .frm-row{min-height:48px;display:flex;align-items:center;border-bottom:1px solid #EEF0F4;padding:0}
-    #sc-care-add .care-card .frm-row:last-child{border-bottom:0}
-    #sc-care-add .care-card .frow{padding:14px 0;border-bottom:1px solid #EEF0F4}
-    #sc-care-add .care-card .frow label{display:block;font-size:14px;line-height:20px;color:var(--ink);font-weight:500;margin-bottom:8px}
-    #sc-care-add .care-card .frow textarea{width:100%;min-height:96px;line-height:1.6;border:1px solid #DDE6F0;border-radius:9px;background:#FBFCFE;padding:10px 12px;resize:none;font-family:inherit;font-size:14px;color:var(--ink)}
-    #sc-care-add .care-card .lb{font-size:14px;line-height:20px;color:var(--ink);font-weight:500}
-    #sc-care-add .care-card .val{margin-left:auto;display:flex;align-items:center;justify-content:flex-end;gap:5px;color:var(--ink);font-size:14px;line-height:20px;cursor:pointer;text-align:right}
-    #sc-care-add .care-card .val svg{color:var(--ink-3)}
-    #sc-care-add .care-card select{font-family:inherit;font-size:14px;line-height:20px}
-    #sc-care-add .care-card .req{color:#EA4F4A}
-    #sc-care-add .care-hint{font-size:12px;color:var(--ink-3);line-height:18px;margin-top:4px}
-    #sc-care-add .care-warning{background:var(--card);border:0}
-  </style>
+
 
   <!-- ================= 关爱记录填报（嵌入控辍个案流程） ================= -->
-  <div class="screen" id="sc-care-add">
-    <div class="statusbar"><span>9:41</span><span class="right">关爱记录</span></div>
-    <div class="sub-hd"><button class="back" onclick="go('sc-detail')">‹</button><b>新增关爱记录</b><span class="capsule" style="margin-left:auto"><span class="half"><span class="cap-dots"><i></i><i></i><i></i></span></span><span class="half"><span class="cap-ring"></span></span></span></div>
-    <div class="body"><div class="pad" style="padding-top:12px">
-      <div class="card"><div class="stu-hd"><div class="avatar">张</div><div style="flex:1"><div class="stu-nm">张小明</div><div class="stu-sub muted">七年级（2025级） · 2班</div></div></div></div>
-      <div class="section-t">预警信息</div>
-      <div class="card care-card care-warning">
-        <div class="kv"><span class="k">预警类型</span><span class="v">连续缺勤</span></div>
-        <div class="kv"><span class="k">预警原因</span><span class="v">连续缺勤3个工作日</span></div>
-        <div class="kv"><span class="k">预警时间</span><span class="v">2026-05-05 18:05</span></div>
-      </div>
-      <div class="section-t">关爱内容</div>
-      <div class="card care-card">
-        <div class="frm-row"><span class="lb">关爱类型<span class="req">*</span></span><select id="care-type" style="margin-left:auto;width:150px;border:0;text-align:right;background:transparent;color:var(--ink)"><option>家庭关怀</option><option>学业帮扶</option><option>返校适应</option><option>生活困难</option><option>健康支持</option><option>情绪支持</option></select></div>
-        <div class="frm-row"><span class="lb">关爱方式<span class="req">*</span></span><select id="care-method" style="margin-left:auto;width:150px;border:0;text-align:right;background:transparent;color:var(--ink)"><option>家访</option><option>电话联系</option><option>面谈</option><option>学习辅导</option><option>班级帮扶</option></select></div>
-        <div class="frm-row"><span class="lb">关爱日期<span class="req">*</span></span><span class="val" id="care-date-val" onclick="careDateSheet('care-date')">2026-09-18<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"></rect><path d="M8 2v4M16 2v4M3 9h18"></path></svg></span><input type="hidden" id="care-date" value="2026-09-18"></div>
-        <div class="frow"><label>关爱结果<span class="req">*</span></label><textarea id="care-result" maxlength="200" placeholder="请填写关爱过程和关爱结果"></textarea></div>
-        <div class="frm-row"><span class="lb">继续跟进</span><select id="care-follow" onchange="careFollowChange()" style="margin-left:auto;width:150px;border:0;text-align:right;background:transparent;color:var(--ink)"><option>需要</option><option>暂不需要</option></select></div>
-        <div class="frm-row" id="care-next-row"><span class="lb">下次跟进日期</span><span class="val" id="care-next-val" onclick="careDateSheet('care-next')">2026-09-18<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"></rect><path d="M8 2v4M16 2v4M3 9h18"></path></svg></span><input type="hidden" id="care-next" value="2026-09-18"></div>
-      </div>
-    </div></div>
-    <div class="apply-foot"><button class="btn pri blk" onclick="submitCareRecord()">确定</button></div>
-  </div>
+
 
   <!-- ================= 劝返填报 ================= -->
   <div class="screen" id="sc-verify">
@@ -3920,9 +3884,12 @@ function fitPhone(){
   document.querySelector('.phone').style.zoom=s;
 }
 /* -------- 手机壳显隐：演示说明内开关，localStorage 记忆并与家长端共享 -------- */
-function shellOn(){return localStorage.getItem('proto-shell')!=='off'}
+var prototypePreferences={};
+function readPrototypePreference(key){try{return window.localStorage.getItem(key)}catch(error){return prototypePreferences[key]||null}}
+function writePrototypePreference(key,value){prototypePreferences[key]=value;try{window.localStorage.setItem(key,value)}catch(error){/* file 页面不支持存储时保留本次会话偏好。 */}}
+function shellOn(){return readPrototypePreference('proto-shell')!=='off'}
 function toggleShell(){
-  localStorage.setItem('proto-shell',shellOn()?'off':'on');
+  writePrototypePreference('proto-shell',shellOn()?'off':'on');
   applyShell();renderDemo();
 }
 function applyShell(){
@@ -3931,8 +3898,8 @@ function applyShell(){
 }
 addEventListener('resize',fitPhone);applyShell();
 /* -------- 素质评价入口显隐：首页演示说明内开关，localStorage 记忆并与家长端共享；后续阶段功能，默认隐藏 -------- */
-function evalOn(){return localStorage.getItem('proto-eval')==='on'}
-function toggleEval(){localStorage.setItem('proto-eval',evalOn()?'off':'on');applyEval();renderDemo()}
+function evalOn(){return readPrototypePreference('proto-eval')==='on'}
+function toggleEval(){writePrototypePreference('proto-eval',evalOn()?'off':'on');applyEval();renderDemo()}
 function applyEval(){document.getElementById('gi-eval').style.display=evalOn()?'':'none'}
 applyEval();
 /* -------- 导航（含 hash 直达：teacher.html#sc-batch 可直接打开对应屏） -------- */
@@ -4033,9 +4000,6 @@ function go(id){
   if(id==='sc-newvisit'){
     nvResetForm();
   }
-  if(id==='sc-care-add'){
-    careResetForm();
-  }
   /* 预警详情页进入时控制处理记录区域显示 */
   if(id==='sc-detail'){
     var visitSection=document.getElementById('detail-visit-section');
@@ -4083,7 +4047,7 @@ const demoInfo={
  'sc-lvpend':{t:'请假详情',d:'请假列表点击条目进入。标题「请假详情」。第一模块请假信息：类型+状态chip、学生、开始时间、结束时间、事由。第二模块流转记录：提交节点+对应状态节点（待审批无第二节点，已拒绝红色、已同意绿色、已撤销灰色）。已撤销的第二节点描述为MM-DD hh:mm+家长称谓名称。待审批状态底部有「拒绝」「同意」按钮（拒绝弹理由框非必填），其余状态无按钮。',a:[['拒绝(弹理由框)','lvRejectSheet()'],['同意','lvApproveConfirm()'],['返回请假列表',"go('sc-leave')"]]},
  'sc-leavedt':{t:'请假单详情',d:'通过 / 退回补充 / 不通过；待审批期间暂按请假处理（抑制缺勤告警）。（超时提醒与升级年级组长策略为后续阶段能力，本页相关提示已隐藏）',a:[['返回审批列表',"go('sc-leave')"]]},
  'sc-proxyleave':{t:'代录请假',d:'家长自发之外的第二发起通道：班主任代录本班学生默认「代录即通过」——免审即时生效、单据永久标记「教师代录·家长口头确认」、审批结果同步双家长作为监督异议通道、操作留痕可审计；免审单不进入教师待处理列表，避免自审自批与待办计数虚高。代录人与审批人不同（科任老师代录、或校级要求年级组长审批）时仍走正常审批流；保守学校可关闭免审（校级配置，默认值随首批试点校调研确定）。演示剧情：李沐宸今日无签无脸且家长未留言，家长来电说明发热就医，班主任代录病假——生效后待核项自动核销、考勤流水回溯改判为请假。学生/日期/照片三个选择器为原型模拟：学生弹层支持任教班级切换（班主任班 / 科任班）与姓名搜索，列表带今日考勤状态便于代录时核对；时间为「日期 + 时 + 分」三列滚轮：日期列带真实历法星期（今天显示「当天」），分钟列 30 分钟步进——最少可请 0.5 小时（粒度为校级配置、对齐主流办公产品的选择习惯，开始时间为当天前后各 30 天——补请假回溯上限，结束时间以开始日期为锚最长 90 天——更长缺勤引导走休学/病休备案，边界均为校级配置；选择器顶部左「清除」清空该时间、右「✕」关闭，中部回显始终带全年份作为确认关口，滚轮项与表单在当年内省略年份，跨年时段在表单与单据中显式标年——学期跨自然年，12 月请到次年 1 月的假属常见场景；起止选定后自动计算「时长（上学日）」——按校历扣除周末（真实历法），每上学日按在校时段 08:00–16:00 计 8 小时、起止超出在校时段的部分不计入、满 8 小时折算为天，对应学生请假「上学日不产生缺勤」的实际语义，演示未含法定节假日与寒暑假，时长亦是「事假 1 天内免证明」等规则的挂载点）；证明材料为图片网格（与家长端同构）：点「＋」添加照片（演示以证件照示例图轮换模拟）、缩略图右上角 ✕ 删除，最多 5 个、单个上限 10 MB，满 5 个后隐藏添加块。提交的单据按实际所选学生与时段落入「已办结」列表。注意：原型提交一律按班主任免审主线演示，科任身份代录实际走正常审批流（转该班班主任审批），此分支不做可操作演示。',a:[['提交并查看已办结联动','submitProxyLeave()'],['返回请假列表',"go('sc-leave')"]]},
- 'sc-login':{t:'注册 / 登录',d:'手机号快捷登录（微信授权取号）：勾选隐私协议后弹手机号申请验证弹框，选择手机号即登录；未勾选则弹用户服务协议及隐私政策弹框，同意后继续。教师注册走「微信扫学校注册码」直达表单，登录页不设入口。',a:[['模拟手机号快捷登录','quickLogin()'],['模拟扫学校注册码 → 教师注册',"go('sc-reg')"],['校方后台添加教师 → 用户搜索小程序',"go('sc-tchconfirm')"],['无教师名册 → 校方后台添加孩子家长 → 用户搜索小程序',"location.href='https://olivebird.netlify.app/ssb/parent#sc-auth'"],['无教师名册 → 无孩子家长名册 → 用户搜索小程序',"location.href='https://olivebird.netlify.app/ssb/parent#sc-nochild'"],['模拟登录 · 未匹配教师身份',"go('sc-noauth')"],['模拟扫到失效注册码',"go('sc-expired')"]]},
+ 'sc-login':{t:'注册 / 登录',d:'手机号快捷登录（微信授权取号）：勾选隐私协议后弹手机号申请验证弹框，选择手机号即登录；未勾选则弹用户服务协议及隐私政策弹框，同意后继续。教师注册走「微信扫学校注册码」直达表单，登录页不设入口。',a:[['模拟手机号快捷登录','quickLogin()'],['模拟扫学校注册码 → 教师注册',"go('sc-reg')"],['校方后台添加教师 → 用户搜索小程序',"go('sc-tchconfirm')"],['无教师名册 → 校方后台添加孩子家长 → 用户搜索小程序',"toast('旧外部演示入口已停用')"],['无教师名册 → 无孩子家长名册 → 用户搜索小程序',"toast('旧外部演示入口已停用')"],['模拟登录 · 未匹配教师身份',"go('sc-noauth')"],['模拟扫到失效注册码',"go('sc-expired')"]]},
  'sc-complaint':{t:'小程序投诉',d:'从第三方用户信息授权说明弹框中"投诉"入口跳转。微信官方投诉页面样式：无页面标题栏，内容标题"请选择投诉原因"居中，下方为投诉原因列表（13 项），每项右侧带箭头，点击后演示提交投诉。',a:[['返回登录页',"go('sc-login')"]]},
  'sc-tchconfirm':{t:'教师信息确认',d:'校方后台添加教师后，老师首次登录小程序时进入本页，确认校方填写的信息是否正确。表单字段同教师注册页，全部只读。底部并排两按钮：左侧"信息有误"（描边样式）跳转教师信息修改页，右侧"信息确认"跳转首页。按钮下方辅助提示"这不是您本人？请点击这不是我"，"这不是我"标红可点击，弹出居中反馈弹框（标题"反馈"，提示反馈后通知学校管理员核实且不可撤销，可填备注，取消关闭/确定跳转待学校审核页）。',a:[['信息有误 → 教师信息修改',"go('sc-tchedit')"],['信息确认 → 首页','tchConfirmOk()'],['这不是我 → 反馈弹框','notMeSheet()'],['返回登录页',"go('sc-login')"]]},
  'sc-tchedit':{t:'教师信息修改',d:'从教师信息确认页"信息有误"进入。表单同教师注册页，学校字段只读不可改，其余字段可编辑（姓名/性别/职务/称谓/任教班级/班主任班级）。职务选班主任时显示班主任班级（同注册页联动）。底部"提交"按钮跳转待学校审核页，修改后由校方有管理权限的人员审核。',a:[['选择职务','edDutySheet()'],['选择任教班级','edOpenCls()'],['选择班主任班级','edHdOpenCls()'],['提交 → 待学校审核','tchEditSubmit()'],['返回教师信息确认',"go('sc-tchconfirm')"]]},
@@ -4094,7 +4058,7 @@ const demoInfo={
  'sc-addtch':{t:'新增教师',d:'教师管理页点击「新增教师」进入。表单同教师注册页：学校（只读）、教师姓名、性别、职务（sheet选择）、称谓、任教班级（年级+班级多选）。底部按钮文案为「提交」。',a:[['提交','atSubmit()'],['返回教师管理',"go('sc-tchmgr')"]]},
  'sc-tchpend':{t:'教师待审核',d:'教师管理页点击「待审核」进入。两层筛选：上层分类tab（注册申请/信息修改/非本人反馈，带角标数量），下层状态tab（待审核/已拒绝）。注册申请=教师自行扫码注册的审批；信息修改=校方添加教师后教师自行修改信息的审批（可通过/拒绝）；非本人反馈=教师反馈"这不是我"的审批（可移除/拒绝）。三类均支持批量操作，拒绝需填写拒绝理由（必填）。列表按职务分组，条目显示分类标签+修改内容/反馈备注。已通过的不在此展示。',a:[['切到信息修改分类',"document.querySelector('#tp-cats .fchip[data-tpc=edit]').click()"],['切到非本人反馈分类',"document.querySelector('#tp-cats .fchip[data-tpc=notme]').click()"],['切到已拒绝',"document.querySelector('#tp-tabs .fchip[data-tpt=reject]').click()"],['批量通过','tpApprove()'],['查看注册审核详情（陈静怡）',"tpDetail('陈静怡')"],['返回教师管理',"go('sc-tchmgr')"]]},
  'sc-tchaudit':{t:'教师审核/详情',d:'待审核页点击教师条目「详情」进入。根据分类显示不同标题（注册审核/信息修改审核/非本人反馈审核）。注册审核：表单可编辑，底部通过/拒绝按钮。信息修改审核：表单只读，顶部显示修改内容提示，底部通过/拒绝按钮。非本人反馈审核：表单只读，顶部显示反馈备注，底部移除/拒绝按钮。已拒绝状态下标题为「教师详情」，只读无按钮。拒绝操作弹出拒绝理由弹框（必填）。',a:[['通过审核','tauditApprove()'],['拒绝审核（弹拒绝理由）','tauditReject()'],['返回待审核',"go('sc-tchpend')"]]},
- 'sc-pending':{t:'注册审核中',d:'未命中白名单的申请状态页：展示申请信息与处理时效；审核期间教师再次扫码进入的是本页而非注册表单，避免重复提交；结果以消息通知。',a:[['前往管理端待确认列表',"location.href='admin.html#teacher'"],['返回登录页',"go('sc-login')"]]},
+ 'sc-pending':{t:'注册审核中',d:'未命中白名单的申请状态页：展示申请信息与处理时效；审核期间教师再次扫码进入的是本页而非注册表单，避免重复提交；结果以消息通知。',a:[['前往管理端待确认列表',"toast('当前交付包未包含管理端注册审核页')"],['返回登录页',"go('sc-login')"]]},
  'sc-msgs':{t:'消息（底部 Tab）',d:'底部三 Tab 之一。只放结果与通知类消息：审批结果同步、注册自动生效（管理员角色）等；可操作事项一律进待办，两者不重复。（超时升级提醒、降级模式启停两类消息随对应功能收敛到后续阶段，已隐藏）即时触达走微信服务通知（订阅消息），本页为历史记录，支持全部已读；未读数与 Tab 角标、「我的」入口红点联动。点击消息直达业务对象详情（单据/记录），纯通知类以半屏说明 + 行动按钮呈现，不设独立消息详情页。',a:[['全部标为已读','markAllRead()']]},
  'sc-expired':{t:'注册码已失效',d:'扫到过期 / 被作废注册码的落地页（对应注册流程图 B2N 节点）：注册码 24 小时有效、管理员可随时作废重生成，失效码不进注册表单，引导联系学校获取新码。与管理端「作废当前注册码」操作互为演示闭环。',a:[['模拟扫描新注册码',"go('sc-reg')"],['返回登录页',"go('sc-login')"]]},
  'sc-noauth':{t:'未匹配教师身份',d:'登录成功但手机号既不在教师名册、也无注册申请记录时的承接页（对应登录流程图 L3N 节点）：引导用学校群注册码扫码注册——登录页不设注册入口的设计由此闭环；若该手机号有审核中的申请，登录则直达「注册审核中」页。注册码由学校管理员生成、24 小时有效；「扫码注册」在真实产品中调起微信扫一扫，原型以按钮模拟直达注册表单。',a:[['模拟扫码注册',"go('sc-reg')"],['查看注册审核中页',"go('sc-pending')"],['返回登录页',"go('sc-login')"]]},
@@ -7272,7 +7236,7 @@ function idClose(){
 function idToParent(n){
   idClose();
   toast('正在切换为家长身份（'+n+'）…');
-  setTimeout(()=>location.href='parent.html',700);
+  toast('当前关爱原型不提供账号跨端登录切换');
 }
 /* -------- 添加孩子（教师账号以家长身份绑定孩子 · 师长双身份）：与家长端「添加孩子 · 人工申请」同构 -------- */
 const tcPickerData={
@@ -7780,7 +7744,7 @@ function cfEditClsPick(k){
 })();
 function roleSheet(){sheet(`<h3>切换为家长身份</h3>
  <div class="desc">您的手机号同时存在家长账号。确定切换为家长身份吗？</div>
- <button class="btn pri blk" onclick="location.href='parent.html'">确认切换</button>
+ <button class="btn pri blk" disabled title="当前交付包未包含该页面">确认切换</button>
  <button class="btn ghost blk" style="margin-top:9px" onclick="closeSheet()">取消</button>`)}
 /* -------- 消息落点：有业务对象的深链业务详情；纯通知类用半屏 sheet 展示全文 + 行动按钮 -------- */
 function goLeaveDone(){go('sc-leave');lvTab(document.querySelector('#lv-tabs .fchip:nth-child(3)'),'approved')}
@@ -7881,7 +7845,6 @@ function wlRenderPage(){
   var html='';
   slice.forEach(function(d){
     var st=wlStatusMap[d.status];
-    var btnAct="go('sc-detail')";
     html+='<div class="card" onclick="curWlStatus=\''+d.status+'\';go(\'sc-detail\')" style="cursor:pointer">';
     html+='<div class="stu-hd"><div class="avatar">'+d.name.charAt(0)+'</div>';
     html+='<div style="flex:1"><div class="stu-nm">'+d.name+' <span class="chip '+st.cls+'" style="margin-left:6px;vertical-align:2px">'+st.txt+'</span></div>';
@@ -7894,7 +7857,7 @@ function wlRenderPage(){
     var procTxt=d.status==='pending'?'处理':'重新处理';
     html+='<div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end;align-items:center">';
      html+='<button class="btn ghost sm" onclick="event.stopPropagation();curWlStatus=\''+d.status+'\';go(\'sc-detail\')">详情</button>';
-     html+='<button class="btn ghost sm" onclick="event.stopPropagation();curWlStatus=\''+d.status+'\';go(\'sc-care-add\');trackCare(\'care_record_add_click\')">关爱</button>';
+     html+='<button class="btn ghost sm" disabled title="关爱入口初始化中">关爱</button>';
      html+='<button class="btn pri sm" onclick="event.stopPropagation();curWlStatus=\''+d.status+'\';go(\'sc-verify\');vfmPreFill(\''+d.status+'\')">'+procTxt+'</button>';
     html+='</div>';
     html+='</div>';
@@ -8010,58 +7973,7 @@ function vfmSubmit(){
   toast('提交成功，劝返记录已归档');
   setTimeout(function(){go('sc-detail')},800);
 }
-/* -------- 关爱记录：普通记录自动入档，异常事项再升级 -------- */
-function trackCare(name,props){
-  console.log('[care-event]',name,Object.assign({role:'teacher',source:'control_dropout',time:new Date().toISOString()},props||{}));
-}
-function careToday(){
-  var d=new Date();
-  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-}
-function careResetForm(){
-  var today=careToday();
-  ['care-date','care-next'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=today});
-  var dv=document.getElementById('care-date-val');if(dv)dv.firstChild.nodeValue=today;
-  var nv=document.getElementById('care-next-val');if(nv)nv.firstChild.nodeValue=today;
-  var follow=document.getElementById('care-follow');if(follow)follow.value='需要';
-  var result=document.getElementById('care-result');if(result)result.value='';
-  careFollowChange();
-}
-function careDateSheet(targetId){
-  var current=(document.getElementById(targetId)||{}).value||careToday();
-  sheet('<div class="pk-hd"><b>选择日期</b><button onclick="closeSheet()">取消</button></div><div style="padding:16px"><input id="care-date-picker" type="date" value="'+current+'" style="width:100%;height:44px;border:1px solid #DDE6F0;border-radius:9px;padding:0 12px;font-family:inherit;font-size:14px;color:var(--ink);background:#FBFCFE"><button class="btn pri blk" style="margin-top:16px" onclick="careDatePick(\''+targetId+'\')">确定</button></div>');
-  var picker=document.getElementById('care-date-picker');if(picker)picker.focus();
-}
-function careDatePick(targetId){
-  var picker=document.getElementById('care-date-picker');var value=picker&&picker.value?picker.value:careToday();
-  var hidden=document.getElementById(targetId);if(hidden)hidden.value=value;
-  var display=document.getElementById(targetId==='care-date'?'care-date-val':'care-next-val');if(display)display.firstChild.nodeValue=value;
-  closeSheet();trackCare('care_date_select',{field:targetId,value:value});
-}
-function showCareTimeline(){
-  trackCare('care_detail_view');
-  toast('已打开关爱记录时间线');
-}
-function careFollowChange(){
-  var follow=document.getElementById('care-follow');
-  var row=document.getElementById('care-next-row');
-  var date=document.getElementById('care-next');
-  var need=follow&&follow.value==='需要';
-  if(row)row.style.display=need?'flex':'none';
-  if(!need&&date)date.value='';
-  var display=document.getElementById('care-next-val');if(display&&!need)display.firstChild.nodeValue='请选择';
-  trackCare('care_followup_toggle',{need_followup:need});
-}
-function submitCareRecord(){
-  var result=(document.getElementById('care-result')||{}).value||'';
-  if(!result.trim()){toast('请填写关爱过程和关爱结果');return}
-  var needFollow=document.getElementById('care-follow').value==='需要';
-  if(needFollow&&!document.getElementById('care-next').value){toast('请选择下次跟进日期');return}
-  trackCare('care_record_submit',{care_type:document.getElementById('care-type').value,action_type:document.getElementById('care-method').value,need_followup:needFollow,next_followup:needFollow?(document.getElementById('care-next').value||null):null,status:'active'});
-  toast('已记录，已进入跟进清单');
-  setTimeout(function(){go('sc-detail')},700);
-}
-/* -------- 新增劝返（sc-newvisit） -------- */
+
 var nvGradeClsMap={
   '七年级':['1班','2班','3班'],
   '八年级':['1班','2班','3班'],
@@ -8484,106 +8396,9 @@ if(location.hash&&document.getElementById(location.hash.slice(1))&&location.hash
 </script>
 
 
-<script id="care-v2-teacher-sync">
-(function(){
-  var carePeopleOptions=['王老师','李老师','赵老师','周老师'];
-  var careEvidenceFiles=[];
-  function firstText(el,text){if(el&&el.firstChild&&el.firstChild.nodeType===3)el.firstChild.nodeValue=text;}
-  function addStyle(){
-    if(document.getElementById('care-v2-teacher-style'))return;
-    var s=document.createElement('style');s.id='care-v2-teacher-style';
-    s.textContent='#sc-detail .care-detail-tabs{display:flex;background:#fff;border-bottom:1px solid var(--line);margin:0 -16px 12px;padding:0 16px}#sc-detail .care-detail-tab{flex:1;border:0;background:none;padding:12px 0;font:inherit;font-size:14px;color:var(--ink-3);border-bottom:2px solid transparent}#sc-detail .care-detail-tab.on{color:var(--navy);font-weight:600;border-bottom-color:var(--navy)}#sc-care-add .care-people-picker{cursor:pointer}#sc-care-add .care-proof{padding:14px 0;border-bottom:1px solid #EEF0F4}#sc-care-add .care-proof-title{display:block;font-size:14px;line-height:20px;color:var(--ink);font-weight:500;margin-bottom:8px}#sc-care-add .care-proof-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}#sc-care-add .care-proof-item{position:relative;aspect-ratio:1;border:1px solid #DDE6F0;border-radius:8px;overflow:hidden;background:#F7F9FC}#sc-care-add .care-proof-item img{width:100%;height:100%;object-fit:cover}#sc-care-add .care-proof-item button{position:absolute;right:3px;top:3px;width:18px;height:18px;border:0;border-radius:50%;background:rgba(0,0,0,.56);color:#fff;font-size:12px;line-height:18px;padding:0}#sc-care-add .care-proof-add{display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--ink-3);cursor:pointer}#sc-care-add .care-proof-hint{margin-top:7px;font-size:11px;line-height:17px;color:var(--ink-3)}';
-    document.head.appendChild(s);
-  }
-  function setTeacherDetailTab(tab){
-    var visit=document.getElementById('detail-visit-section'),care=document.getElementById('detail-care-section');
-    if(!visit||!care)return;
-    visit.style.display=tab==='visit'?'block':'none';care.style.display=tab==='care'?'block':'none';
-    document.querySelectorAll('#sc-detail .care-detail-tab').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-tab')===tab)});
-    if(typeof trackCare==='function')trackCare('detail_tab_switch',{tab:tab});
-  }
-  function renderTeacherCareDetail(card){
-    card.innerHTML='<div class="kv"><span class="k">关爱状态</span><span class="v"><span class="chip navy">进行中</span></span></div><div class="kv"><span class="k">关爱时间</span><span class="v">2026-05-08</span></div><div class="kv"><span class="k">实施人员</span><span class="v">王老师、李老师</span></div><div class="kv"><span class="k">关爱类型</span><span class="v">家庭关怀</span></div><div class="kv"><span class="k">关爱方式</span><span class="v">家访</span></div><div class="kv" style="display:block"><span class="k" style="display:block;margin-bottom:6px">关爱结果</span><div style="font-size:14px;line-height:1.6;color:var(--ink)">已完成家庭沟通，家长确认后续返校安排，并约定持续关注学生返校适应情况。</div></div><div class="kv"><span class="k">证明材料</span><span class="v">2张</span></div><div class="kv"><span class="k">继续跟进</span><span class="v">需要</span></div><div class="kv"><span class="k">下次跟进日期</span><span class="v" style="color:var(--amber)">2026-05-12</span></div>';
-  }
-  function initTeacherDetail(){
-    var detail=document.getElementById('sc-detail');if(!detail||detail.getAttribute('data-care-v2'))return;
-    var body=detail.querySelector('.body'),visit=document.getElementById('detail-visit-section');if(!body||!visit)return;
-    var title=Array.from(body.querySelectorAll('.section-t')).find(function(x){return x.textContent.indexOf('关爱情况')>=0});
-    var card=title&&title.nextElementSibling;if(!title||!card)return;
-    var wrap=document.createElement('div');wrap.id='detail-care-section';wrap.style.display='none';title.parentNode.insertBefore(wrap,title);wrap.appendChild(title);wrap.appendChild(card);renderTeacherCareDetail(card);
-    var tabs=document.createElement('div');tabs.className='care-detail-tabs';tabs.innerHTML='<button class="care-detail-tab on" data-tab="visit" onclick="setTeacherDetailTab(\'visit\')">处理结果</button><button class="care-detail-tab" data-tab="care" onclick="setTeacherDetailTab(\'care\')">关爱情况</button>';visit.parentNode.insertBefore(tabs,visit);
-    detail.setAttribute('data-care-v2','1');setTeacherDetailTab('visit');
-  }
-  function carePeopleSheet(){
-    var current=(document.getElementById('care-people-val')||{}).dataset.value||'王老师';var selected=current.split('、');
-    var html='<div class="pk-hd"><button onclick="closeSheet()">取消</button><b>选择实施人员</b><button onclick="carePeopleConfirm()">确定</button></div><div style="padding:8px 16px">';
-    carePeopleOptions.forEach(function(name){html+='<label style="display:flex;align-items:center;gap:10px;padding:13px 4px;border-bottom:1px solid #EEF0F4;font-size:14px"><input type="checkbox" data-care-person="'+name+'" '+(selected.indexOf(name)>=0?'checked':'')+'> '+name+'</label>'});html+='</div>';sheet(html);if(typeof trackCare==='function')trackCare('care_people_open',{role:'teacher'});
-  }
-  function carePeopleConfirm(){
-    var names=Array.from(document.querySelectorAll('input[data-care-person]:checked')).map(function(x){return x.getAttribute('data-care-person')});if(!names.length){toast('请选择实施人员');return}
-    var el=document.getElementById('care-people-val');if(el){el.dataset.value=names.join('、');el.innerHTML=names.join('、')+'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m6 9 6 6 6-6"></path></svg>'}closeSheet();if(typeof trackCare==='function')trackCare('care_people_select',{role:'teacher',count:names.length});
-  }
-  function careProofRender(){
-    var grid=document.getElementById('care-proof-grid');if(!grid)return;grid.innerHTML='';
-    careEvidenceFiles.slice(0,9).forEach(function(file,i){var item=document.createElement('div');item.className='care-proof-item';var img=document.createElement('img');img.src=URL.createObjectURL(file);var rm=document.createElement('button');rm.type='button';rm.textContent='×';rm.onclick=function(){careEvidenceFiles.splice(i,1);careProofRender()};item.appendChild(img);item.appendChild(rm);grid.appendChild(item)});
-    if(careEvidenceFiles.length<9){var add=document.createElement('div');add.className='care-proof-item care-proof-add';add.textContent='+';add.onclick=function(){document.getElementById('care-proof-input').click()};grid.appendChild(add)}
-  }
-  function careProofChange(input){Array.from(input.files||[]).forEach(function(file){if(careEvidenceFiles.length<9&&file.type.indexOf('image/')===0)careEvidenceFiles.push(file)});input.value='';careProofRender();if(typeof trackCare==='function')trackCare('care_evidence_select',{role:'teacher',count:careEvidenceFiles.length,max:9});}
-  function enhanceTeacherCareForm(){
-    var card=document.querySelector('#sc-care-add .care-card:not(.care-warning)');if(!card||card.getAttribute('data-care-v2'))return;
-    var type=document.getElementById('care-type'),method=document.getElementById('care-method'),date=document.getElementById('care-date'),result=document.getElementById('care-result'),follow=document.getElementById('care-follow'),next=document.getElementById('care-next');
-    var dateRow=date&&date.parentElement,typeRow=type&&type.parentElement,methodRow=method&&method.parentElement,resultRow=result&&result.closest('.frow'),followRow=follow&&follow.parentElement,nextRow=next&&next.parentElement;if(!dateRow||!typeRow||!methodRow||!resultRow||!followRow||!nextRow)return;
-    firstText(dateRow.querySelector('.lb'),'关爱时间');firstText(followRow.querySelector('.lb'),'继续跟进');
-    var staffRow=document.createElement('div');staffRow.className='frm-row care-people-picker';staffRow.id='care-people-row';staffRow.innerHTML='<span class="lb">实施人员<span class="req">*</span></span><span class="val" id="care-people-val" data-value="王老师" onclick="carePeopleSheet()">王老师<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m6 9 6 6 6-6"></path></svg></span>';
-    var proof=document.createElement('div');proof.className='care-proof';proof.innerHTML='<label class="care-proof-title">证明材料</label><div class="care-proof-grid" id="care-proof-grid"></div><input id="care-proof-input" type="file" accept="image/*" multiple style="display:none" onchange="careProofChange(this)"><div class="care-proof-hint">可上传家访照片、沟通记录等图片，最多9张，单张不超过10MB</div>';
-    [dateRow,staffRow,typeRow,methodRow,resultRow,proof,followRow,nextRow].forEach(function(el){card.appendChild(el)});card.setAttribute('data-care-v2','1');careProofRender();
-  }
-  function normalizeTeacherCareDateLabels(){document.querySelectorAll('#sc-detail .k,#sc-care-add .lb').forEach(function(el){if(el.textContent.trim()==='关爱时间')el.firstChild.nodeValue='关爱日期'})}
-  window.setTeacherDetailTab=setTeacherDetailTab;window.carePeopleSheet=carePeopleSheet;window.carePeopleConfirm=carePeopleConfirm;window.careProofChange=careProofChange;
-  addStyle();initTeacherDetail();enhanceTeacherCareForm();normalizeTeacherCareDateLabels();
-  var oldReset=window.careResetForm;window.careResetForm=function(){if(oldReset)oldReset();careEvidenceFiles=[];careProofRender();var p=document.getElementById('care-people-val');if(p){p.dataset.value='王老师';p.innerHTML='王老师<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m6 9 6 6 6-6"></path></svg>'}};
-  var oldSubmit=window.submitCareRecord;window.submitCareRecord=function(){var p=document.getElementById('care-people-val');if(!p||!p.dataset.value){toast('请选择实施人员');return}if(typeof trackCare==='function')trackCare('care_record_fields',{care_date:(document.getElementById('care-date')||{}).value||null,implementers:p.dataset.value,evidence_count:careEvidenceFiles.length,evidence_max:9});if(oldSubmit)oldSubmit.apply(this,arguments)};
-})();
-</script><script id="care-proof-detail-teacher">
-(function(){
-  function render(){
-    var field=Array.from(document.querySelectorAll('#detail-care-section .k')).find(function(el){return el.textContent.trim()==='证明材料'});
-    var source=Array.from(document.querySelectorAll('#detail-visit-section img')).map(function(img){return img.src}).filter(Boolean).slice(0,3);
-    if(!field||!source.length)return;
-    var value=field.parentElement.querySelector('.v');if(!value)return;
-    var grid=document.createElement('div');grid.style.cssText='display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:100%;max-width:240px';
-    source.forEach(function(src,i){var img=document.createElement('img');img.src=src;img.alt='证明材料'+(i+1);img.style.cssText='width:100%;aspect-ratio:1;object-fit:cover;border-radius:4px;cursor:pointer;border:1px solid #F0F2F6';img.onclick=function(){if(typeof openPhotoViewer==='function')openPhotoViewer(img)};grid.appendChild(img)});
-    value.innerHTML='';value.appendChild(grid);
-  }
-  render();
-})();
-</script>
+
 <!-- ================= 独立关爱菜单 V1.0（副本新增，不改原控辍流程） ================= -->
-<style id="care-menu-v1-style">
-#sc-care-menu .care-v1-head{display:flex;align-items:center;gap:10px;padding:12px 16px 10px;background:#fff;border-bottom:1px solid #EEF1F5}
-#sc-care-menu .care-v1-head b{font-size:17px;flex:1}
-#sc-care-menu .care-v1-head .back{font-size:25px;line-height:1;color:var(--ink-2)}
-#sc-care-menu .care-v1-stat{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:12px 16px}
-#sc-care-menu .care-v1-stat .s{background:#fff;border-radius:12px;padding:12px 10px;box-shadow:0 3px 12px rgba(34,67,120,.06)}
-#sc-care-menu .care-v1-stat b{display:block;font-size:20px;color:var(--navy);margin-bottom:4px}
-#sc-care-menu .care-v1-stat span{font-size:11px;color:var(--ink-3)}
-#sc-care-menu .care-v1-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:0 16px 12px}
-#sc-care-menu .care-v1-actions button{background:#fff;border:1px solid #E3EAF4;border-radius:10px;padding:10px 3px;color:var(--ink-2);font-size:12px}
-#sc-care-menu .care-v1-actions button strong{display:block;color:var(--navy);font-size:16px;margin-bottom:3px}
-#sc-care-menu .care-v1-tabs{display:flex;margin:0 16px 10px;background:#EAF1FB;border-radius:9px;padding:3px}
-#sc-care-menu .care-v1-tabs button{flex:1;border:0;background:transparent;padding:8px 0;color:var(--ink-3);font-size:12px;border-radius:7px}
-#sc-care-menu .care-v1-tabs button.on{background:#fff;color:var(--navy);font-weight:600;box-shadow:0 2px 6px rgba(40,90,150,.08)}
-#sc-care-menu .care-v1-list{padding:0 16px 20px}
-#sc-care-menu .care-v1-row{background:#fff;border-radius:12px;padding:13px 13px;margin-bottom:9px;box-shadow:0 3px 12px rgba(34,67,120,.06);cursor:pointer}
-#sc-care-menu .care-v1-row .top{display:flex;align-items:center;gap:8px}.care-v1-row .nm{font-size:14px;font-weight:600;flex:1}.care-v1-row .date{font-size:11px;color:var(--ink-3)}
-#sc-care-menu .care-v1-row .meta{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 6px}.care-v1-row .desc{font-size:12px;color:var(--ink-2);line-height:1.55}
-#sc-care-menu .care-v1-chip{display:inline-flex;padding:3px 7px;border-radius:9px;font-size:10px;background:#EAF3FF;color:var(--navy)}
-#sc-care-menu .care-v1-chip.green{background:#E7F8F2;color:#078362}.care-v1-chip.orange{background:#FFF3DF;color:#B56E08}.care-v1-chip.purple{background:#F0EAFE;color:#7954C7}
-#care-menu-v1-mask{position:absolute;inset:0;background:rgba(19,35,58,.42);z-index:60;display:none;align-items:flex-end}
-#care-menu-v1-mask.on{display:flex}
-#care-menu-v1-modal{width:100%;max-height:88%;overflow:auto;background:#fff;border-radius:18px 18px 0 0;padding:17px 16px 22px;box-shadow:0 -8px 28px rgba(0,0,0,.14)}
-#care-menu-v1-modal h3{font-size:17px;text-align:center;margin:0 0 15px}.cm-field{margin-bottom:12px}.cm-field label{display:block;font-size:12px;color:var(--ink-2);margin-bottom:6px}.cm-field input,.cm-field select,.cm-field textarea{width:100%;box-sizing:border-box;border:1px solid #DCE4EF;border-radius:8px;padding:10px 11px;font:inherit;font-size:13px;color:var(--ink);background:#fff}.cm-field textarea{min-height:78px;resize:none}.cm-required{color:#EA4F4A}.cm-inline{display:grid;grid-template-columns:1fr 1fr;gap:9px}.cm-seg{display:flex;gap:7px;flex-wrap:wrap}.cm-seg button{border:1px solid #DCE4EF;background:#fff;color:var(--ink-2);border-radius:16px;padding:6px 10px;font-size:11px}.cm-seg button.on{border-color:var(--navy);background:#EAF3FF;color:var(--navy)}.cm-proof{display:flex;gap:7px;flex-wrap:wrap}.cm-proof .p{width:52px;height:52px;border-radius:7px;background:#F2F6FB;color:var(--navy);display:flex;align-items:center;justify-content:center;font-size:11px;border:1px dashed #B9C8DD}.cm-foot{display:flex;gap:10px;margin-top:16px}.cm-foot button{flex:1;padding:11px;border-radius:22px;font-size:14px;border:1px solid #D7DEE8;background:#fff;color:var(--ink-2)}.cm-foot button.ok{background:var(--navy);border-color:var(--navy);color:#fff}.cm-read{display:grid;grid-template-columns:88px 1fr;gap:10px 8px;font-size:13px}.cm-read dt{color:var(--ink-3)}.cm-read dd{margin:0;color:var(--ink);line-height:1.55}.cm-source{padding:9px 10px;border-radius:9px;background:#F4F8FD;border:1px solid #DDE9F7;font-size:12px;color:var(--ink-2);margin-bottom:13px}.cm-note{font-size:11px;color:var(--ink-3);line-height:1.5}
-</style>
+
 <div class="screen" id="sc-care-menu">
   <div class="sub-hd care-v1-head"><button class="back" onclick="go('sc-home')">‹</button><b>关爱</b><span class="capsule" style="margin-left:auto"><span class="half"><span class="cap-dots"><i></i><i></i><i></i></span></span><span class="half"><span class="cap-ring"></span></span></span></div>
   <div class="body"><div class="scroll-panel">
@@ -8592,858 +8407,37 @@ if(location.hash&&document.getElementById(location.hash.slice(1))&&location.hash
     <div class="care-v1-tabs"><button class="on" onclick="cmTab(this,'all')">全部</button><button onclick="cmTab(this,'todo')">待跟进</button></div>
     <div class="care-v1-list" id="cm-list"></div>
   </div></div>
-  <div id="care-menu-v1-mask" onclick="if(event.target===this)cmClose()"><div id="care-menu-v1-modal"></div></div>
+
 </div>
-<script id="care-menu-v1-script">
-(function(){
-  var rows=[
-    {name:'张小明',cls:'七年级（2025级）·2班',date:'2026-09-18',source:'预警',sourceCls:'orange',warningReason:'连续缺勤3个工作日',type:'家庭关怀',method:'家访',result:'已与家长沟通返校安排，约定持续关注返校适应情况。',follow:'需要',next:'2026-09-25',people:'王老师、李老师、陈老师'},
-    {name:'李小红',cls:'七年级（2025级）·1班',date:'2026-09-17',source:'心理测评',sourceCls:'purple',type:'情绪支持',method:'面谈',result:'完成一次面谈，学生愿意持续参加班级支持活动。',follow:'需要',next:'2026-09-24',people:'李老师'},
-    {name:'陈小强',cls:'八年级（2024级）·3班',date:'2026-09-16',source:'日常关爱',sourceCls:'green',type:'学业帮扶',method:'学习辅导',result:'已完成作业辅导，学生掌握当天重点内容。',follow:'不需要',next:'',people:'王老师'}
-  ];
-  var mode='all',proofs=[];
-  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-  function render(){var el=document.getElementById('cm-list');if(!el)return;var data=rows.filter(function(r){return mode==='all'||(mode==='daily'?r.source==='日常关爱':r.follow==='需要'&&!r.superseded)});el.innerHTML=data.map(function(r,i){return '<div class="care-v1-row" onclick="cmView('+rows.indexOf(r)+')"><div class="top"><span class="nm">'+esc(r.name)+'</span><span class="date">'+esc(r.date)+'</span></div><div class="meta"><span class="care-v1-chip '+r.sourceCls+'">'+esc(r.source)+'</span><span class="care-v1-chip">'+esc(r.type)+'</span><span class="care-v1-chip green">'+esc(r.follow==='需要'?'待跟进':'已完结')+'</span></div><div class="desc">'+esc(r.result)+'</div></div>'}).join('')||'<div class="cm-note" style="text-align:center;padding:38px 0">暂无符合条件的关爱记录</div>'}
-  window.cmTab=function(btn,m){document.querySelectorAll('#sc-care-menu .care-v1-tabs button').forEach(function(b){b.classList.remove('on')});btn.classList.add('on');mode=m;render()};
-  window.cmOpen=function(source){proofs=[];var title=source==='daily'?'新增日常关爱记录':'新增关爱记录';var sourceText=source==='warning'?'预警：连续缺勤3个工作日（2026-09-16）':source==='psych'?'心理测评：需要关注（2026-09-15）':'日常关爱（无关联来源）';document.getElementById('care-menu-v1-modal').innerHTML='<h3>'+title+'</h3><div class="cm-source">关爱来源：'+sourceText+'</div><div class="cm-inline"><div class="cm-field"><label>学生<span class="cm-required">*</span></label><select id="cm-stu"><option>张小明 · 七年级2班</option><option>李小红 · 七年级1班</option><option>陈小强 · 八年级3班</option></select></div><div class="cm-field"><label>关爱日期<span class="cm-required">*</span></label><input id="cm-date" type="date" value="2026-09-21"></div></div><div class="cm-field"><label>实施人员<span class="cm-required">*</span></label><select id="cm-people"><option>王老师</option><option>李老师</option><option>王老师、李老师</option></select></div><div class="cm-inline"><div class="cm-field"><label>关爱类型<span class="cm-required">*</span></label><select id="cm-type"><option>家庭关怀</option><option>学业帮扶</option><option>返校适应</option><option>生活困难</option><option>健康支持</option><option>情绪支持</option></select></div><div class="cm-field"><label>关爱方式<span class="cm-required">*</span></label><select id="cm-method"><option>家访</option><option>电话联系</option><option>面谈</option><option>学习辅导</option><option>班级帮扶</option></select></div></div><div class="cm-field"><label>关爱结果<span class="cm-required">*</span></label><textarea id="cm-result" placeholder="请填写关爱过程和关爱结果"></textarea></div><div class="cm-field"><label>证明材料</label><input id="cm-files" type="file" accept="image/*" multiple onchange="cmFiles(this)"><div class="cm-proof" id="cm-proof"></div><div class="cm-note">可上传家访照片、沟通记录等证明材料，最多9张图片</div></div><div class="cm-field"><label>继续跟进<span class="cm-required">*</span></label><div class="cm-seg"><button class="on" onclick="cmFollow(this,true)">需要</button><button onclick="cmFollow(this,false)">不需要</button></div></div><div class="cm-field" id="cm-next-wrap"><label>下次跟进日期<span class="cm-required">*</span></label><input id="cm-next" type="date" value="2026-09-25"></div><div class="cm-foot"><button onclick="cmClose()">取消</button><button class="ok" onclick="cmSave()">确定</button></div>';document.getElementById('care-menu-v1-mask').classList.add('on')};
-  window.cmFollow=function(btn,need){document.querySelectorAll('#cm-next-wrap').forEach(function(w){w.style.display=need?'block':'none'});btn.parentElement.querySelectorAll('button').forEach(function(b){b.classList.remove('on')});btn.classList.add('on')};
-  window.cmFiles=function(input){proofs=Array.from(input.files||[]).slice(0,9);var el=document.getElementById('cm-proof');if(el)el.innerHTML=proofs.map(function(f){return '<span class="p">图片</span>'}).join('')};
-  window.cmSave=function(){var result=document.getElementById('cm-result');if(!result||!result.value.trim()){alert('请填写关爱过程和关爱结果');return}var next=document.getElementById('cm-next');rows.unshift({name:document.getElementById('cm-stu').value.split(' · ')[0],cls:document.getElementById('cm-stu').value.split(' · ')[1],date:document.getElementById('cm-date').value,source:'日常关爱',sourceCls:'green',type:document.getElementById('cm-type').value,method:document.getElementById('cm-method').value,result:result.value,follow:document.getElementById('cm-next-wrap').style.display==='none'?'不需要':'需要',next:next&&next.value||'',people:document.getElementById('cm-people').value});cmClose();render();alert('已记录，普通关爱记录已自动入档')};
-  window.cmView=function(i){var r=rows[i];document.getElementById('care-menu-v1-modal').innerHTML='<h3>关爱详情</h3><div class="cm-source">来源：'+esc(r.source)+'　仅展示关联关系，不改变原处理结果</div><dl class="cm-read"><dt>学生</dt><dd>'+esc(r.name)+' · '+esc(r.cls)+'</dd><dt>关爱状态</dt><dd>'+esc(r.follow==='需要'?'进行中':'已完成')+'</dd><dt>关爱日期</dt><dd>'+esc(r.date)+'</dd><dt>实施人员</dt><dd>'+esc(r.people)+'</dd><dt>关爱类型</dt><dd>'+esc(r.type)+'</dd><dt>关爱方式</dt><dd>'+esc(r.method)+'</dd><dt>关爱结果</dt><dd>'+esc(r.result)+'</dd><dt>证明材料</dt><dd>已上传2张缩略图</dd><dt>继续跟进</dt><dd>'+esc(r.follow)+'</dd><dt>下次跟进日期</dt><dd>'+esc(r.next||'—')+'</dd></dl><div class="cm-foot"><button onclick="cmClose()">关闭</button></div>';document.getElementById('care-menu-v1-mask').classList.add('on')};
-  window.cmClose=function(){document.getElementById('care-menu-v1-mask').classList.remove('on')};
-  var cmOldView=window.cmView;window.cmView=function(i){cmOldView(i);var ds=document.querySelectorAll('#care-menu-v1-modal .cm-read dt');ds.forEach(function(dt){if(dt.textContent.trim()==='证明材料'){var dd=dt.nextElementSibling;if(dd)dd.innerHTML='<div style="display:flex;gap:7px"><span style="width:52px;height:52px;border-radius:7px;background:#F2F6FB;border:1px solid #DCE6F2;color:var(--navy);display:flex;align-items:center;justify-content:center;font-size:10px">缩略图1</span><span style="width:52px;height:52px;border-radius:7px;background:#F2F6FB;border:1px solid #DCE6F2;color:var(--navy);display:flex;align-items:center;justify-content:center;font-size:10px">缩略图2</span></div>'}})};var cmOldOpen=window.cmOpen,cmOldSave=window.cmSave;window.cmOpen=function(source){window.cmActiveSource=source||'daily';cmOldOpen(source)};window.cmSave=function(){var oldUnshift=Array.prototype.unshift,src=window.cmActiveSource||'daily';Array.prototype.unshift=function(item){if(item&&item.source==='日常关爱'&&src!=='daily'){item.source=src==='warning'?'预警':'心理测评';item.sourceCls=src==='warning'?'orange':'purple'}return oldUnshift.apply(this,arguments)};try{cmOldSave()}finally{Array.prototype.unshift=oldUnshift}};
-  window.teacherCareRows=rows;window.cmRender=render;render();
-})();
+<script id="care-teacher-demo-data">
+/* 仅保留演示数据，页面交互统一由个案模块负责。 */
+window.teacherCareRows=[{"name":"张小明","cls":"七年级（2025级）·2班","date":"2026-09-23","source":"预警","sourceCls":"orange","warningReason":"连续缺勤3个工作日","type":"返校适应","method":"面谈","result":"【原型示例】已与学生面谈返校适应情况，约定下周继续关注。","follow":"需要","next":"2026-09-30","people":"王老师、李老师、陈老师","id":"care-demo-follow-1","caseId":"care-seed-0","superseded":false,"parentId":"care-seed-0","proofs":[],"demo":true,"createdById":"teacher-wang-demo","createdByRole":"老师","createdPermissionSnapshot":{"menu":true,"detail":true,"edit":true,"delete":true,"continue":true,"source":"职务管理演示快照"},"caseCreatedAt":"2026-09-18"},{"name":"张小明","cls":"七年级（2025级）·2班","date":"2026-09-18","source":"预警","sourceCls":"orange","warningReason":"连续缺勤3个工作日","type":"家庭关怀","method":"家访","result":"已与家长沟通返校安排，约定持续关注返校适应情况。","follow":"需要","next":"2026-09-25","people":"王老师、李老师、陈老师","id":"care-seed-0","caseId":"care-seed-0","superseded":true,"createdById":"teacher-wang-demo","createdByRole":"老师","createdPermissionSnapshot":{"menu":true,"detail":true,"edit":true,"delete":true,"continue":true,"source":"职务管理演示快照"},"caseCreatedAt":"2026-09-18"},{"name":"李小红","cls":"七年级（2025级）·1班","date":"2026-09-17","source":"心理测评","sourceCls":"purple","type":"情绪支持","method":"面谈","result":"完成一次面谈，学生愿意持续参加班级支持活动。","follow":"需要","next":"2026-09-24","people":"李老师","proofs":["data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22240%22%20height%3D%22240%22%3E%3Crect%20width%3D%22240%22%20height%3D%22240%22%20rx%3D%2218%22%20fill%3D%22%23DCEBFA%22%2F%3E%3Ccircle%20cx%3D%22120%22%20cy%3D%2292%22%20r%3D%2234%22%20fill%3D%22%23FFFFFF%22%20opacity%3D%22.82%22%2F%3E%3Cpath%20d%3D%22M67%20182c15-32%2091-32%20106%200%22%20fill%3D%22%23FFFFFF%22%20opacity%3D%22.82%22%2F%3E%3Ctext%20x%3D%22120%22%20y%3D%22218%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%2Csans-serif%22%20font-size%3D%2218%22%20fill%3D%22%2358718B%22%3E%E7%A4%BA%E4%BE%8B1%3C%2Ftext%3E%3C%2Fsvg%3E","data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22240%22%20height%3D%22240%22%3E%3Crect%20width%3D%22240%22%20height%3D%22240%22%20rx%3D%2218%22%20fill%3D%22%23E4F2E8%22%2F%3E%3Ccircle%20cx%3D%22120%22%20cy%3D%2292%22%20r%3D%2234%22%20fill%3D%22%23FFFFFF%22%20opacity%3D%22.82%22%2F%3E%3Cpath%20d%3D%22M67%20182c15-32%2091-32%20106%200%22%20fill%3D%22%23FFFFFF%22%20opacity%3D%22.82%22%2F%3E%3Ctext%20x%3D%22120%22%20y%3D%22218%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%2Csans-serif%22%20font-size%3D%2218%22%20fill%3D%22%2358718B%22%3E%E7%A4%BA%E4%BE%8B2%3C%2Ftext%3E%3C%2Fsvg%3E","data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22240%22%20height%3D%22240%22%3E%3Crect%20width%3D%22240%22%20height%3D%22240%22%20rx%3D%2218%22%20fill%3D%22%23FCE8D8%22%2F%3E%3Ccircle%20cx%3D%22120%22%20cy%3D%2292%22%20r%3D%2234%22%20fill%3D%22%23FFFFFF%22%20opacity%3D%22.82%22%2F%3E%3Cpath%20d%3D%22M67%20182c15-32%2091-32%20106%200%22%20fill%3D%22%23FFFFFF%22%20opacity%3D%22.82%22%2F%3E%3Ctext%20x%3D%22120%22%20y%3D%22218%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%2Csans-serif%22%20font-size%3D%2218%22%20fill%3D%22%2358718B%22%3E%E7%A4%BA%E4%BE%8B3%3C%2Ftext%3E%3C%2Fsvg%3E","data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22240%22%20height%3D%22240%22%3E%3Crect%20width%3D%22240%22%20height%3D%22240%22%20rx%3D%2218%22%20fill%3D%22%23E7E1F8%22%2F%3E%3Ccircle%20cx%3D%22120%22%20cy%3D%2292%22%20r%3D%2234%22%20fill%3D%22%23FFFFFF%22%20opacity%3D%22.82%22%2F%3E%3Cpath%20d%3D%22M67%20182c15-32%2091-32%20106%200%22%20fill%3D%22%23FFFFFF%22%20opacity%3D%22.82%22%2F%3E%3Ctext%20x%3D%22120%22%20y%3D%22218%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%2Csans-serif%22%20font-size%3D%2218%22%20fill%3D%22%2358718B%22%3E%E7%A4%BA%E4%BE%8B4%3C%2Ftext%3E%3C%2Fsvg%3E","data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22240%22%20height%3D%22240%22%3E%3Crect%20width%3D%22240%22%20height%3D%22240%22%20rx%3D%2218%22%20fill%3D%22%23DDF2F1%22%2F%3E%3Ccircle%20cx%3D%22120%22%20cy%3D%2292%22%20r%3D%2234%22%20fill%3D%22%23FFFFFF%22%20opacity%3D%22.82%22%2F%3E%3Cpath%20d%3D%22M67%20182c15-32%2091-32%20106%200%22%20fill%3D%22%23FFFFFF%22%20opacity%3D%22.82%22%2F%3E%3Ctext%20x%3D%22120%22%20y%3D%22218%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%2Csans-serif%22%20font-size%3D%2218%22%20fill%3D%22%2358718B%22%3E%E7%A4%BA%E4%BE%8B5%3C%2Ftext%3E%3C%2Fsvg%3E","data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22240%22%20height%3D%22240%22%3E%3Crect%20width%3D%22240%22%20height%3D%22240%22%20rx%3D%2218%22%20fill%3D%22%23F8E4EA%22%2F%3E%3Ccircle%20cx%3D%22120%22%20cy%3D%2292%22%20r%3D%2234%22%20fill%3D%22%23FFFFFF%22%20opacity%3D%22.82%22%2F%3E%3Cpath%20d%3D%22M67%20182c15-32%2091-32%20106%200%22%20fill%3D%22%23FFFFFF%22%20opacity%3D%22.82%22%2F%3E%3Ctext%20x%3D%22120%22%20y%3D%22218%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%2Csans-serif%22%20font-size%3D%2218%22%20fill%3D%22%2358718B%22%3E%E7%A4%BA%E4%BE%8B6%3C%2Ftext%3E%3C%2Fsvg%3E","data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22240%22%20height%3D%22240%22%3E%3Crect%20width%3D%22240%22%20height%3D%22240%22%20rx%3D%2218%22%20fill%3D%22%23E9EEF8%22%2F%3E%3Ccircle%20cx%3D%22120%22%20cy%3D%2292%22%20r%3D%2234%22%20fill%3D%22%23FFFFFF%22%20opacity%3D%22.82%22%2F%3E%3Cpath%20d%3D%22M67%20182c15-32%2091-32%20106%200%22%20fill%3D%22%23FFFFFF%22%20opacity%3D%22.82%22%2F%3E%3Ctext%20x%3D%22120%22%20y%3D%22218%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%2Csans-serif%22%20font-size%3D%2218%22%20fill%3D%22%2358718B%22%3E%E7%A4%BA%E4%BE%8B7%3C%2Ftext%3E%3C%2Fsvg%3E","data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22240%22%20height%3D%22240%22%3E%3Crect%20width%3D%22240%22%20height%3D%22240%22%20rx%3D%2218%22%20fill%3D%22%23F2EBD9%22%2F%3E%3Ccircle%20cx%3D%22120%22%20cy%3D%2292%22%20r%3D%2234%22%20fill%3D%22%23FFFFFF%22%20opacity%3D%22.82%22%2F%3E%3Cpath%20d%3D%22M67%20182c15-32%2091-32%20106%200%22%20fill%3D%22%23FFFFFF%22%20opacity%3D%22.82%22%2F%3E%3Ctext%20x%3D%22120%22%20y%3D%22218%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%2Csans-serif%22%20font-size%3D%2218%22%20fill%3D%22%2358718B%22%3E%E7%A4%BA%E4%BE%8B8%3C%2Ftext%3E%3C%2Fsvg%3E","data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22240%22%20height%3D%22240%22%3E%3Crect%20width%3D%22240%22%20height%3D%22240%22%20rx%3D%2218%22%20fill%3D%22%23DDECF5%22%2F%3E%3Ccircle%20cx%3D%22120%22%20cy%3D%2292%22%20r%3D%2234%22%20fill%3D%22%23FFFFFF%22%20opacity%3D%22.82%22%2F%3E%3Cpath%20d%3D%22M67%20182c15-32%2091-32%20106%200%22%20fill%3D%22%23FFFFFF%22%20opacity%3D%22.82%22%2F%3E%3Ctext%20x%3D%22120%22%20y%3D%22218%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%2Csans-serif%22%20font-size%3D%2218%22%20fill%3D%22%2358718B%22%3E%E7%A4%BA%E4%BE%8B9%3C%2Ftext%3E%3C%2Fsvg%3E"],"id":"care-seed-1","caseId":"care-seed-1","createdById":"teacher-li-demo","createdByRole":"老师","createdPermissionSnapshot":{"menu":true,"detail":true,"edit":true,"delete":true,"continue":true,"source":"职务管理演示快照"},"superseded":false,"caseCreatedAt":"2026-09-17"},{"name":"陈小强","cls":"八年级（2024级）·3班","date":"2026-09-16","source":"日常关爱","sourceCls":"green","type":"学业帮扶","method":"学习辅导","result":"已完成作业辅导，学生掌握当天重点内容。","follow":"不需要","next":"","people":"王老师","id":"care-seed-2","caseId":"care-seed-2","createdById":"teacher-wang-demo","createdByRole":"老师","createdPermissionSnapshot":{"menu":true,"detail":true,"edit":true,"delete":true,"continue":true,"source":"职务管理演示快照"},"superseded":false,"caseCreatedAt":"2026-09-16"}];
 </script>
-<style id="teacher-care-mobile-rework-style">
-#sc-care-menu{position:relative;overflow:hidden}
-#sc-care-menu .care-v1-list{padding-bottom:82px}
-#sc-care-menu .care-v1-actions{display:none!important}
-#sc-care-menu .care-mobile-upload{position:absolute;left:16px;right:16px;bottom:16px;z-index:12}
-#sc-care-menu .care-mobile-upload button{width:100%;border:0;border-radius:22px;background:var(--navy);color:#fff;padding:11px 0;font:inherit;font-size:14px;box-shadow:0 5px 14px rgba(46,124,240,.26)}
-#care-menu-v1-modal .cm-source-select{font-size:13px;color:var(--ink)}
-</style>
-<script id="teacher-care-mobile-rework">
-(function(){
-  var phone=document.querySelector('.phone'),menu=document.getElementById('sc-care-menu');
-  if(phone&&menu&&!phone.contains(menu)){phone.appendChild(menu)}
-  var back=document.querySelector('#sc-care-menu .care-v1-head .back');
-  if(back){back.onclick=function(){go('sc-home')};back.removeAttribute('aria-disabled');back.removeAttribute('title');back.style.opacity='';back.style.cursor=''}
-  var actions=document.querySelector('#sc-care-menu .care-v1-actions');if(actions)actions.style.display='none';
-  var tab=document.querySelector('#sc-care-menu .care-v1-tabs button:last-child');if(tab&&tab.textContent.trim()==='日常上传')tab.remove();
-  if(menu&&!document.getElementById('care-mobile-upload')){var foot=document.createElement('div');foot.id='care-mobile-upload';foot.className='care-mobile-upload';foot.innerHTML='<button type="button" onclick="cmOpen()">新增关爱</button>';menu.appendChild(foot)}
-  function sourceOptions(source){if(source==='warning')return '<option value="w1" data-stu="张小明">张小明｜连续缺勤｜2026-09-16</option><option value="w2" data-stu="陈小强">陈小强｜周期缺勤｜2026-09-12</option>';if(source==='psych')return '<option value="p1" data-stu="李小红">李小红｜需要关注｜2026-09-15</option><option value="p2" data-stu="王小华">王小华｜建议面谈｜2026-09-10</option>';return ''}
-  window.cmSourceChange=function(source){window.cmActiveSource=source;var wrap=document.getElementById('cm-datasource-wrap'),ds=document.getElementById('cm-datasource');if(!wrap||!ds)return;if(source==='warning'||source==='psych'){ds.innerHTML=sourceOptions(source);wrap.style.display='block';window.cmDataSourceChange(ds.value)}else{ds.innerHTML='';wrap.style.display='none'}};
-  window.cmDataSourceChange=function(value){var ds=document.getElementById('cm-datasource'),stu=document.getElementById('cm-stu'),opt=ds&&ds.options[ds.selectedIndex];if(stu&&opt&&opt.dataset.stu){Array.from(stu.options).forEach(function(o){o.selected=o.textContent.indexOf(opt.dataset.stu)>-1})}};
-  window.cmOpen=function(){window.cmActiveSource='daily';var modal=document.getElementById('care-menu-v1-modal');if(!modal)return;modal.innerHTML='<h3>关爱上传</h3><div class="cm-field"><label>关爱来源<span class="cm-required">*</span></label><select id="cm-source" class="cm-source-select" onchange="cmSourceChange(this.value)"><option value="warning">预警信息</option><option value="psych">心理测评</option><option value="daily" selected>日常上传</option></select></div><div class="cm-field" id="cm-datasource-wrap" style="display:none"><label>数据源<span class="cm-required">*</span></label><select id="cm-datasource" onchange="cmDataSourceChange(this.value)"></select><div class="cm-note">仅回显本学年对应学生的已有记录</div></div><div class="cm-field"><label>学生<span class="cm-required">*</span></label><select id="cm-stu"><option>张小明 · 七年级2班</option><option>李小红 · 七年级1班</option><option>陈小强 · 八年级3班</option><option>王小华 · 八年级3班</option></select></div><div class="cm-field"><label>关爱日期<span class="cm-required">*</span></label><input id="cm-date" type="date" value="2026-09-22"></div><div class="cm-field"><label>实施人员<span class="cm-required">*</span></label><select id="cm-people"><option>王老师</option><option>李老师</option><option>王老师、李老师</option></select></div><div class="cm-field"><label>关爱类型<span class="cm-required">*</span></label><select id="cm-type"><option>家庭关怀</option><option>学业帮扶</option><option>返校适应</option><option>生活困难</option><option>健康支持</option><option>情绪支持</option></select></div><div class="cm-field"><label>关爱方式<span class="cm-required">*</span></label><select id="cm-method"><option>家访</option><option>电话联系</option><option>面谈</option><option>学习辅导</option><option>班级帮扶</option></select></div><div class="cm-field"><label>关爱结果<span class="cm-required">*</span></label><textarea id="cm-result" placeholder="请填写关爱过程和关爱结果"></textarea></div><div class="cm-field"><label>证明材料</label><input id="cm-files" type="file" accept="image/*" multiple onchange="cmFiles(this)"><div class="cm-proof" id="cm-proof"></div><div class="cm-note">可上传家访照片、沟通记录等证明材料，最多9张图片</div></div><div class="cm-field"><label>继续跟进<span class="cm-required">*</span></label><div class="cm-seg"><button class="on" onclick="cmFollow(this,true)">需要</button><button onclick="cmFollow(this,false)">不需要</button></div></div><div class="cm-field" id="cm-next-wrap"><label>下次跟进日期<span class="cm-required">*</span></label><input id="cm-next" type="date" value="2026-09-29"></div><div class="cm-foot"><button onclick="cmClose()">取消</button><button class="ok" onclick="cmSave()">确定</button></div>';document.getElementById('care-menu-v1-mask').classList.add('on');cmSourceChange('daily')};
-  var saveBase=window.cmSave;window.cmSave=function(){var ds=document.getElementById('cm-datasource'),opt=ds&&ds.options[ds.selectedIndex];window.cmActiveDataSource=opt?opt.textContent:'';if(saveBase)saveBase()};
-  })();
-</script>
-<style id="teacher-care-mobile-input-style">
-#care-menu-v1-modal .cm-date-row{display:flex;align-items:center;justify-content:space-between;min-height:42px;border-bottom:1px solid #F0F2F6;color:var(--ink);font-size:13px;cursor:pointer}
-#care-menu-v1-modal .cm-date-row .cm-date-value{margin-left:auto;text-align:right;color:var(--ink-2);font-variant-numeric:tabular-nums}
-#care-menu-v1-modal .cm-date-row svg{margin-left:6px;color:var(--ink-3)}
-#care-menu-v1-modal .cm-field:has(.cm-date-row){display:grid;grid-template-columns:1fr 1fr;align-items:center;min-height:42px;border-bottom:1px solid #F0F2F6;margin-bottom:0}
-#care-menu-v1-modal .cm-field:has(.cm-date-row)>label{margin:0;font-size:13px;color:var(--ink)}
-#care-menu-v1-modal .cm-field:has(.cm-date-row)>.cm-date-row{border-bottom:0;min-height:42px;justify-content:flex-end}
-#care-menu-v1-modal .cm-field:has(.cm-date-row)>input{display:none}
-#care-menu-v1-modal .cm-photo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}
-#care-menu-v1-modal .cm-photo-add,#care-menu-v1-modal .cm-photo-thumb{aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;position:relative}
-#care-menu-v1-modal .cm-photo-add{border:1px dashed #B9C8DD;background:#F7FAFD;color:var(--navy);font-size:11px;flex-direction:column;gap:2px;cursor:pointer}
-#care-menu-v1-modal .cm-photo-add b{font-size:22px;font-weight:400;line-height:1}
-#care-menu-v1-modal .cm-photo-thumb{background:linear-gradient(145deg,#DCEBFA,#B9D3F2);border:1px solid #C7D9EE;color:#4775A7;font-size:11px;overflow:hidden}
-#care-menu-v1-modal .cm-photo-thumb:nth-child(3n){background:linear-gradient(145deg,#E4F5EE,#B9E4D0);color:#398A69}
-#care-menu-v1-modal .cm-photo-thumb:nth-child(4n){background:linear-gradient(145deg,#FFF1D8,#F5D19A);color:#A8782B}
-#care-menu-v1-modal .cm-photo-thumb .rm{position:absolute;right:3px;top:3px;width:17px;height:17px;border-radius:50%;background:rgba(22,35,54,.62);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer}
-</style>
-<script id="teacher-care-mobile-input-rework">
-(function(){
-  var photoCount=0;
-  window.cmDateSheet=function(fieldId,valueId){var input=document.getElementById(fieldId),current=input&&input.value?input.value:'2026-09-22';sheet('<div class="pk-hd"><b>选择日期</b><button onclick="closeSheet()">取消</button></div><div style="padding:16px"><input id="cm-date-picker" type="date" value="'+current+'" style="width:100%;height:44px;border:1px solid #DDE6F0;border-radius:9px;padding:0 12px;font-family:inherit;font-size:14px;color:var(--ink);background:#FBFCFE"><button class="btn pri blk" style="margin-top:16px" onclick="cmDatePick(\''+fieldId+'\',\''+valueId+'\')">确定</button></div>');};
-  window.cmDatePick=function(fieldId,valueId){var picker=document.getElementById('cm-date-picker'),value=picker&&picker.value?picker.value:'';if(!value)return;var input=document.getElementById(fieldId),display=document.getElementById(valueId);if(input)input.value=value;if(display)display.textContent=value;closeSheet()};
-  window.cmPhotoAdd=function(){sheet('<div class="pk-hd"><b>添加证明材料</b><button onclick="closeSheet()">取消</button></div><div style="padding:8px 16px 18px"><button class="btn ghost blk" onclick="cmPhotoMock(\'拍照\')" style="margin-top:8px">拍照</button><button class="btn ghost blk" onclick="cmPhotoMock(\'从相册选择\')" style="margin-top:9px">从相册选择</button><div class="cm-note" style="margin-top:10px">手机端可拍照或从相册选择，最多9张图片</div></div>')};
-  window.cmPhotoMock=function(label){if(photoCount>=9){closeSheet();return}photoCount++;var grid=document.getElementById('cm-photo-grid');if(grid){var item=document.createElement('div');item.className='cm-photo-thumb';item.innerHTML='<span>'+label+'</span><span class="rm" onclick="event.stopPropagation();this.parentNode.remove();cmPhotoCountDown()">×</span>';grid.insertBefore(item,grid.querySelector('.cm-photo-add'));var add=grid.querySelector('.cm-photo-add');if(photoCount>=9&&add)add.style.display='none'}closeSheet()};
-  window.cmPhotoCountDown=function(){photoCount=Math.max(0,photoCount-1);var add=document.querySelector('#cm-photo-grid .cm-photo-add');if(add)add.style.display='flex'};
-  window.cmOpen=function(){window.cmActiveSource='daily';photoCount=0;var modal=document.getElementById('care-menu-v1-modal');if(!modal)return;modal.innerHTML='<h3>关爱上传</h3><div class="cm-field"><label>关爱来源<span class="cm-required">*</span></label><select id="cm-source" class="cm-source-select" onchange="cmSourceChange(this.value)"><option value="warning">预警信息</option><option value="psych">心理测评</option><option value="daily" selected>日常上传</option></select></div><div class="cm-field" id="cm-datasource-wrap" style="display:none"><label>数据源<span class="cm-required">*</span></label><select id="cm-datasource" onchange="cmDataSourceChange(this.value)"></select><div class="cm-note">仅回显本学年对应学生的已有记录</div></div><div class="cm-field"><label>学生<span class="cm-required">*</span></label><select id="cm-stu"><option>张小明 · 七年级2班</option><option>李小红 · 七年级1班</option><option>陈小强 · 八年级3班</option><option>王小华 · 八年级3班</option></select></div><div class="cm-field"><label>关爱日期<span class="cm-required">*</span></label><div class="cm-date-row" onclick="cmDateSheet(\'cm-date\',\'cm-date-val\')"><span id="cm-date-val" class="cm-date-value">2026-09-22</span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"></rect><path d="M8 2v4M16 2v4M3 9h18"></path></svg></div><input id="cm-date" type="hidden" value="2026-09-22"></div><div class="cm-field"><label>实施人员<span class="cm-required">*</span></label><select id="cm-people"><option>王老师</option><option>李老师</option><option>王老师、李老师</option></select></div><div class="cm-field"><label>关爱类型<span class="cm-required">*</span></label><select id="cm-type"><option>家庭关怀</option><option>学业帮扶</option><option>返校适应</option><option>生活困难</option><option>健康支持</option><option>情绪支持</option></select></div><div class="cm-field"><label>关爱方式<span class="cm-required">*</span></label><select id="cm-method"><option>家访</option><option>电话联系</option><option>面谈</option><option>学习辅导</option><option>班级帮扶</option></select></div><div class="cm-field"><label>关爱结果<span class="cm-required">*</span></label><textarea id="cm-result" placeholder="请填写关爱过程和关爱结果"></textarea></div><div class="cm-field"><label>证明材料</label><div id="cm-photo-grid" class="cm-photo-grid"><button type="button" class="cm-photo-add" onclick="cmPhotoAdd()"><b>＋</b><span>添加图片</span></button></div><div class="cm-note">支持手机拍照或从相册选择，最多9张图片，单张不超过10MB</div></div><div class="cm-field"><label>继续跟进<span class="cm-required">*</span></label><div class="cm-seg"><button class="on" onclick="cmFollow(this,true)">需要</button><button onclick="cmFollow(this,false)">不需要</button></div></div><div class="cm-field" id="cm-next-wrap"><label>下次跟进日期<span class="cm-required">*</span></label><div class="cm-date-row" onclick="cmDateSheet(\'cm-next\',\'cm-next-val\')"><span id="cm-next-val" class="cm-date-value">2026-09-29</span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"></rect><path d="M8 2v4M16 2v4M3 9h18"></path></svg></div><input id="cm-next" type="hidden" value="2026-09-29"></div><div class="cm-foot"><button onclick="cmClose()">取消</button><button class="ok" onclick="cmSave()">确定</button></div>';document.getElementById('care-menu-v1-mask').classList.add('on');cmSourceChange('daily')};
-})();
-</script>
-<style id="care-consistency-style">
-#sc-care-menu{background:var(--bg)}
-#sc-care-menu>.body{display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
-#sc-care-menu>.body>.scroll-panel{flex:1;overflow-y:auto}
-#sc-care-menu .care-v1-head{height:44px;padding:0 16px;background:var(--bg);border-bottom:0}
-#sc-care-menu .care-v1-head .back{font-size:22px;padding:4px 10px 4px 0;color:var(--ink)}
-#sc-care-menu .care-v1-head b{font-size:16.5px;color:var(--ink)}
-#sc-care-menu .care-v1-stat{display:flex;align-items:stretch;text-align:center;margin:12px 16px 10px;padding:10px 0;background:var(--card);border-radius:14px;box-shadow:0 2px 10px rgba(30,70,130,.07)}
-#sc-care-menu .care-v1-stat .s{position:relative;flex:1;background:none;border-radius:0;padding:2px 4px;box-shadow:none}
-#sc-care-menu .care-v1-stat .s:not(:last-child)::after{content:"";position:absolute;right:0;top:5px;bottom:5px;width:1px;background:#EDF0F4}
-#sc-care-menu .care-v1-stat b{font-size:22px;line-height:26px;margin-bottom:3px;color:var(--ink)}
-#sc-care-menu .care-v1-stat span{font-size:11px;color:var(--ink-3)}
-#sc-care-menu .care-v1-tabs{display:flex;flex-shrink:0;margin:0;border-radius:0;padding:0;background:#fff;border-bottom:1px solid var(--line)}
-#sc-care-menu .care-v1-tabs button{flex:1;padding:13px 0;border:0;border-bottom:2px solid transparent;border-radius:0;background:none;color:var(--ink-3);font-size:14px;font-weight:500}
-#sc-care-menu .care-v1-tabs button.on{border-bottom-color:var(--navy);background:none;color:var(--navy);font-weight:600;box-shadow:none}
-#sc-care-menu .care-v1-list{padding:4px 16px 86px}
-#sc-care-menu .care-v1-row{background:#fff;border:0;border-radius:14px;padding:15px 16px;margin-bottom:12px;box-shadow:0 2px 10px rgba(30,70,130,.07);cursor:pointer}
-#sc-care-menu .care-v1-row .stu-hd{display:flex;align-items:center;gap:14px}
-#sc-care-menu .care-v1-row .stu-hd .avatar{width:52px;height:52px;font-size:20px}
-#sc-care-menu .care-v1-row .stu-nm{font-size:17px;font-weight:600}
-#sc-care-menu .care-v1-row .stu-sub{margin-top:2px}
-#sc-care-menu .care-v1-row .kv{display:flex;font-size:12.5px;padding:6px 0}
-#sc-care-menu .care-v1-row .kv .k{width:76px;color:var(--ink-3);flex-shrink:0}
-#sc-care-menu .care-v1-row .kv .v{color:var(--ink);flex:1;line-height:1.5}
-#sc-care-menu .care-v1-row .care-row-foot{display:flex;justify-content:flex-end;gap:8px;margin-top:10px}
-#sc-care-menu .care-mobile-upload{position:absolute;left:0;right:0;bottom:0;padding:10px 16px 24px;background:#fff;border-top:1px solid var(--line);z-index:12}
-#sc-care-menu .care-mobile-upload button{width:100%;border-radius:22px;padding:11px 0;background:var(--navy);color:#fff;font:inherit;font-size:14px;box-shadow:none}
-#sc-care-menu .care-v1-actions{display:none!important}
-#sc-care-add .care-warning{display:none!important}
-#sc-care-add .care-source-row select,#sc-care-add .care-datasource-row select{margin-left:auto;width:190px;border:0;text-align:right;background:transparent;color:var(--ink);font-family:inherit;font-size:14px;line-height:20px}
-#sc-care-add .care-proof-mock{display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#DCEBFA,#B9D3F2);color:#4775A7;font-size:11px;line-height:1.35;text-align:center}
-</style>
-<script id="care-consistency-final">
-(function(){
-  var menu=document.getElementById('sc-care-menu');
-  var careAdd=document.getElementById('sc-care-add');
-  var baseRender=window.cmRender;
-  var baseTab=window.cmTab;
-  function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-  function normalizeRows(){
-    if(typeof baseRender==='function')baseRender();
-    document.querySelectorAll('#sc-care-menu .care-v1-row').forEach(function(row){
-      var name=(row.querySelector('.nm')||{}).textContent||'';
-      var date=(row.querySelector('.date')||{}).textContent||'';
-      var chips=Array.from(row.querySelectorAll('.care-v1-chip')).map(function(x){return x.textContent.trim()});
-      var result=(row.querySelector('.desc')||{}).textContent||'';
-      var idx=((row.getAttribute('onclick')||'').match(/cmView\((\d+)\)/)||[])[1]||'0';
-      var cls={张小明:'七年级（2025级） · 2班',李小红:'七年级（2025级） · 1班',王小华:'八年级（2024级） · 3班',陈小强:'八年级（2025级） · 2班'}[name]||'本班学生';
-      var record=(window.teacherCareRows||[])[Number(idx)]||{};var method=record.method||{家庭关怀:'家访',学业帮扶:'学习辅导',返校适应:'面谈',生活困难:'家访',健康支持:'面谈',情绪支持:'面谈'}[chips[1]]||'面谈';
-      var state=chips[2]||'已记录';
-      row.innerHTML='<div class="stu-hd"><div class="avatar">'+esc(name.slice(0,1))+'</div><div style="flex:1"><div class="stu-nm">'+esc(name)+' <span class="chip '+(state==='待跟进'?'amber':'teal')+'" style="margin-left:6px;vertical-align:2px">'+esc(state)+'</span></div><div class="stu-sub muted">'+esc(cls)+'</div></div></div><div class="hr"></div><div class="kv"><span class="k">关爱日期</span><span class="v">'+esc(date)+'</span></div><div class="kv"><span class="k">关爱来源</span><span class="v">'+esc(chips[0]||'日常关爱')+'</span></div><div class="kv"><span class="k">关爱类型</span><span class="v">'+esc(chips[1]||'—')+'</span></div><div class="kv"><span class="k">关爱方式</span><span class="v">'+esc(method)+'</span></div><div class="kv"><span class="k">关爱结果</span><span class="v" style="max-width:190px;word-break:break-all">'+esc(result)+'</span></div><div class="care-row-foot"><button class="btn ghost sm" onclick="event.stopPropagation();cmView('+idx+')">详情</button></div>';
-      row.className='card care-v1-row';row.dataset.careIndex=idx;if(record.superseded)row.dataset.superseded='1';
-    });
-  }
-  function careTab(btn,mode){if(typeof baseTab==='function')baseTab(btn,mode);normalizeRows()}
-  window.careUnifiedTab=careTab;window.teacherCareRefresh=normalizeRows;
-  if(menu){
-    var ref=document.querySelector('#sc-list .statusbar');
-    if(ref&&!menu.querySelector('.care-statusbar')){var sb=ref.cloneNode(true);sb.classList.add('care-statusbar');menu.insertBefore(sb,menu.firstElementChild)}
-    var tabs=menu.querySelector('.care-v1-tabs');
-    if(tabs){tabs.innerHTML='<button class="on" onclick="careUnifiedTab(this,\'all\')">全部</button><button onclick="careUnifiedTab(this,\'todo\')">待跟进</button>'}
-    normalizeRows();
-    var addBtn=document.querySelector('#care-mobile-upload button');
-    if(addBtn){addBtn.textContent='新增关爱';addBtn.onclick=function(){if(typeof window.careResetForm==='function')window.careResetForm();go('sc-care-add')}}
-    window.cmOpen=function(){if(typeof window.careResetForm==='function')window.careResetForm();go('sc-care-add')};
-    window.cmView=function(){go('sc-detail');setTimeout(function(){if(typeof window.setTeacherDetailTab==='function')window.setTeacherDetailTab('care')},0)};
-  }
-  function sourceOptions(source){
-    var row=document.getElementById('care-datasource-row'),select=document.getElementById('care-datasource');
-    if(!row||!select)return;
-    if(source==='warning'){select.innerHTML='<option>张小明｜连续缺勤｜2026-05-05</option><option>陈小强｜周期缺勤｜2026-04-28</option>';row.style.display='flex'}
-    else if(source==='psych'){select.innerHTML='<option>李小红｜需要关注｜2026-09-15</option><option>王小华｜建议面谈｜2026-09-10</option>';row.style.display='flex'}
-    else{select.innerHTML='';row.style.display='none'}
-  }
-  window.careSourceChange=sourceOptions;
-  function setupCareAdd(){
-    var card=document.querySelector('#sc-care-add .care-card:not(.care-warning)'),type=document.getElementById('care-type');
-    if(!card||!type||document.getElementById('care-source-row'))return;
-    var typeRow=type.parentElement;
-    var sourceRow=document.createElement('div');sourceRow.className='frm-row care-source-row';sourceRow.id='care-source-row';sourceRow.innerHTML='<span class="lb">关爱来源<span class="req">*</span></span><select id="care-source" onchange="careSourceChange(this.value)"><option value="warning">预警信息</option><option value="psych">心理测评</option><option value="teacher">老师/学生反馈</option><option value="parent">家长反馈</option></select>';
-    var dataRow=document.createElement('div');dataRow.className='frm-row care-datasource-row';dataRow.id='care-datasource-row';dataRow.style.display='none';dataRow.innerHTML='<span class="lb">来源信息<span class="req">*</span></span><select id="care-datasource"></select>';
-    typeRow.parentNode.insertBefore(sourceRow,typeRow);typeRow.parentNode.insertBefore(dataRow,typeRow);sourceOptions('daily');
-    var back=careAdd.querySelector('.sub-hd .back'),title=careAdd.querySelector('.sub-hd b');
-    if(back)back.onclick=function(){go('sc-care-menu')};
-    if(title)title.textContent='新增关爱';
-    var reset=window.careResetForm;window.careResetForm=function(){if(reset)reset();var s=document.getElementById('care-source');if(s)s.value='daily';sourceOptions('daily')};
-    careAdd.setAttribute('data-care-consistency','1');
-  }
-  setupCareAdd();
-})();
-</script>
-<script id="care-proof-mobile-final">
-(function(){
-  var mockCount=0;
-  function bindAdd(){
-    var add=document.querySelector('#care-proof-grid .care-proof-add');
-    if(add)add.onclick=function(){window.careMobileProofSheet()};
-  }
-  window.careMobileProofSheet=function(){
-    sheet('<div class="pk-hd"><b>添加证明材料</b><button onclick="closeSheet()">取消</button></div><div style="padding:8px 16px 18px"><button class="btn ghost blk" onclick="careMockProof(\'拍照\')" style="margin-top:8px">拍照</button><button class="btn ghost blk" onclick="careMockProof(\'从相册选择\')" style="margin-top:9px">从相册选择</button><div class="care-proof-hint" style="margin-top:10px">手机端可拍照或从相册选择，最多9张图片</div></div>');
-  };
-  window.careMockProof=function(label){
-    var grid=document.getElementById('care-proof-grid');if(!grid||mockCount>=9){closeSheet();return}
-    var add=grid.querySelector('.care-proof-add'),item=document.createElement('div');item.className='care-proof-item care-proof-mock';item.innerHTML='<span>'+label+'<br>缩略图</span>';
-    var rm=document.createElement('button');rm.type='button';rm.textContent='×';rm.onclick=function(e){e.stopPropagation();item.remove();mockCount=Math.max(0,mockCount-1)};item.appendChild(rm);grid.insertBefore(item,add);mockCount++;closeSheet();
-  };
-  bindAdd();
-  var oldReset=window.careResetForm;window.careResetForm=function(){if(oldReset)oldReset();mockCount=0;bindAdd()};
-})();
-</script>
-<script id="care-statusbar-final">
-(function(){
-  var source=document.querySelector('#sc-list .statusbar');
-  var add=document.getElementById('sc-care-add');
-  if(source&&add){var current=add.querySelector('.statusbar');if(current&&!current.getAttribute('data-care-statusbar')){var copy=source.cloneNode(true);copy.setAttribute('data-care-statusbar','1');current.replaceWith(copy)}}
-})();
-</script>
-<style id="care-detail-latest-style">
-  #sc-care-detail .care-detail-pad{padding-top:12px;padding-bottom:24px}
-  #sc-care-detail .care-detail-card{padding:14px 16px}
-  #sc-care-detail .care-detail-card .kv{display:flex;align-items:flex-start;gap:10px;min-height:38px;padding:8px 0;border-bottom:1px solid #EEF0F4;font-size:13px}
-  #sc-care-detail .care-detail-card .kv:last-child{border-bottom:0}
-  #sc-care-detail .care-detail-card .kv .k{width:78px;flex-shrink:0;color:var(--ink-3);line-height:20px}
-  #sc-care-detail .care-detail-card .kv .v{flex:1;min-width:0;text-align:right;color:var(--ink);line-height:20px;word-break:break-all}
-  #sc-care-detail .care-detail-card .kv .v.warn{color:#C97A12}
-  #sc-care-detail .care-detail-card.care-state{border-left:3px solid var(--navy)}
-  #sc-care-detail .care-detail-card .detail-long{display:block;text-align:left;padding-top:4px}
-  #sc-care-detail .care-detail-section{margin-top:2px}
-  #sc-care-detail .care-detail-proof{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:8px}
-  #sc-care-detail .care-detail-proof .thumb{position:relative;aspect-ratio:1;border-radius:6px;overflow:hidden;border:1px solid #EEF0F4;background:#F5F8FC;color:var(--ink-3);display:flex;align-items:center;justify-content:center;font-size:11px}
-  #sc-care-detail .care-detail-proof img{width:100%;height:100%;object-fit:cover}
-  #sc-care-detail .care-detail-empty{font-size:12px;color:var(--ink-3);line-height:20px;padding:7px 0 2px}
-  #sc-care-detail .care-detail-source{margin-left:6px}
-</style>
-<script id="care-detail-latest">
-(function(){
-  var detailId='sc-care-detail', current=null;
-  var peopleMap={张小明:'王老师、李老师',李小红:'李老师',陈小强:'王老师'};
-  var warningMap={
-    张小明:{type:'连续缺勤',reason:'连续缺勤3个工作日',time:'2026-05-05 18:05'},
-    陈小强:{type:'周期缺勤',reason:'周期缺勤（10个工作日内5天）',time:'2026-04-28 18:05'}
-  };
-  var psychMap={
-    李小红:{conclusion:'需要关注',time:'2026-09-15'},
-    王小华:{conclusion:'建议面谈',time:'2026-09-10'}
-  };
-  function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-  function date(v){return String(v||'').replace(/\//g,'-').slice(0,10)}
-  function sourceType(source){
-    var s=String(source||'');
-    if(s.indexOf('预警')>=0)return 'warning';
-    if(s.indexOf('心理')>=0)return 'psych';
-    return 'daily';
-  }
-  function sourceLabel(type){return type==='warning'?'预警信息':type==='psych'?'心理测评':'日常上传'}
-  function demoProofs(){
-    var colors=['#DCEBFA','#E4F2E8','#FCE8D8','#E7E1F8','#DDF2F1','#F8E4EA','#E9EEF8','#F2EBD9','#DDECF5'];
-    return colors.map(function(color,i){var svg='<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240"><rect width="240" height="240" rx="18" fill="'+color+'"/><circle cx="120" cy="92" r="34" fill="#FFFFFF" opacity=".82"/><path d="M67 182c15-32 91-32 106 0" fill="#FFFFFF" opacity=".82"/><text x="120" y="218" text-anchor="middle" font-family="Arial,sans-serif" font-size="18" fill="#58718B">示例'+(i+1)+'</text></svg>';return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(svg)})
-  }
-  function splitClass(cls){
-    var parts=String(cls||'').split('·').map(function(x){return x.trim()});
-    return {grade:parts[0]||'—',className:parts[1]||'—'};
-  }
-  function kv(k,v,cls){return '<div class="kv"><span class="k">'+esc(k)+'</span><span class="v '+(cls||'')+'">'+esc(v||'—')+'</span></div>'}
-  function card(rows,extra){return '<div class="card care-detail-card '+(extra||'')+'">'+rows.join('')+'</div>'}
-  function makeScreen(){
-    if(document.getElementById(detailId))return document.getElementById(detailId);
-    var phone=document.querySelector('.phone');if(!phone)return null;
-    var screen=document.createElement('div');screen.className='screen';screen.id=detailId;
-    screen.innerHTML='<div class="sub-hd"><button class="back" type="button">‹</button><b>关爱详情</b><span class="capsule" style="margin-left:auto"><span class="half"><span class="cap-dots"><i></i><i></i><i></i></span></span><span class="half"><span class="cap-ring"></span></span></span></div><div class="body"><div class="pad care-detail-pad" id="care-detail-content"></div></div>';
-    var ref=document.querySelector('#sc-list .statusbar')||document.querySelector('#sc-care-add .statusbar');
-    if(ref)screen.insertBefore(ref.cloneNode(true),screen.firstElementChild);
-    screen.querySelector('.back').onclick=function(){go((current&&current.returnId)||'sc-care-menu')};
-    phone.appendChild(screen);
-    return screen;
-  }
-  function warningFor(ctx){return ctx.warning||warningMap[ctx.name]||{type:'—',reason:'—',time:'—'}}
-  function psychFor(ctx){return ctx.psych||psychMap[ctx.name]||{conclusion:'—',time:'—'}}
-  function proofHtml(ctx){
-    var proofs=Array.isArray(ctx.proofs)?ctx.proofs:[];
-    var srcs=proofs.map(function(p){return typeof p==='string'?p:(p&&p.src)||''}).filter(Boolean).slice(0,9);
-    if(!srcs.length)return '<span class="care-detail-empty">--</span>';
-    return '<div class="care-detail-proof">'+srcs.map(function(src,i){
-      return '<div class="thumb"><img src="'+esc(src)+'" alt="证明材料'+(i+1)+'" onclick="openPhotoViewer(this)"></div>';
-    }).join('')+'</div>';
-  }
-  function render(ctx){
-    var screen=makeScreen(),content=screen&&screen.querySelector('#care-detail-content');if(!content)return;
-    ctx=ctx||{};var type=sourceType(ctx.source),cls=splitClass(ctx.cls),warning=warningFor(ctx),psych=psychFor(ctx),follow=ctx.follow||'不需要';
-    var basic=[kv('学生姓名',ctx.name),kv('学校',ctx.school||'市实验一小'),kv('年级',ctx.grade||cls.grade),kv('班级',ctx.className||cls.className)];
-    if(type==='warning')basic.push(kv('预警类型',warning.type,'warn'),kv('预警原因',warning.reason),kv('预警时间',warning.time));
-    if(type==='psych')basic.push(kv('测评结论',psych.conclusion),kv('测评时间',date(psych.time)));
-    var html='<div class="card" style="padding:15px 16px"><div class="stu-hd"><div class="avatar">'+esc(String(ctx.name||'—').slice(0,1))+'</div><div style="flex:1"><div class="stu-nm">'+esc(ctx.name||'—')+' <span class="chip '+(ctx.state==='待跟进'?'amber':'teal')+'" style="margin-left:6px;vertical-align:2px">'+esc(ctx.state||'已记录')+'</span></div><div class="stu-sub muted">'+esc(ctx.cls||((ctx.grade||cls.grade)+' · '+(ctx.className||cls.className)))+'</div></div></div></div>';
-    html+='<div class="section-t care-detail-section">基本信息</div>'+card(basic);
-    var careRows=[kv('关爱状态',ctx.state||'已记录'),kv('关爱日期',date(ctx.date)),kv('实施人员',ctx.people||peopleMap[ctx.name]||'—'),kv('关爱来源',sourceLabel(type)),kv('数据源',ctx.dataSource||'日常记录'),kv('关爱类型',ctx.type),kv('关爱方式',ctx.method),'<div class="kv care-result-row"><span class="k">关爱结果</span><span class="v detail-long">'+esc(ctx.result||'—')+'</span></div>','<div class="kv care-proof-row"><span class="k">证明材料</span><span class="v">'+proofHtml(ctx)+'</span></div>',kv('继续跟进',follow)];
-    if(follow==='需要')careRows.push(kv('下次跟进日期',date(ctx.next),'warn'));
-    html+='<div class="section-t care-detail-section">关爱情况</div>'+card(careRows,'care-state');
-    content.innerHTML=html;
-  }
-  function contextFromRow(row){
-    var nameEl=row.querySelector('.stu-nm'),name=nameEl&&nameEl.firstChild?nameEl.firstChild.textContent.trim():(nameEl?nameEl.textContent.trim():'—');
-    var kvs={};Array.from(row.querySelectorAll('.kv')).forEach(function(item){var k=item.querySelector('.k'),v=item.querySelector('.v');if(k)kvs[k.textContent.trim()]=(v?v.textContent:'').trim()});
-    var cls=((row.querySelector('.stu-sub')||{}).textContent||'').trim();var source=kvs['关爱来源']||'日常上传';
-    if(source==='日常关爱')source='日常上传';
-    var chip=nameEl&&nameEl.querySelector('.chip');var state=chip?chip.textContent.trim():'已完结';
-    var record=(window.teacherCareRows||[])[Number(row.dataset.careIndex)]||{};var type=sourceType(source),warning=warningMap[name],psych=psychMap[name],follow=state==='待跟进'?'需要':'暂不需要';
-    state=follow==='需要'?'待跟进':'已完结';
-    return {name:name,cls:cls,source:source,returnId:'sc-care-menu',school:'市实验一小',date:date(kvs['关爱日期']),type:kvs['关爱类型'],method:kvs['关爱方式'],result:kvs['关爱结果'],state:state,follow:follow,next:record.next||'',people:record.people||peopleMap[name]||'王老师',warning:warning,psych:psych,dataSource:type==='warning'?(record.warningReason||warning.reason||'未记录预警原因'):type==='psych'?'重点关注学生':'日常记录',proofs:record.proofs||((name==='李小红'&&!record.id)?demoProofs():[])};
-  }
-  function openFromRow(row){var ctx=contextFromRow(row);current=ctx;render(ctx);go(detailId)}
-  function bindRows(){
-    var rows=Array.from(document.querySelectorAll('#sc-care-menu .care-v1-row'));
-    rows.forEach(function(row){
-      row.onclick=function(e){if(e&&e.target&&e.target.closest&&e.target.closest('button,a,input,select'))return;openFromRow(row)};
-      var btn=row.querySelector('.care-row-foot button');if(btn)btn.onclick=function(e){e.preventDefault();e.stopPropagation();openFromRow(row)};
-    });
-  }
-  window.openCareDetail=function(ctx){current=ctx||{};render(current);go(detailId)};
-  window.cmView=function(index){var rows=Array.from(document.querySelectorAll('#sc-care-menu .care-v1-row'));if(rows[index])openFromRow(rows[index]);else openCareDetail(current||{})};
-  var oldUnified=window.careUnifiedTab;
-  window.careUnifiedTab=function(btn,mode){if(typeof oldUnified==='function')oldUnified(btn,mode);bindRows();setTimeout(bindRows,0)};
-  var oldSubmit=window.submitCareRecord;
-  window.submitCareRecord=function(){
-    var result=(document.getElementById('care-result')||{}).value||'';if(!result.trim()){toast('请填写关爱过程和关爱结果');return}
-    var follow=(document.getElementById('care-follow')||{}).value==='需要';if(follow&&!(document.getElementById('care-next')||{}).value){toast('请选择下次跟进日期');return}
-    if(typeof trackCare==='function')trackCare('care_record_submit',{care_type:(document.getElementById('care-type')||{}).value||'',action_type:(document.getElementById('care-method')||{}).value||'',need_followup:follow,next_followup:follow?document.getElementById('care-next').value:null,status:follow?'待跟进':'已完结'});
-    toast('已记录，已进入关爱记录');setTimeout(function(){go('sc-care-menu')},700);
-  };
-  makeScreen();bindRows();
-})();
-</script>
-<style id="care-detail-layout-final">
-  /* 关爱详情沿用控辍保学处理记录卡：不做横线分割，字段值从标签右侧左对齐 */
-  #sc-care-detail .care-detail-card .kv{display:flex;align-items:flex-start;gap:0;min-height:0;padding:6px 0;border-bottom:0;font-size:12.5px}
-  #sc-care-detail .care-detail-card .kv .k{width:76px;flex-shrink:0;color:var(--ink-3);line-height:20px}
-  #sc-care-detail .care-detail-card .kv .v{flex:1;min-width:0;text-align:left;color:var(--ink);line-height:20px;word-break:break-all}
-  #sc-care-detail .care-detail-card .kv .v.warn{color:var(--ink)}
-  #sc-care-detail .care-detail-card.care-state{border-left:0}
-  #sc-care-detail .care-detail-card .detail-long{display:block;text-align:left;padding-top:0;white-space:normal;overflow-wrap:anywhere}
-  #sc-care-detail .care-detail-card .care-proof-row{align-items:flex-start}
-  #sc-care-detail .care-detail-card .care-proof-row .v{display:block;min-height:20px}
-  #sc-care-detail .care-detail-proof{display:grid;grid-template-columns:repeat(3,58px);grid-auto-rows:58px;justify-content:start;gap:8px;margin-top:0}
-  #sc-care-detail .care-detail-proof .thumb{width:58px;height:58px;flex:0 0 58px;aspect-ratio:auto;border-radius:5px;cursor:pointer}
-  #sc-care-detail .care-detail-proof .thumb img{cursor:pointer}
-</style>
-<script id="care-card-follow-action">
-(function(){
-  function getValue(card,label){
-    var item=Array.from(card.querySelectorAll('.kv')).find(function(x){var key=x.querySelector('.k');return key&&key.textContent.trim()===label});
-    var value=item&&item.querySelector('.v');return value?value.textContent.trim():'';
-  }
-  function addButtons(){
-    document.querySelectorAll('#sc-care-menu .care-v1-row').forEach(function(card){
-      var foot=card.querySelector('.care-row-foot');
-      if(!foot||foot.querySelector('.care-follow-btn')||card.dataset.superseded==='1'||((card.querySelector('.stu-nm .chip')||{}).textContent||'').trim()!=='待跟进')return;
-      var button=document.createElement('button');
-      button.type='button';button.className='btn pri sm care-follow-btn';button.textContent='继续跟进';
-      button.onclick=function(event){event.preventDefault();event.stopPropagation();openCareFollow(card)};
-      foot.appendChild(button);
-    });
-  }
-  window.openCareFollow=function(card){
-    if(!card)return;
-    var nameEl=card.querySelector('.stu-nm'),name=nameEl&&nameEl.firstChild?nameEl.firstChild.textContent.trim():'';
-    var source=getValue(card,'关爱来源'),type=getValue(card,'关爱类型'),method=getValue(card,'关爱方式');
-    var sourceKey=source.indexOf('预警')>=0?'warning':source.indexOf('心理')>=0?'psych':'daily';
-    go('sc-care-add');
-    var studentCard=document.querySelector('#sc-care-add .pad>.card:first-child');
-    if(studentCard){var studentName=studentCard.querySelector('.stu-nm'),studentGrade=studentCard.querySelector('.stu-sub'),studentAvatar=studentCard.querySelector('.avatar');
-      if(studentName)studentName.textContent=name;
-      var grade=(card.querySelector('.stu-sub')||{}).textContent||'';if(studentGrade)studentGrade.textContent=grade.trim();
-      if(studentAvatar)studentAvatar.textContent=name.slice(0,1);
-    }
-    var sourceSelect=document.getElementById('care-source');if(sourceSelect){sourceSelect.value=sourceKey;if(typeof careSourceChange==='function')careSourceChange(sourceKey)}
-    var dataSelect=document.getElementById('care-datasource');if(dataSelect&&sourceKey!=='daily'){
-      var match=Array.from(dataSelect.options).find(function(option){return option.textContent.indexOf(name)>=0});
-      if(match)dataSelect.value=match.value;
-    }
-    var typeSelect=document.getElementById('care-type');if(typeSelect&&Array.from(typeSelect.options).some(function(option){return option.value===type}))typeSelect.value=type;
-    var methodSelect=document.getElementById('care-method');if(methodSelect&&Array.from(methodSelect.options).some(function(option){return option.value===method}))methodSelect.value=method;
-    var title=document.querySelector('#sc-care-add .sub-hd b');if(title)title.textContent='新增关爱跟进';
-    if(typeof trackCare==='function')trackCare('care_followup_click',{student:name,source:sourceKey});
-  };
-  var originalReset=window.careResetForm;
-  window.careResetForm=function(){
-    if(typeof originalReset==='function')originalReset();
-    var title=document.querySelector('#sc-care-add .sub-hd b');if(title)title.textContent='新增关爱';
-    var studentCard=document.querySelector('#sc-care-add .pad>.card:first-child');
-    if(studentCard){
-      var studentName=studentCard.querySelector('.stu-nm'),studentGrade=studentCard.querySelector('.stu-sub'),studentAvatar=studentCard.querySelector('.avatar');
-      if(studentName)studentName.textContent='张小明';
-      if(studentGrade)studentGrade.textContent='七年级（2025级） · 2班';
-      if(studentAvatar)studentAvatar.textContent='张';
-    }
-  };
-  var originalTab=window.careUnifiedTab;
-  window.careUnifiedTab=function(button,mode){if(typeof originalTab==='function')originalTab(button,mode);addButtons()};
-  var list=document.getElementById('cm-list');
-  if(list){new MutationObserver(function(){addButtons()}).observe(list,{childList:true});addButtons()}
-})();
-</script>
-<script id="care-follow-v2-addon">
-(function(){
-  var followParent=null;
-  function field(id){return document.getElementById(id)}
-  function value(id){return field(id)?field(id).value:''}
-  function get(card,label){var item=Array.from(card.querySelectorAll('.kv')).find(function(x){var k=x.querySelector('.k');return k&&k.textContent.trim()===label});return item&&item.querySelector('.v')?item.querySelector('.v').textContent.trim():''}
-  function resetLocks(){['care-source','care-datasource'].forEach(function(id){var el=field(id);if(el){el.disabled=false;el.style.opacity='';el.style.color=''}});followParent=null}
-  var oldReset=window.careResetForm;
-  window.careResetForm=function(){resetLocks();if(typeof oldReset==='function')oldReset();var title=document.querySelector('#sc-care-add .sub-hd b');if(title)title.textContent='新增关爱'};
-  window.openCareFollow=function(card){
-    if(!card||card.dataset.superseded==='1'||!card.querySelector('.stu-nm .chip')||card.querySelector('.stu-nm .chip').textContent.trim()!=='待跟进')return;
-    var index=Number(card.dataset.careIndex),rows=window.teacherCareRows||[],parent=rows[index];if(!parent)return;
-    go('sc-care-add');followParent=parent;
-    var student=document.querySelector('#sc-care-add .pad>.card:first-child');if(student){var n=student.querySelector('.stu-nm'),g=student.querySelector('.stu-sub'),a=student.querySelector('.avatar');if(n)n.textContent=parent.name;if(g)g.textContent=(card.querySelector('.stu-sub')||{}).textContent.trim();if(a)a.textContent=parent.name.slice(0,1)}
-    var source=field('care-source'),key=parent.source==='预警'?'warning':parent.source==='心理测评'?'psych':'daily';if(source){source.value=key;careSourceChange(key);source.disabled=true;source.style.opacity='1';source.style.color='var(--ink)'}
-    var data=field('care-datasource');if(data&&key!=='daily'){var match=Array.from(data.options).find(function(o){return o.textContent===parent.dataSource})||Array.from(data.options).find(function(o){return o.textContent.indexOf(parent.name)>=0});if(match)data.value=match.value;data.disabled=true;data.style.opacity='1';data.style.color='var(--ink)'}
-    if(field('care-type'))field('care-type').value=parent.type;
-    var method=field('care-method');if(method){if(!method.querySelector('option[value=""]')){var option=document.createElement('option');option.value='';option.textContent='请选择关爱方式';method.insertBefore(option,method.firstChild)}method.value=''}
-    if(field('care-next'))field('care-next').value='';var display=field('care-next-val');if(display)display.firstChild.nodeValue='请选择';
-    var title=document.querySelector('#sc-care-add .sub-hd b');if(title)title.textContent='新增关爱跟进';
-    if(typeof trackCare==='function')trackCare('care_followup_click',{student:parent.name,source:key});
-  };
-  window.submitCareRecord=function(){
-    var result=value('care-result').trim(),method=value('care-method'),follow=value('care-follow')==='需要',next=value('care-next');
-    if(!method){toast('请选择关爱方式');return}if(!result){toast('请填写关爱过程和关爱结果');return}if(follow&&!next){toast('请选择下次跟进日期');return}
-    var rows=window.teacherCareRows||[],source=value('care-source'),student=document.querySelector('#sc-care-add .pad>.card:first-child .stu-nm'),grade=document.querySelector('#sc-care-add .pad>.card:first-child .stu-sub');
-    var name=followParent?followParent.name:student?student.textContent.trim():'张小明';var cls=followParent?followParent.cls:grade?grade.textContent.trim():'本班学生';
-    var staff=field('care-people-val');if(!staff||!staff.dataset.value){toast('请选择实施人员');return}
-    var photos=Array.from(document.querySelectorAll('#care-proof-grid .care-proof-item img')).map(function(img){return img.src}).slice(0,9);
-    var record={id:'care-'+Date.now(),parentId:followParent?(followParent.id||(followParent.id='care-original-'+rows.indexOf(followParent))):null,caseId:followParent?(followParent.caseId||followParent.id):null,name:name,cls:cls,date:value('care-date'),source:source==='warning'?'预警':source==='psych'?'心理测评':'日常关爱',sourceCls:source==='warning'?'orange':source==='psych'?'purple':'green',dataSource:source==='daily'?'':value('care-datasource'),type:value('care-type'),method:method,result:result,follow:follow?'需要':'不需要',next:follow?next:'',people:staff.dataset.value,proofs:photos};
-    if(followParent)followParent.superseded=true;rows.unshift(record);followParent=null;
-    if(typeof trackCare==='function')trackCare('care_record_submit',{record_id:record.id,parent_record_id:record.parentId,case_id:record.caseId,care_type:record.type,action_type:record.method,need_followup:follow,next_followup:record.next||null,status:follow?'待跟进':'已完结'});
-    var active=document.querySelector('#sc-care-menu .care-v1-tabs button.on');if(active&&typeof careUnifiedTab==='function')careUnifiedTab(active,active.textContent.trim()==='待跟进'?'todo':'all');else if(typeof teacherCareRefresh==='function')teacherCareRefresh();
-    toast('已新增关爱记录');setTimeout(function(){go('sc-care-menu')},300);
-  };
-})();
 
-</script>
-<script id="teacher-care-list-refinement">
-(function(){
-  function formatPeople(s){s=String(s||'');if(s.length<=7)return s;var names=s.split(/[、，,]/).filter(Boolean);return (names[0]||s.slice(0,4))+'…等'+names.length+'人'}
-  function addField(label,text,extra){var row=document.createElement('div');row.className='kv '+extra;var key=document.createElement('span'),val=document.createElement('span');key.className='k';key.textContent=label;val.className='v';val.textContent=text;row.appendChild(key);row.appendChild(val);return row}
-  function decorate(){var rows=window.teacherCareRows||[];document.querySelectorAll('#sc-care-menu .care-v1-row').forEach(function(card){if(card.querySelector('.care-source-summary'))return;var record=rows[Number(card.dataset.careIndex)];if(!record)return;var fields=Array.from(card.querySelectorAll('.kv')),sourceRow=fields.find(function(x){return (x.querySelector('.k')||{}).textContent==='关爱来源'}),methodRow=fields.find(function(x){return (x.querySelector('.k')||{}).textContent==='关爱方式'});if(sourceRow){var summary=record.source==='预警'?(record.warningReason||'未记录预警原因'):record.source==='心理测评'?'重点关注学生':'日常记录';sourceRow.after(addField('数据源',summary,'care-source-summary'))}if(methodRow){var staff=addField('实施人员',formatPeople(record.people),'care-staff-summary');staff.title=record.people||'';methodRow.after(staff)}})}
-  var list=document.getElementById('cm-list');if(list){new MutationObserver(decorate).observe(list,{childList:true});decorate()}
-  var oldSubmit=window.submitCareRecord;
-  window.submitCareRecord=function(){var rows=window.teacherCareRows||[],source=(document.getElementById('care-source')||{}).value,student=(document.querySelector('#sc-care-add .pad>.card:first-child .stu-nm')||{}).textContent||'',existing=rows.find(function(r){return r.name===student.trim()&&r.source==='预警'&&r.warningReason}),count=rows.length;if(typeof oldSubmit==='function')oldSubmit();if(source==='warning'&&rows.length>count&&rows[0]){rows[0].warningReason=existing?existing.warningReason:'未记录预警原因';if(typeof teacherCareRefresh==='function')teacherCareRefresh()}};
-})();
 
-</script>
-<script id="care-latest-addon">
-(function(){
-  var editing=null;
-  var li=(window.teacherCareRows||[]).find(function(r){return r.name==='李小红'});
-  if(li&&!li.proofs){var colors=['#DCEBFA','#E4F2E8','#FCE8D8','#E7E1F8','#DDF2F1','#F8E4EA','#E9EEF8','#F2EBD9','#DDECF5'];li.proofs=colors.map(function(color,i){var svg='<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240"><rect width="240" height="240" rx="18" fill="'+color+'"/><circle cx="120" cy="92" r="34" fill="#FFFFFF" opacity=".82"/><path d="M67 182c15-32 91-32 106 0" fill="#FFFFFF" opacity=".82"/><text x="120" y="218" text-anchor="middle" font-family="Arial,sans-serif" font-size="18" fill="#58718B">示例'+(i+1)+'</text></svg>';return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(svg)})}
-  function el(id){return document.getElementById(id)}
-  function setDate(id,date){var input=el(id),display=el(id+'-val');if(input)input.value=date||'';if(display)display.firstChild.nodeValue=date||'请选择'}
-  function summary(source,record){return source==='warning'?(record&&record.warningReason||'预警原因未记录'):source==='psych'?'重点关注学生':'日常记录'}
-  function sourceLabels(source){var row=el('care-datasource-row'),select=el('care-datasource');if(!row||!select)return;row.style.display='flex';if(source==='daily'){select.innerHTML='<option value="日常记录">日常记录</option>';return}Array.from(select.options).forEach(function(option){var original=option.value||option.textContent,name=original.split('｜')[0];option.value=original;option.textContent=name+'｜'+(source==='warning'?(name==='张小明'?'连续缺勤3个工作日':'预警原因未记录'):'重点关注学生')})}
-  var oldSource=window.careSourceChange;
-  window.careSourceChange=function(source){if(typeof oldSource==='function')oldSource(source);sourceLabels(source)};
-  var oldReset=window.careResetForm;
-  window.careResetForm=function(){editing=null;if(typeof oldReset==='function')oldReset();sourceLabels('daily')};
-  window.teacherCareEdit=function(index){var rows=window.teacherCareRows||[],record=rows[index];if(!record)return;go('sc-care-add');editing=record;
-    var title=document.querySelector('#sc-care-add .sub-hd b');if(title)title.textContent='编辑关爱';
-    var student=document.querySelector('#sc-care-add .pad>.card:first-child');if(student){var n=student.querySelector('.stu-nm'),g=student.querySelector('.stu-sub'),a=student.querySelector('.avatar');if(n)n.textContent=record.name;if(g)g.textContent=record.cls.replace('·',' · ');if(a)a.textContent=record.name.slice(0,1)}
-    var source=record.source==='预警'?'warning':record.source==='心理测评'?'psych':'daily',sourceSelect=el('care-source');if(sourceSelect){sourceSelect.value=source;careSourceChange(source);sourceSelect.disabled=true;sourceSelect.style.opacity='1'}
-    var data=el('care-datasource');if(data){if(source!=='daily'){var option=Array.from(data.options).find(function(x){return x.value===record.dataSource})||Array.from(data.options).find(function(x){return x.value.indexOf(record.name)>=0});if(option)data.value=option.value}data.disabled=true;data.style.opacity='1'}
-    setDate('care-date',record.date);var staff=el('care-people-val');if(staff){staff.dataset.value=record.people||'王老师';staff.firstChild.nodeValue=staff.dataset.value}
-    if(el('care-type'))el('care-type').value=record.type;if(el('care-method'))el('care-method').value=record.method;if(el('care-result'))el('care-result').value=record.result||'';
-    if(el('care-follow'))el('care-follow').value=record.follow==='需要'?'需要':'暂不需要';if(typeof careFollowChange==='function')careFollowChange();setDate('care-next',record.follow==='需要'?record.next:'');
-    var grid=el('care-proof-grid'),add=grid&&grid.querySelector('.care-proof-add');if(grid&&add)(record.proofs||[]).slice(0,9).forEach(function(src){var item=document.createElement('div'),img=document.createElement('img'),remove=document.createElement('button');item.className='care-proof-item';img.src=src;remove.type='button';remove.textContent='×';remove.onclick=function(event){event.stopPropagation();item.remove()};item.appendChild(img);item.appendChild(remove);grid.insertBefore(item,add)});
-  };
-  function editButtons(){document.querySelectorAll('#sc-care-menu .care-v1-row').forEach(function(card){var foot=card.querySelector('.care-row-foot'),index=Number(card.dataset.careIndex);if(!foot||foot.querySelector('.care-edit-btn'))return;var button=document.createElement('button');button.type='button';button.className='btn ghost sm care-edit-btn';button.textContent='编辑';button.onclick=function(event){event.preventDefault();event.stopPropagation();teacherCareEdit(index)};foot.appendChild(button)})}
-  var list=el('cm-list');if(list){new MutationObserver(editButtons).observe(list,{childList:true});editButtons()}
-  var oldSubmit=window.submitCareRecord;
-  window.submitCareRecord=function(){if(!editing){if(typeof oldSubmit==='function')oldSubmit();return}var record=editing,method=el('care-method'),result=el('care-result'),staff=el('care-people-val'),follow=el('care-follow'),next=el('care-next');if(!method||!method.value){toast('请选择关爱方式');return}if(!result||!result.value.trim()){toast('请填写关爱过程和关爱结果');return}if(!staff||!staff.dataset.value){toast('请选择实施人员');return}if(follow.value==='需要'&&!next.value){toast('请选择下次跟进日期');return}
-    record.date=el('care-date').value;record.people=staff.dataset.value;record.type=el('care-type').value;record.method=method.value;record.result=result.value.trim();record.follow=follow.value==='需要'?'需要':'不需要';record.next=record.follow==='需要'?next.value:'';record.proofs=Array.from(document.querySelectorAll('#care-proof-grid .care-proof-item img')).map(function(img){return img.src}).slice(0,9);editing=null;
-    var active=document.querySelector('#sc-care-menu .care-v1-tabs button.on');if(active&&typeof careUnifiedTab==='function')careUnifiedTab(active,active.textContent.trim()==='待跟进'?'todo':'all');else if(typeof teacherCareRefresh==='function')teacherCareRefresh();toast('已更新关爱记录');go('sc-care-menu')};
-  sourceLabels((el('care-source')||{}).value||'daily');
-})();
 
-</script>
-<style id="care-v24-style">
-.care-help-wrap{position:absolute;z-index:40;top:17px;right:48px;font:12px "Microsoft YaHei",sans-serif}
-#sc-care-add .care-help-wrap,#sc-care-detail .care-help-wrap{right:86px;top:22px}
-#sc-care-menu .care-help-wrap{right:82px;top:22px}
-#section-care-menu-v1 .scm-v3-panel>.care-help-wrap,#section-care-menu-v1 .crv3-panel>.care-help-wrap{right:185px;top:20px}
-#school-care-modal-v1 .scm-modal-head .care-help-wrap,#city-care-modal-v1 .ecm-modal-head .care-help-wrap{right:52px;top:23px}
-.care-help-button{display:block;width:12px;height:12px;padding:0;border:0;border-radius:50%;background:#e35050;box-shadow:0 0 0 3px rgba(227,80,80,.12);cursor:pointer}
-.care-help-button:hover,.care-help-button[aria-expanded="true"]{box-shadow:0 0 0 5px rgba(227,80,80,.18)}
-.care-help-pop{position:absolute;right:0;top:34px;width:302px;max-width:min(302px,calc(100vw - 36px));max-height:390px;overflow:auto;padding:11px;border:1px solid #e2e8f2;border-radius:8px;background:#fff;box-shadow:0 12px 34px rgba(20,40,72,.18);color:#26364d}
-#sc-care-menu .care-help-pop,#sc-care-add .care-help-pop,#sc-care-detail .care-help-pop{right:-72px;max-width:288px}
-.care-help-pop[hidden]{display:none!important}.care-help-title{font-weight:600;margin:2px 0 9px}.care-help-categories{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.care-help-categories button{border:1px solid #e0e8f2;border-radius:5px;background:#f8fafd;padding:7px 4px;color:#52637b;cursor:pointer}.care-help-categories button.on{border-color:#2d75e8;background:#eaf2ff;color:#2464cf}
-.care-help-messages{display:grid;gap:5px;margin-top:9px}.care-help-messages button{text-align:left;border:0;border-radius:4px;background:#f6f8fb;padding:7px 8px;color:#25364f;cursor:pointer;line-height:1.5}.care-help-messages button:hover{background:#edf4ff}
-#care-demo-toast{position:fixed;top:60px;left:50%;transform:translateX(-50%);z-index:99999;background:rgba(25,37,57,.92);color:#fff;border-radius:6px;padding:9px 14px;font-size:13px;max-width:80vw;display:none;text-align:center}
-.care-date-skin{position:relative;display:inline-flex;align-items:center;min-width:130px;height:34px;border:1px solid #d8dee9;border-radius:4px;background:#fff;box-sizing:border-box;padding:0 32px 0 10px;white-space:nowrap;cursor:pointer;color:#374151;font-size:13px}
-.care-date-skin:after{content:"▣";position:absolute;right:10px;color:#8b97aa;font-size:13px}.care-date-label{pointer-events:none;white-space:nowrap}.care-date-skin input[type="date"]{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-width:0!important;opacity:0!important;cursor:pointer!important;z-index:2!important;padding:0!important}
-#school-care-modal-v1 .care-date-skin{width:100%;height:38px}
-.care-date-skin:has(#care-date-picker){width:100%;height:44px;border-radius:9px}
-#sc-care-add .care-date-skin{width:100%;height:44px;border-radius:9px}
-.care-toolbar-fixed{display:flex!important;flex-wrap:nowrap!important;align-items:flex-start!important;gap:12px!important}.care-toolbar-filters{display:flex;align-items:center;flex-wrap:wrap;gap:10px;flex:1;min-width:0;max-width:calc(100% - 142px)}.care-toolbar-actions{display:flex;flex:0 0 auto;gap:8px;align-items:flex-start;margin-left:auto;white-space:nowrap}.care-toolbar-actions button{flex:0 0 auto}
 
-#sc-care-add #care-datasource-row{display:block!important;padding:12px 0;min-height:0}
-#sc-care-add #care-datasource-row .lb{display:block;margin-bottom:7px}
-#sc-care-add #care-datasource-row .care-native-source{position:absolute;opacity:0;pointer-events:none;width:1px!important;height:1px}
-#sc-care-add #care-full-source{display:block;width:100%;min-height:38px;box-sizing:border-box;border:1px solid #dce5f1;border-radius:7px;padding:8px 26px 8px 9px;position:relative;white-space:normal;overflow-wrap:anywhere;line-height:20px;font-size:13px;color:var(--ink);cursor:pointer}
-#sc-care-add #care-full-source:after{content:"⌄";position:absolute;right:8px;top:8px;color:#697b94}
-#sc-care-add #care-full-source.locked{background:#f6f8fc;cursor:default}
-.care-full-options{padding:8px 14px 20px;max-height:55vh;overflow:auto}.care-full-options button{display:block;width:100%;padding:12px 8px;border:0;border-bottom:1px solid #edf1f7;background:#fff;color:#23344c;text-align:left;white-space:normal;overflow-wrap:anywhere;line-height:1.5;font-size:13px}
-#sc-care-detail .care-timeline-card{margin-bottom:12px}.care-timeline-head{display:flex;align-items:center;gap:8px;padding-bottom:8px;margin-bottom:5px;border-bottom:1px solid #eef2f7;font-size:13px}.care-timeline-head span:nth-child(2){margin-left:auto;color:#728198;font-size:12px}.care-timeline-head .chip{margin-left:0}
-#sc-care-menu .care-v1-row[data-superseded="1"],#sc-care-add .care-proof-add[hidden]{display:none!important}
 
-</style>
-<script id="care-v24-endpoint">
-(function(){
-  var rows=window.teacherCareRows||[],current=null;
-  rows.forEach(function(r,i){r.id=r.id||'care-seed-'+i;r.caseId=r.caseId||r.id});
-  if(rows[0]&&rows[0].name==='张小明'&&!rows.some(function(r){return r.id==='care-demo-follow-1'})){var first=rows[0];first.superseded=true;rows.unshift(Object.assign({},first,{id:'care-demo-follow-1',parentId:first.id,caseId:first.caseId,date:'2026-09-23',type:'返校适应',method:'面谈',result:'【原型示例】已与学生面谈返校适应情况，约定下周继续关注。',next:'2026-09-30',proofs:[],demo:true}))}
-  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-  function sourceKey(r){return r.source==='预警'?'warning':r.source==='心理测评'?'psych':'daily'}
-  function full(r){var key=sourceKey(r),name=r.name||'学生';if(key==='daily')return '日常记录';var psych={李小红:{result:'需要关注',time:'2026-09-15'},王小华:{result:'建议面谈',time:'2026-09-10'}},warning={张小明:{type:'连续缺勤',time:'2026-05-05 18:05'},陈小强:{type:'周期缺勤',time:'2026-04-28 18:05'}};if(key==='psych'){var p=psych[name]||{},date=(r.dataSource||'').match(/\d{4}-\d{2}-\d{2}/);return name+'｜重点关注学生｜测评结论：'+(p.result||'未记录')+'｜'+(date?date[0]:p.time||'时间未记录')}var w=warning[name]||{},time=(r.dataSource||'').match(/\d{4}-\d{2}-\d{2}(?: \d{2}:\d{2})?/);return name+'｜'+(w.type||'预警类型未记录')+'｜'+(r.warningReason||'预警原因未记录')+'｜'+(time?time[0]:w.time||'时间未记录')}
-  function optionText(source,old){var name=old.split('｜')[0],record=rows.find(function(r){return r.name===name&&sourceKey(r)===source});if(record)return full(record);if(source==='warning')return name+'｜预警类型未记录｜预警原因未记录｜时间未记录';if(source==='psych')return name+'｜重点关注学生｜测评结论未记录｜时间未记录';return '日常记录'}
-  function labelSource(source){var select=document.getElementById('care-datasource');if(!select)return;Array.from(select.options).forEach(function(option){var original=option.value||option.textContent;option.value=original;option.textContent=optionText(source,original)});syncSelect()}
-  var oldSource=window.careSourceChange;window.careSourceChange=function(source){if(typeof oldSource==='function')oldSource(source);labelSource(source)};
-  function syncSelect(){var select=document.getElementById('care-datasource'),display=document.getElementById('care-full-source');if(select&&display){display.textContent=select.selectedOptions.length?select.selectedOptions[0].textContent:'请选择数据源';display.classList.toggle('locked',select.disabled)}}
-  function showSourcePicker(){var select=document.getElementById('care-datasource');if(!select||select.disabled)return;var options=Array.from(select.options);if(typeof window.sheet!=='function')return;var html='<div class="pk-hd"><b>选择数据源</b><button onclick="closeSheet()">取消</button></div><div class="care-full-options">'+options.map(function(o,i){return '<button type="button" onclick="chooseCareFullSource('+i+')">'+esc(o.textContent)+'</button>'}).join('')+'</div>';sheet(html)}
-  window.chooseCareFullSource=function(index){var select=document.getElementById('care-datasource');if(select&&select.options[index]){select.selectedIndex=index;syncSelect()}if(typeof closeSheet==='function')closeSheet()};
-  function form(){var page=document.getElementById('sc-care-add');if(!page)return;var warning=page.querySelector('.care-warning');if(warning)warning.style.display='none';var title=Array.from(page.querySelectorAll('.section-t')).find(function(x){return x.textContent.trim()==='预警信息'});if(title)title.style.display='none';['care-follow','care-next'].forEach(function(id){var label=id==='care-follow'?(document.getElementById(id)||{}).parentElement&&document.getElementById(id).parentElement.querySelector('.lb'):document.querySelector('#care-next-row .lb');if(label&&!label.querySelector('.req')){var star=document.createElement('span');star.className='req';star.textContent='*';label.appendChild(star)}});var hint=page.querySelector('.care-proof-hint');if(hint)hint.textContent='支持JPEG、JPG、PNG格式图片，最多九张，每张不超过10M';var input=document.getElementById('care-proof-input');if(input)input.accept='image/jpeg,image/png';var data=document.getElementById('care-datasource'),row=document.getElementById('care-datasource-row');if(data&&row&&!document.getElementById('care-full-source')){data.classList.add('care-native-source');var display=document.createElement('div');display.id='care-full-source';display.className='care-full-source';display.tabIndex=0;display.onclick=showSourcePicker;row.appendChild(display);syncSelect()}}
-  form();
-  var oldReset=window.careResetForm;window.careResetForm=function(){if(typeof oldReset==='function')oldReset();var next=document.getElementById('care-next'),label=document.getElementById('care-next-val');if(next)next.value='';if(label)label.firstChild.nodeValue='请选择';labelSource((document.getElementById('care-source')||{}).value||'daily');form()};
-  var oldFollow=window.openCareFollow;window.openCareFollow=function(card){if(typeof oldFollow==='function')oldFollow(card);var index=Number(card&&card.dataset.careIndex),record=rows[index],select=document.getElementById('care-datasource');if(record&&select&&sourceKey(record)!=='daily'){var option=Array.from(select.options).find(function(x){return x.value===record.dataSource});if(!option){option=document.createElement('option');option.value=record.dataSource||record.id;select.appendChild(option)}option.textContent=full(record);select.value=option.value}syncSelect()};
-  var oldEdit=window.teacherCareEdit;window.teacherCareEdit=function(index){if(typeof oldEdit==='function')oldEdit(index);var record=rows[index],select=document.getElementById('care-datasource');if(record&&select&&sourceKey(record)!=='daily'){var option=Array.from(select.options).find(function(x){return x.value===record.dataSource});if(!option){option=document.createElement('option');option.value=record.dataSource||record.id;select.appendChild(option)}option.textContent=full(record);select.value=option.value}syncSelect()};
-  function updateProofLimit(){var grid=document.getElementById('care-proof-grid'),input=document.getElementById('care-proof-input');if(!grid)return;var full=grid.querySelectorAll('.care-proof-item img').length>=9,add=grid.querySelector('.care-proof-add');if(add)add.hidden=full;if(input)input.disabled=full}
-  var proofGrid=document.getElementById('care-proof-grid');if(proofGrid){new MutationObserver(updateProofLimit).observe(proofGrid,{childList:true});updateProofLimit()}
-  window.careMobileProofSheet=function(){var grid=document.getElementById('care-proof-grid');if(grid&&grid.querySelectorAll('.care-proof-item img').length>=9)return;if(typeof sheet!=='function')return;sheet('<div class="pk-hd"><b>上传证明材料</b><button onclick="closeSheet()">取消</button></div><div style="padding:8px 16px 18px"><button class="btn ghost blk" onclick="careChooseProof(true)">拍照</button><button class="btn ghost blk" style="margin-top:9px" onclick="careChooseProof(false)">从相册选择</button><div class="care-proof-hint" style="margin-top:10px">支持JPEG、JPG、PNG格式图片，最多九张，每张不超过10M</div></div>')};
-  window.careChooseProof=function(camera){var input=document.getElementById('care-proof-input');if(!input||input.disabled)return;if(camera)input.setAttribute('capture','environment');else input.removeAttribute('capture');if(typeof closeSheet==='function')closeSheet();input.click()};
-  window.careProofChange=function(input){var grid=document.getElementById('care-proof-grid');if(!grid)return;var files=Array.from(input.files||[]),count=grid.querySelectorAll('.care-proof-item img').length;for(var i=0;i<files.length;i++){var f=files[i];if(f.type!=='image/jpeg'&&f.type!=='image/png'){carePrompt('暂不支持该格式图片，请上传JPEG、JPG或PNG格式图片');continue}if(f.size>10*1024*1024){carePrompt('单张图片不能超过10M');continue}if(count>=9){carePrompt('图片上传最多九张');break}var item=document.createElement('div'),img=document.createElement('img'),remove=document.createElement('button');item.className='care-proof-item';img.src=URL.createObjectURL(f);remove.type='button';remove.textContent='×';remove.onclick=function(e){e.stopPropagation();this.parentElement.remove();updateProofLimit()};item.appendChild(img);item.appendChild(remove);var add=grid.querySelector('.care-proof-add');grid.insertBefore(item,add);count++}input.value='';updateProofLimit()};
-  var list=document.getElementById('cm-list');if(list)list.addEventListener('click',function(e){var card=e.target.closest('.care-v1-row');if(card)current=rows[Number(card.dataset.careIndex)]||null},true);
-  function proof(r){var a=(r.proofs||[]).slice(0,9);return a.length?'<div class="care-detail-proof">'+a.map(function(x,i){return '<div class="thumb"><img src="'+esc(x)+'" alt="证明材料'+(i+1)+'" onclick="openPhotoViewer(this)"></div>'}).join('')+'</div>':'--'}
-  function line(k,v){return '<div class="kv"><span class="k">'+esc(k)+'</span><span class="v">'+esc(v||'--')+'</span></div>'}
-  function timeline(){var root=document.getElementById('care-detail-content');if(!root||!root.querySelector('.care-state'))return;var name=(root.querySelector('.stu-nm')||{}).firstChild,selected=current;if(!selected||!name||selected.name!==name.textContent.trim()){selected=rows.find(function(r){return r.name===name.textContent.trim()})}if(!selected)return;var caseId=selected.caseId||selected.id,chain=rows.filter(function(r){return(r.caseId||r.id)===caseId}).sort(function(a,b){return b.date.localeCompare(a.date)}),old=root.querySelector('.care-state');if(!old)return;var heading=old.previousElementSibling;if(heading&&heading.classList.contains('care-detail-section'))heading.textContent='关爱情况（共'+chain.length+'次）';var latest=chain[0],chip=root.querySelector('.stu-nm .chip');if(chip){chip.textContent=latest.follow==='需要'?'待跟进':'已完结';chip.className='chip '+(latest.follow==='需要'?'amber':'teal')};old.remove();chain.forEach(function(r,i){var card=document.createElement('div');card.className='card care-detail-card care-timeline-card';card.dataset.careRecordId=r.id;card.innerHTML='<div class="care-timeline-head"><b>第'+(chain.length-i)+'次关爱</b><span>'+esc(r.date)+'</span><span class="chip '+(r.follow==='需要'?'amber':'teal')+'">'+(r.follow==='需要'?'待跟进':'已完结')+'</span></div>'+line('实施人员',r.people)+line('关爱来源',r.source==='预警'?'预警信息':r.source==='心理测评'?'心理测评':'日常上传')+line('数据源',full(r))+line('关爱类型',r.type)+line('关爱方式',r.method)+'<div class="kv care-result-row"><span class="k">关爱结果</span><span class="v detail-long">'+esc(r.result||'--')+'</span></div><div class="kv care-proof-row"><span class="k">证明材料</span><span class="v">'+proof(r)+'</span></div>'+line('继续跟进',r.follow==='需要'?'需要':'暂不需要')+(r.follow==='需要'?line('下次跟进日期',r.next):'');root.appendChild(card)})}
-  var detail=document.getElementById('care-detail-content');if(detail)new MutationObserver(function(){if(detail.querySelector('.care-state'))timeline()}).observe(detail,{childList:true});
-  var oldDateSheet=window.careDateSheet;window.careDateSheet=function(id){if(typeof oldDateSheet==='function')oldDateSheet(id);if(typeof refreshCareDates==='function')refreshCareDates()};
-  labelSource((document.getElementById('care-source')||{}).value||'daily');
-  if(typeof teacherCareRefresh==='function')teacherCareRefresh();
-})();
 
-</script>
-<script id="care-v24-common">
-(function(){
-  var groups={
-    '必填校验':['请选择学生','请选择关爱日期','请选择实施人员','请选择关爱来源','请选择来源信息','请选择关爱类型','请选择关爱方式','请填写关爱过程和关爱结果','请选择是否继续跟进','请选择下次跟进日期'],
-    '图片上传':['图片上传最多九张','暂不支持该格式图片，请上传JPEG、JPG或PNG格式图片','单张图片不能超过10M','图片上传失败，请重试'],
-    '状态变更':['学生状态变更，请重新进入页面','预警记录状态变更，请重新进入页面','心理测评记录状态变更，请重新进入页面','关联记录已失效，请重新选择来源信息','关爱记录已被其他人员修改，请刷新后重试'],
-    '操作反馈':['已新增关爱记录','已更新关爱记录','已新增关爱跟进记录','保存失败，请稍后重试','已完结的关爱事项不可继续跟进','暂无权限编辑该记录','请勿重复提交'],
-    '查询反馈':['请选择有效日期范围','暂无符合条件的关爱个案','数据已更新，请重新查询'],
-    '详情反馈':['数据已更新，请重新打开详情','关联记录已失效，请重新查询']
-  };
-  function toast(message){if(document.querySelector('.phone')&&typeof window.toast==='function'){window.toast(message);return}var x=document.getElementById('care-demo-toast');if(!x){x=document.createElement('div');x.id='care-demo-toast';document.body.appendChild(x)}x.textContent=message;x.style.display='block';clearTimeout(x._timer);x._timer=setTimeout(function(){x.style.display='none'},2600)}
-  window.carePrompt=toast;
-  function attachHelp(target,scope){
-    if(!target||target.querySelector(':scope > .care-help-wrap'))return;
-    target.style.position='relative';
-    var allowed=scope==='form'?['必填校验','图片上传','状态变更','操作反馈']:scope==='list'?['状态变更','操作反馈']:scope==='read-list'?['查询反馈']:scope==='read-detail'?['详情反馈']:['状态变更'];
-    var box=document.createElement('div');box.className='care-help-wrap';
-    box.innerHTML='<button type="button" class="care-help-button" aria-label="查看本页提示文案" title="查看本页提示文案" aria-expanded="false"></button><div class="care-help-pop" hidden><div class="care-help-title">本页交互文案预览</div><div class="care-help-categories"></div><div class="care-help-messages"></div></div>';
-    target.appendChild(box);
-    var button=box.querySelector('button'),pop=box.querySelector('.care-help-pop'),categories=box.querySelector('.care-help-categories'),messages=box.querySelector('.care-help-messages');
-    function relevant(name){
-      var list=groups[name].slice();
-      if(scope==='form'&&name==='必填校验'){
-        var formTitle=(target.querySelector('b,h3')||{}).textContent||'';
-        if(target.closest('#sc-care-add'))list=list.filter(function(m){return m!=='请选择学生'});
-        if(formTitle.includes('跟进'))list=list.filter(function(m){return m!=='请选择关爱来源'&&m!=='请选择来源信息'});
-      }
-      if(scope==='form'&&name==='状态变更'){
-        var source=(document.getElementById('care-source')||document.getElementById('scm-v2-source')||{}).value;
-        if(source==='daily'||source==='teacher'||source==='parent')list=list.filter(function(m){return!m.includes('预警记录')&&!m.includes('心理测评记录')&&!m.includes('关联记录')});
-        if(source==='warning')list=list.filter(function(m){return!m.includes('心理测评记录')});
-        if(source==='psych')list=list.filter(function(m){return!m.includes('预警记录')});
-      }
-      if(name==='操作反馈'){
-        if(scope==='list')return list.filter(function(m){return m.includes('已完结')||m.includes('暂无权限')});
-        var title=(target.querySelector('b,h3')||{}).textContent||'';
-        var success=title.includes('跟进')?'已新增关爱跟进记录':title.includes('编辑')?'已更新关爱记录':'已新增关爱记录';
-        list=list.filter(function(m){return(!m.startsWith('已新增')&&!m.startsWith('已更新'))||m===success});
-      }
-      return list;
-    }
-    allowed.forEach(function(name){var b=document.createElement('button');b.type='button';b.textContent=name;b.onclick=function(){categories.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b)});messages.innerHTML='';relevant(name).forEach(function(m){var item=document.createElement('button');item.type='button';item.textContent=m;item.title='点击预览提示';item.onclick=function(){toast(m)};messages.appendChild(item)})};categories.appendChild(b)});
-    button.onclick=function(e){e.stopPropagation();pop.hidden=!pop.hidden;button.setAttribute('aria-expanded',String(!pop.hidden));if(!pop.hidden)(categories.querySelector('.on')||categories.firstElementChild).click()};
-    pop.onclick=function(e){e.stopPropagation()};
-  }
-  function dateSkin(input){if(!input||input.closest('.care-date-skin'))return;var wrap=document.createElement('span'),label=document.createElement('span');wrap.className='care-date-skin';label.className='care-date-label';input.parentNode.insertBefore(wrap,input);wrap.appendChild(input);wrap.appendChild(label);function update(){label.textContent=input.value||'请选择日期'}input.addEventListener('input',update);input.addEventListener('change',update);wrap.addEventListener('click',function(){if(typeof input.showPicker==='function')try{input.showPicker()}catch(_){input.focus()}});update()}
-  window.refreshCareDates=function(){document.querySelectorAll('#care-date-picker,#sv3-start,#sv3-end,#scm-v2-date,#scm-v2-next,#crv3-start,#crv3-end,#pr-start,#pr-end,#min-start,#min-end').forEach(dateSkin);document.querySelectorAll('.care-date-skin').forEach(function(w){var input=w.querySelector('input'),label=w.querySelector('.care-date-label'),value=input&&(input.value||'请选择日期');if(input&&label&&label.textContent!==value)label.textContent=value})};
-  function toolbarFixed(toolbar){if(!toolbar||toolbar.classList.contains('care-toolbar-fixed'))return;var filters=document.createElement('div'),actions=document.createElement('div');filters.className='care-toolbar-filters';actions.className='care-toolbar-actions';Array.from(toolbar.children).forEach(function(child){if(child.classList.contains('scm-v3-spacer')||child.classList.contains('crv3-spacer')){child.remove();return}if(child.classList.contains('scm-v3-query')||child.classList.contains('scm-v3-reset')||child.classList.contains('query')||child.classList.contains('reset'))actions.appendChild(child);else filters.appendChild(child)});toolbar.appendChild(filters);toolbar.appendChild(actions);toolbar.classList.add('care-toolbar-fixed')}
-  function attach(){document.querySelectorAll('#sc-care-menu .care-v1-head,#section-care-menu-v1 .scm-v3-panel').forEach(function(x){attachHelp(x,'list')});document.querySelectorAll('#section-care-menu-v1 .crv3-panel').forEach(function(x){attachHelp(x,'read-list')});document.querySelectorAll('#sc-care-add .sub-hd').forEach(function(x){attachHelp(x,'form')});document.querySelectorAll('#sc-care-detail .sub-hd').forEach(function(x){attachHelp(x,'detail')});document.querySelectorAll('#city-care-modal-v1 .ecm-modal-head').forEach(function(x){attachHelp(x,'read-detail')});document.querySelectorAll('#school-care-modal-v1 .scm-modal-head').forEach(function(x){attachHelp(x,(x.querySelector('h3')||{}).textContent==='关爱详情'?'detail':'form')});document.querySelectorAll('#section-care-menu-v1 .scm-v3-toolbar,#section-care-menu-v1 .crv3-toolbar').forEach(toolbarFixed);window.refreshCareDates()}
-  var pending=false;new MutationObserver(function(){if(pending)return;pending=true;queueMicrotask(function(){pending=false;attach()})}).observe(document.body,{childList:true,subtree:true});attach();
-  document.addEventListener('click',function(e){if(e.target.closest('.care-help-wrap'))return;document.querySelectorAll('.care-help-pop').forEach(function(p){p.hidden=true})});
-})();
 
-</script>
-<script id="dropout-care-alignment-20260928">
-(function () {
-  'use strict';
-  var role = document.getElementById('sc-care-add') ? 'teacher' :
-    document.getElementById('care-school-date') ? 'school' :
-    document.querySelector('#modal-detail [data-dom-id="section-care"]') ? 'regulator' : '';
-  if (!role) return;
 
-  var warning = {name:'张小明',grade:'七年级（2025级）',cls:'2班',school:'市实验一小',type:'连续缺勤',reason:'连续缺勤3个工作日',time:'2026-05-05 18:05'};
-  var chains = {};
-  var key = function (w) { return [w.name,w.type,w.reason,w.time].join('|'); };
-  var initial = [
-    {date:'2026-09-23',people:'王老师、李老师、陈老师',type:'返校适应',method:'面谈',result:'【原型示例】已与学生面谈返校适应情况，约定下周继续关注。',follow:'需要',next:'2026-09-30',proofs:[]},
-    {date:'2026-09-18',people:'王老师、李老师',type:'家庭关怀',method:'家访',result:'【原型示例】已与家长沟通返校安排，约定持续关注学生返校适应情况。',follow:'需要',next:'2026-09-25',proofs:[]}
-  ];
-  chains[key(warning)] = initial;
-  function esc(value) { return String(value == null ? '' : value).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]}); }
-  function currentChain() { return chains[key(warning)] || (chains[key(warning)] = []); }
-  function fullSource() { return [warning.name,warning.type,warning.reason,warning.time].join('｜'); }
-  function photoHTML(record) {
-    var photos=(record.proofs||[]).slice(0,9);
-    return photos.length ? '<div class="drop-care-photos">'+photos.map(function(src,i){return '<button type="button" class="drop-care-photo" aria-label="查看证明材料'+(i+1)+'" onclick="dropCareViewPhoto(this)"><img src="'+esc(src)+'" alt="证明材料'+(i+1)+'"></button>';}).join('')+'</div>' : '--';
-  }
-  window.dropCareViewPhoto=function(button){var img=button.querySelector('img');if(!img)return;if(typeof window.openPhotoViewer==='function'){window.openPhotoViewer(img);return;}var overlay=document.createElement('div');overlay.className='drop-care-viewer';overlay.onclick=function(){overlay.remove()};var full=document.createElement('img');full.src=img.src;full.alt=img.alt;overlay.appendChild(full);document.body.appendChild(overlay)};
-  function field(label,value,raw) { return '<div class="drop-care-field"><span class="drop-care-label">'+esc(label)+'</span><span class="drop-care-value">'+(raw?value:esc(value||'--'))+'</span></div>'; }
-  function recordHTML(record,index) {
-    var status=record.follow==='需要'?'待跟进':'已完结';
-    var action=index===0&&role!=='regulator'?'<div class="drop-care-actions"><button type="button" '+(status==='已完结'?'disabled':'onclick="dropCareContinue()"')+' class="drop-care-follow">继续跟进</button></div>':'';
-    return '<div class="drop-care-record"><div class="drop-care-record-title">第'+(currentChain().length-index)+'次关爱 <span class="drop-care-date">'+esc(record.date)+'</span><span class="drop-care-status '+(status==='待跟进'?'todo':'done')+'">'+status+'</span></div>'+
-      field('实施人员',record.people)+field('关爱来源','预警信息')+
-      field('数据源',fullSource())+field('关爱类型',record.type)+field('关爱方式',record.method)+field('关爱结果',record.result)+
-      field('证明材料',photoHTML(record),true)+field('继续跟进',record.follow)+(record.follow==='需要'?field('下次跟进日期',record.next):'')+action+'</div>';
-  }
-  function contentHTML(){var a=currentChain();return '<div class="drop-care-heading">关爱情况 <span>共'+a.length+'次</span></div>'+(a.length?a.map(recordHTML).join(''):'<div class="drop-care-empty">暂无关爱记录</div>');}
-  var style=document.createElement('style');style.id='dropout-care-alignment-style';style.textContent=
-    '.drop-care-record{background:#fff;border:1px solid #e8edf4;border-radius:8px;padding:14px 16px;margin-bottom:12px}.drop-care-record-title{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;margin-bottom:8px;color:#18324d}.drop-care-date{margin-left:auto;color:#8799b1;font-size:12px;font-weight:400}.drop-care-status{font-size:12px;font-weight:400;border-radius:3px;padding:2px 7px}.drop-care-status.todo{background:#fff3e5;color:#b56b00}.drop-care-status.done{background:#e8f8f0;color:#087b5d}.drop-care-field{display:flex;align-items:flex-start;gap:0;padding:5px 0;font-size:13px;line-height:20px;border:0!important}.drop-care-label{width:92px;flex:0 0 92px;color:#8799b1}.drop-care-value{flex:1;min-width:0;text-align:left!important;overflow-wrap:anywhere;color:#233850}.drop-care-photos{display:grid;grid-template-columns:repeat(3,58px);gap:8px}.drop-care-photo{width:58px;height:58px;border:0;padding:0;background:none;cursor:pointer}.drop-care-photo img{width:100%;height:100%;object-fit:cover;border-radius:5px}.drop-care-actions{display:flex;justify-content:flex-end;margin-top:10px}.drop-care-follow{border:1px solid #2d7bf0;background:#2d7bf0;color:#fff;border-radius:6px;padding:5px 12px;font-size:12px;cursor:pointer}.drop-care-follow:disabled{background:#eef1f5;border-color:#eef1f5;color:#a0aaba;cursor:not-allowed}.drop-care-heading{font-size:14px;font-weight:600;color:#233850;margin-bottom:10px}.drop-care-heading span{font-size:12px;font-weight:400;color:#8799b1;margin-left:6px}.drop-care-empty{padding:22px;text-align:center;color:#8799b1;background:#fff;border-radius:8px}.drop-care-viewer{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;cursor:zoom-out}.drop-care-viewer img{max-width:92vw;max-height:92vh;object-fit:contain}';
-  document.head.appendChild(style);
-  function readWarningFromCard(card) {
-    if(!card)return;
-    var name=(card.querySelector('.stu-nm')||{}).textContent||'';name=name.replace(/待处理|已处理|处理中|已劝返|待核实/g,'').trim();
-    var sub=(card.querySelector('.stu-sub')||{}).textContent||'';
-    var pairs={};card.querySelectorAll('.kv').forEach(function(x){var k=x.querySelector('.k'),v=x.querySelector('.v');if(k&&v)pairs[k.textContent.trim()]=v.textContent.trim()});
-    if(name)warning={name:name,grade:(sub.split('·')[0]||warning.grade).trim(),cls:(sub.split('·')[1]||warning.cls).trim(),school:warning.school,type:pairs['预警类型']||warning.type,reason:pairs['预警原因']||warning.reason,time:pairs['预警时间']||warning.time};
-  }
-  function readWarningFromRow(row) {
-    if(!row)return;
-    var cells=Array.from(row.querySelectorAll('td')).map(function(td){return td.textContent.trim()});
-    if(cells.length<6)return;
-    warning={name:cells[0],grade:cells[1],cls:cells[2],school:warning.school,type:cells[3],reason:cells[4],time:cells[5]};
-  }
-  function blobPhotos(nodes){return Array.from(nodes||[]).map(function(img){return img.src}).filter(Boolean).slice(0,9)}
-  function notify(message){if(role==='teacher'&&typeof window.toast==='function')window.toast(message);else if(typeof window.showToast==='function')window.showToast(message);else alert(message)}
-  function validate(data){if(!data.date){notify('请选择关爱日期');return false}if(!data.people){notify('请选择实施人员');return false}if(!data.type){notify('请选择关爱类型');return false}if(!data.method){notify('请选择关爱方式');return false}if(!data.result){notify('请填写关爱过程和关爱结果');return false}if(!data.follow){notify('请选择是否继续跟进');return false}if(data.follow==='需要'&&!data.next){notify('请选择下次跟进日期');return false}return true}
-  function save(data){currentChain().unshift(data);render();notify('已新增关爱记录')}
-  function render(){
-    if(role==='teacher'){
-      var section=document.getElementById('detail-care-section');if(section)section.innerHTML=contentHTML();
-    }else{
-      var section=document.querySelector('#modal-detail [data-dom-id="section-care"]');if(section)section.innerHTML=contentHTML();
-    }
-  }
-  if(role==='teacher'){
-    var dropoutMode=false,opening=false;
-    var oldGo=window.go;
-    window.go=function(id){if(id==='sc-care-add'&&!opening)dropoutMode=false;var result=oldGo.apply(this,arguments);if(id==='sc-detail')render();return result};
-    function openDropout(){opening=true;dropoutMode=true;window.go('sc-care-add');opening=false;
-      var card=document.querySelector('#sc-care-add .pad>.card:first-child');if(card){var n=card.querySelector('.stu-nm'),g=card.querySelector('.stu-sub'),a=card.querySelector('.avatar');if(n)n.textContent=warning.name;if(g)g.textContent=warning.grade+' · '+warning.cls;if(a)a.textContent=warning.name.slice(0,1)}
-      var source=document.getElementById('care-source');if(source){source.value='warning';if(typeof window.careSourceChange==='function')window.careSourceChange('warning');source.disabled=true}
-      var data=document.getElementById('care-datasource');if(data){var option=Array.from(data.options).find(function(x){return x.textContent===fullSource()});if(!option){option=document.createElement('option');option.value=fullSource();option.textContent=fullSource();data.appendChild(option)}data.value=option.value;data.disabled=true}
-      var display=document.getElementById('care-full-source');if(display){display.textContent=fullSource();display.classList.add('locked')}
-      var title=document.querySelector('#sc-care-add .sub-hd b');if(title)title.textContent=currentChain().length&&currentChain()[0].follow==='需要'?'新增关爱跟进':'新增关爱';
-      var back=document.querySelector('#sc-care-add .sub-hd .back');if(back)back.onclick=function(){window.go('sc-detail');if(typeof window.setTeacherDetailTab==='function')window.setTeacherDetailTab('care')};
-      if(currentChain().length&&currentChain()[0].follow==='需要'){var type=document.getElementById('care-type');if(type)type.value=currentChain()[0].type;}
-    }
-    window.dropCareContinue=function(){if(currentChain().length&&currentChain()[0].follow==='需要')openDropout()};
-    var list=document.getElementById('wl-cards');if(list)list.addEventListener('click',function(e){var card=e.target.closest('.card');if(!card)return;readWarningFromCard(card);var button=e.target.closest('button');if(button&&button.textContent.trim()==='关爱'){e.preventDefault();e.stopImmediatePropagation();openDropout()}},true);
-    var teacherProof=document.getElementById('care-proof-grid');if(teacherProof)teacherProof.addEventListener('click',function(e){if(dropoutMode&&e.target.matches('img'))window.dropCareViewPhoto(e.target.parentElement)});
-    var oldSubmit=window.submitCareRecord;window.submitCareRecord=function(){if(!dropoutMode)return oldSubmit.apply(this,arguments);
-      var val=function(id){return (document.getElementById(id)||{}).value||''},people=document.getElementById('care-people-val');
-      var data={date:val('care-date'),people:people&&people.dataset.value||'',type:val('care-type'),method:val('care-method'),result:val('care-result').trim(),follow:val('care-follow'),next:val('care-next'),proofs:blobPhotos(document.querySelectorAll('#care-proof-grid .care-proof-item img'))};
-      if(!validate(data))return;save(data);dropoutMode=false;window.go('sc-detail');if(typeof window.setTeacherDetailTab==='function')window.setTeacherDetailTab('care');
-    };
-    render();
-  }
-  if(role==='school'){
-    document.addEventListener('click',function(e){var target=e.target.closest('[data-dom-id^="btn-care-"],[data-dom-id^="btn-view-detail-"]');if(target)readWarningFromRow(target.closest('tr'))},true);
-    var oldShow=window.showCareModal;
-    window.showCareModal=function(name,grade,cls){if(name)warning.name=name;if(grade)warning.grade=grade;if(cls)warning.cls=cls;oldShow.apply(this,arguments);setTimeout(prepareSchoolForm,0)};
-    window.dropCareContinue=function(){if(currentChain().length&&currentChain()[0].follow==='需要')window.showCareModal(warning.name,warning.grade,warning.cls)};
-    function schoolField(id){return document.getElementById(id)}
-    function schoolDateSkin(id){var input=schoolField(id);if(!input||input.dataset.dropCareDateSkin)return;input.dataset.dropCareDateSkin='1';var parent=input.parentElement;parent.style.position='relative';var display=document.createElement('span');display.className='drop-care-date-display';display.textContent=input.value||'请选择日期';parent.appendChild(display);input.addEventListener('change',function(){display.textContent=input.value||'请选择日期'});input.addEventListener('input',function(){display.textContent=input.value||'请选择日期'});}
-    function prepareSchoolForm(){var fields=schoolField('care-school-fields');if(!fields)return;
-      var grid=schoolField('care-school-proof-grid');if(grid&&typeof window.removeCareSchoolEvidence==='function'){while(grid.querySelector('img'))window.removeCareSchoolEvidence(0)}
-      var context=schoolField('care-school-context');if(context)context.innerHTML='<div style="font-weight:600">'+esc(warning.name)+' <span style="font-weight:400;color:#8799b1">'+esc(warning.grade+' · '+warning.cls)+'</span></div>';
-      if(!schoolField('drop-care-school-source')){var source=document.createElement('label');source.className='care-field-label block text-sm text-gray-700';source.innerHTML='关爱来源<span class="care-required">*</span><input id="drop-care-school-source" class="mt-1 w-full border rounded px-3 py-2 text-sm" value="预警信息" readonly>';var data=document.createElement('label');data.className=source.className;data.innerHTML='数据源<span class="care-required">*</span><div id="drop-care-school-data" class="mt-1 w-full border rounded px-3 py-2 text-sm" style="min-height:40px;background:#f7f9fc;overflow-wrap:anywhere"></div>';var type=schoolField('care-school-type');fields.insertBefore(source,type.parentElement);fields.insertBefore(data,type.parentElement)}
-      schoolField('drop-care-school-data').textContent=fullSource();
-      ['care-school-date','care-school-next'].forEach(function(id){schoolDateSkin(id);var input=schoolField(id),display=input&&input.parentElement.querySelector('.drop-care-date-display');if(display)display.textContent=input.value||'请选择日期'});
-      var hint=document.querySelector('#care-school-proof-label > div:last-child');if(hint)hint.textContent='支持JPEG、JPG、PNG格式图片，最多九张，每张不超过10M';
-      var next=schoolField('care-school-next');if(next){next.value='';var nextDisplay=next.parentElement.querySelector('.drop-care-date-display');if(nextDisplay)nextDisplay.textContent='请选择日期'}var result=schoolField('care-school-result');if(result)result.value='';
-      var title=document.querySelector('#modal-care h2');if(title)title.textContent=currentChain().length&&currentChain()[0].follow==='需要'?'新增关爱跟进':'新增关爱';
-      if(currentChain().length&&currentChain()[0].follow==='需要'){var type=schoolField('care-school-type');if(type)type.value=currentChain()[0].type;}
-    }
-    var oldSubmit=window.submitCareSchool;window.submitCareSchool=function(){var people=schoolField('care-school-people-val'),val=function(id){return (schoolField(id)||{}).value||''};var data={date:val('care-school-date'),people:people&&people.dataset.value||'',type:val('care-school-type'),method:val('care-school-method'),result:val('care-school-result').trim(),follow:val('care-school-follow'),next:val('care-school-next'),proofs:blobPhotos(document.querySelectorAll('#care-school-proof-grid img'))};if(!validate(data))return;save(data);if(typeof window.closeCareModal==='function')window.closeCareModal()};
-    var proofInput=schoolField('care-school-proof-input');if(proofInput)proofInput.setAttribute('accept','.jpeg,.jpg,.png,image/jpeg,image/png');
-    var schoolProof=schoolField('care-school-proof-grid');if(schoolProof)schoolProof.addEventListener('click',function(e){if(e.target.matches('img'))window.dropCareViewPhoto(e.target.parentElement)});
-    var dateStyle=document.createElement('style');dateStyle.textContent='#modal-care .drop-care-date-display{position:absolute;left:13px;bottom:10px;font-size:14px;color:#24344d;pointer-events:none}#modal-care input[data-drop-care-date-skin="1"]::-webkit-datetime-edit{color:transparent}#modal-care input[data-drop-care-date-skin="1"]{color:transparent!important}';document.head.appendChild(dateStyle);
-    var originalProof=window.schoolEvidenceChange;window.schoolEvidenceChange=function(input){var existing=document.querySelectorAll('#care-school-proof-grid img').length,files=Array.from(input.files||[]),valid=[];files.forEach(function(file){if(!/image\/(jpeg|png)/i.test(file.type)){notify('暂不支持该格式图片，请上传JPEG、JPG或PNG格式图片');return}if(file.size>10*1024*1024){notify('单张图片不能超过10M');return}if(existing+valid.length>=9){notify('图片上传最多九张');return}valid.push(file)});if(!valid.length){input.value='';return}if(typeof DataTransfer!=='function'){notify('图片上传失败，请重试');input.value='';return}var transfer=new DataTransfer();valid.forEach(function(file){transfer.items.add(file)});input.files=transfer.files;originalProof(input)};
-    var detail=window.showDetailModal;window.showDetailModal=function(){var result=detail.apply(this,arguments);render();return result};
-    render();
-  }
-  if(role==='regulator'){
-    var first=document.querySelector('[data-dom-id="row-warning-1"]');if(first){readWarningFromRow(first);if(!chains[key(warning)])chains[key(warning)]=initial.map(function(item){return Object.assign({},item)})}
-    document.addEventListener('click',function(e){var target=e.target.closest('[data-dom-id^="btn-view-detail-"]');if(target)readWarningFromRow(target.closest('tr'))},true);
-    var detail=window.showDetailModal;if(typeof detail==='function')window.showDetailModal=function(){var result=detail.apply(this,arguments);render();return result};render();
-  }
-})();
 
-</script>
-<style id="care-permission-record-style">
-#sc-care-menu .care-record-delete{border-color:#ffd4d0;color:#d94b42}
-#sc-care-detail .care-record-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:10px}
-#sc-care-add .care-field-locked{opacity:.6;pointer-events:none}
-.care-delete-dialog{position:fixed;inset:0;z-index:99990;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center}
-.care-delete-dialog-box{width:280px;max-width:calc(100vw - 42px);background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.18);font-family:"Microsoft YaHei",sans-serif}
-.care-delete-dialog-body{padding:20px;text-align:center}.care-delete-dialog-body b{display:block;font-size:15px;margin-bottom:8px;color:#262626}.care-delete-dialog-body p{font-size:13px;color:#8c8c8c;line-height:1.6;margin:0}
-.care-delete-dialog-foot{display:flex;border-top:1px solid #f0f0f0}.care-delete-dialog-foot button{flex:1;padding:12px 0;border:0;background:#fff;font-size:14px;cursor:pointer}.care-delete-dialog-foot button+button{border-left:1px solid #f0f0f0;color:#e05049}
-</style>
-<script id="care-record-permission-20260928">
-(function(){
-  var rows=window.teacherCareRows||[],me=window.CARE_CURRENT_USER_NAME||'王老师',meId=window.CARE_CURRENT_USER_ID||'teacher-wang-demo',deleted=window.teacherCareDeletedRecords||(window.teacherCareDeletedRecords=[]),editingRecord=null,lockedSnapshot=null;
-  // 演示数据的创建人单独记录，不从“实施人员”推断；正式产品应由提交成功的登录账号ID写入。
-  rows.forEach(function(r){if(!r.createdById)r.createdById=r.name==='李小红'?'teacher-li-demo':meId;if(!r.createdByRole)r.createdByRole='老师';if(!r.createdPermissionSnapshot)r.createdPermissionSnapshot={menu:true,detail:true,edit:true,delete:true,continue:true,source:'职务管理演示快照'}});
-  function prompt(message){if(typeof window.toast==='function')window.toast(message);else alert(message)}
-  function permitted(action){var p=window.CARE_CURRENT_PERMISSIONS;return !p||p[action]!==false}
-  function inCurrentYear(r){var period=window.CARE_ACADEMIC_YEAR_RANGE||{start:'2026-09-01',end:'2027-08-31'};return !!r&&r.date>=period.start&&r.date<=period.end}
-  function isOwner(r){return !!r&&r.createdById===meId&&inCurrentYear(r)}
-  function chain(r){return rows.filter(function(x){return !x.deletedAt&&(x.caseId||x.id)===(r.caseId||r.id)}).sort(function(a,b){return b.date.localeCompare(a.date)})}
-  function isLatest(r){return chain(r)[0]===r}
-  function indexOf(r){return rows.indexOf(r)}
-  function lockEarlier(r){
-    var ids=['care-date','care-people-val','care-type','care-method','care-follow','care-next'];
-    ids.forEach(function(id){var x=document.getElementById(id);if(!x)return;var host=x.closest('.frm-row')||x.closest('.care-people-row')||x.parentElement; if(host)host.classList.add('care-field-locked');if('disabled' in x)x.disabled=true});
-    lockedSnapshot={date:r.date,people:r.people,type:r.type,method:r.method,follow:r.follow,next:r.next};
-  }
-  function unlock(){document.querySelectorAll('#sc-care-add .care-field-locked').forEach(function(x){x.classList.remove('care-field-locked')});['care-date','care-people-val','care-type','care-method','care-follow','care-next'].forEach(function(id){var x=document.getElementById(id);if(x&&'disabled' in x)x.disabled=false})}
-  var oldEdit=window.teacherCareEdit;window.teacherCareEdit=function(index){var r=rows[index];if(!r)return;if(!isOwner(r)||!permitted('edit')){prompt('暂无权限');return}unlock();lockedSnapshot=null;if(typeof oldEdit==='function')oldEdit(index);editingRecord=r;if(!isLatest(r))lockEarlier(r)};
-  var oldSubmit=window.submitCareRecord;window.submitCareRecord=function(){
-    if(editingRecord&&lockedSnapshot){var s=lockedSnapshot,put=function(id,value){var x=document.getElementById(id);if(x)x.value=value||''};put('care-date',s.date);put('care-type',s.type);put('care-method',s.method);put('care-follow',s.follow==='需要'?'需要':'暂不需要');put('care-next',s.next);var p=document.getElementById('care-people-val');if(p)p.dataset.value=s.people}
-    var before=rows.length,result=typeof oldSubmit==='function'?oldSubmit.apply(this,arguments):undefined;
-    if(rows.length>before&&rows[0]){rows[0].createdById=meId;rows[0].createdByRole=window.CARE_CURRENT_ROLE||'老师';rows[0].createdPermissionSnapshot=Object.assign({menu:true,detail:true,edit:true,delete:true,continue:true,source:'学校端-职务管理'},window.CARE_CURRENT_PERMISSIONS||{})}
-    if(editingRecord&&location.hash!=='#sc-care-add'){editingRecord=null;lockedSnapshot=null;unlock()}return result;
-  };
-  var oldReset=window.careResetForm;window.careResetForm=function(){editingRecord=null;lockedSnapshot=null;unlock();if(typeof oldReset==='function')return oldReset.apply(this,arguments)};
-  function closeDialog(){var x=document.getElementById('care-delete-dialog');if(x)x.remove()}
-  function removeRecord(r){var idx=indexOf(r);if(idx<0)return;var group=chain(r);if(group[0]!==r){prompt('已有最新关联记录，不可删除');return}r.deletedAt=new Date().toISOString();r.deletedBy=me;r.deletedById=meId;r.deletedByRole='老师';r.deleteReason='用户确认删除';deleted.push(r);rows.splice(idx,1);if(group[1])group[1].superseded=false;closeDialog();prompt('已删除关爱记录');if(typeof window.teacherCareRefresh==='function')window.teacherCareRefresh();if(typeof window.go==='function')window.go('sc-care-menu')}
-  window.teacherCareDelete=function(index){var r=rows[index];if(!r)return;if(!isOwner(r)||!permitted('delete')){prompt('暂无权限');return}if(!isLatest(r)){prompt('已有最新关联记录，不可删除');return}closeDialog();var mask=document.createElement('div');mask.id='care-delete-dialog';mask.className='care-delete-dialog';mask.innerHTML='<div class="care-delete-dialog-box" role="dialog" aria-modal="true" aria-label="删除"><div class="care-delete-dialog-body"><b>删除</b><p>确认删除该记录吗？删除后不可恢复！</p></div><div class="care-delete-dialog-foot"><button type="button" data-action="cancel">取消</button><button type="button" data-action="confirm">确定</button></div></div>';mask.addEventListener('click',function(e){if(e.target===mask||e.target.dataset.action==='cancel')closeDialog();if(e.target.dataset.action==='confirm')removeRecord(r)});document.body.appendChild(mask)};
-  function decorateList(){document.querySelectorAll('#sc-care-menu .care-v1-row').forEach(function(card){var r=rows[Number(card.dataset.careIndex)],foot=card.querySelector('.care-row-foot');if(!r||!foot||foot.querySelector('.care-record-delete'))return;var edit=foot.querySelector('.care-edit-btn');if(edit&&!isOwner(r))edit.remove();var b=document.createElement('button');b.type='button';b.className='btn ghost sm care-record-delete';b.textContent='删除';b.onclick=function(e){e.preventDefault();e.stopPropagation();window.teacherCareDelete(indexOf(r))};foot.appendChild(b)})}
-  function decorateDetail(){var root=document.getElementById('care-detail-content');if(!root)return;var cards=Array.from(root.querySelectorAll('.care-timeline-card'));if(!cards.length)return;var name=(root.querySelector('.stu-nm')||{}).textContent||'',date=cards[0].querySelector('.care-timeline-head span'),candidates=rows.filter(function(r){return name.indexOf(r.name)>=0}),matched=candidates.find(function(r){return date&&r.date===date.textContent.trim()});if(!matched)return;var list=chain(matched);cards.forEach(function(card,i){var r=list[i];if(!r||card.querySelector('.care-record-actions')||!isOwner(r))return;var bar=document.createElement('div');bar.className='care-record-actions';var edit=document.createElement('button');edit.type='button';edit.className='btn ghost sm';edit.textContent='编辑';edit.onclick=function(){window.teacherCareEdit(indexOf(r))};var del=document.createElement('button');del.type='button';del.className='btn ghost sm care-record-delete';del.textContent='删除';del.onclick=function(){window.teacherCareDelete(indexOf(r))};bar.appendChild(edit);bar.appendChild(del);card.appendChild(bar)})}
-  var list=document.getElementById('cm-list'),detail=document.getElementById('care-detail-content');if(list)new MutationObserver(decorateList).observe(list,{childList:true});if(detail)new MutationObserver(decorateDetail).observe(detail,{childList:true,subtree:true});decorateList();decorateDetail();
-})();
-</script>
-<style id="teacher-care-case-style-20260928">
-#sc-care-menu .care-edit-btn,#sc-care-menu .care-follow-btn,#sc-care-menu .care-record-delete{display:none!important}
-#sc-care-menu .care-case-delete{border-color:#ffd4d0;color:#d94b42}
-#sc-care-add[data-selecting-student="1"] .pad>.card:first-child .stu-hd{display:none}
-#sc-care-add .care-student-selectors{display:block}
-#sc-care-add .care-student-selectors .frm-row{min-height:48px;padding:0;position:relative}
-#sc-care-add .care-student-selectors .frm-row .lb{font-size:14px;min-width:72px}
-#sc-care-add .care-student-selectors select{flex:1;min-width:0;height:46px;border:0;background:transparent;color:var(--ink);padding:0 23px 0 2px;font:inherit;font-size:14px;text-align:right;text-align-last:right;appearance:none;outline:none}
-#sc-care-add .care-card .frm-row:has(select){position:relative}
-#sc-care-add .care-card .frm-row:has(select)::after,#sc-care-add .care-people-picker::after,#sc-care-add .care-cascade-row::after{content:'';position:absolute;right:3px;top:50%;width:7px;height:7px;border-right:1.5px solid #61748e;border-bottom:1.5px solid #61748e;transform:translateY(-65%) rotate(45deg);pointer-events:none}
-#sc-care-add .care-card .frm-row select{appearance:none;padding-right:20px}
-#sc-care-add .care-people-picker .val svg{display:none}
-#sc-care-add #care-datasource-row{display:flex!important;align-items:center!important;min-height:48px!important;padding:0!important;gap:10px}
-#sc-care-add #care-datasource-row .lb{display:inline!important;margin:0!important;min-width:72px;flex:0 0 auto}
-#sc-care-add #care-full-source{flex:1;width:auto!important;min-width:0;min-height:0!important;border:0!important;background:transparent;padding:12px 21px 12px 0!important;text-align:right;white-space:nowrap!important;overflow:hidden;text-overflow:ellipsis;overflow-wrap:normal!important}
-#sc-care-add #care-full-source:after{content:''!important;position:absolute;right:3px;top:50%;width:7px;height:7px;border-right:1.5px solid #61748e;border-bottom:1.5px solid #61748e;transform:translateY(-65%) rotate(45deg)}
-#sc-care-detail .care-record-actions{display:flex;justify-content:flex-end;gap:7px;flex-wrap:wrap}
-#sc-care-detail .care-record-actions button:disabled{opacity:.45;cursor:not-allowed}
-#sc-care-detail .body{flex:1 1 0;min-height:0;overflow-y:auto;overscroll-behavior:contain}
-#sc-care-detail .care-detail-pad{padding-bottom:12px}
-#sc-care-detail .care-case-follow-footer{flex:0 0 auto;background:#fff;border-top:1px solid #edf1f5;padding:10px 16px 14px;box-sizing:border-box}
-#sc-care-detail .care-case-follow-footer button{display:block;width:100%;border:0;border-radius:22px;background:var(--navy);color:#fff;padding:11px 0;font:inherit;font-size:14px}
-#sc-care-detail .care-case-follow-footer button:disabled{background:#bbc6d5;color:#fff;cursor:not-allowed}
-</style>
-<script id="teacher-care-case-20260928">
-(function(){
-  var rows=window.teacherCareRows||[],deleted=window.teacherCareDeletedRecords||(window.teacherCareDeletedRecords=[]),meId=window.CARE_CURRENT_USER_ID||'teacher-wang-demo',selectedCase=null;
-  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-  function notify(s){if(typeof window.toast==='function')window.toast(s);else alert(s)}
-  function schoolYear(date){var y=Number(String(date||'2026-09').slice(0,4)),m=Number(String(date||'2026-09').slice(5,7));return window.CARE_ACADEMIC_YEAR_RANGE&&date>=window.CARE_ACADEMIC_YEAR_RANGE.start&&date<=window.CARE_ACADEMIC_YEAR_RANGE.end?window.CARE_ACADEMIC_YEAR_RANGE.start:String(m>=9?y:y-1)}
-  function key(r){return r.caseId||r.id}
-  function studentKey(r){return r.studentId||('市实验一小|'+r.name+'|'+String(r.cls||'').replace(/\s+/g,''))}
-  function group(r){return rows.filter(function(x){return key(x)===key(r)&&!x.deletedAt}).sort(function(a,b){return b.date.localeCompare(a.date)||rows.indexOf(a)-rows.indexOf(b)})}
-  function normalize(){var byId={},buckets={};rows.forEach(function(r,i){if(!r.id)r.id='care-record-'+i;byId[r.id]=r});function origin(r,seen){seen=seen||{};if(!r||seen[r.id])return r&&r.id;seen[r.id]=true;var parent=r.parentId&&byId[r.parentId];return parent?origin(parent,seen):r.id}rows.forEach(function(r){r.caseId=origin(r);(buckets[r.caseId]||(buckets[r.caseId]=[])).push(r)});Object.keys(buckets).forEach(function(k){var list=buckets[k].sort(function(a,b){return b.date.localeCompare(a.date)||rows.indexOf(a)-rows.indexOf(b)});list.forEach(function(r,i){r.superseded=i>0})})}
-  function splitClass(r){var parts=String(r.cls||'').split(/\s*·\s*/);return {grade:parts[0]||'七年级（2025级）',klass:parts[1]||'2班'}}
-  function canAct(r){var c=splitClass(r),allowed=window.CARE_HOMEROOM_CLASS_KEYS||['七年级（2025级）|2班'];return Array.isArray(allowed)&&allowed.indexOf(c.grade+'|'+c.klass)>=0&&(!window.CARE_CURRENT_PERMISSIONS||window.CARE_CURRENT_PERMISSIONS.continue!==false)}
-  function cases(){var seen={},list=[];rows.forEach(function(r){var k=key(r);if(seen[k]||r.deletedAt)return;seen[k]=1;list.push(group(r)[0])});return list.filter(Boolean).sort(function(a,b){return b.date.localeCompare(a.date)})}
-  function draw(){normalize();var root=document.getElementById('cm-list');if(!root)return;var onlyTodo=((document.querySelector('#sc-care-menu .care-v1-tabs button.on')||{}).textContent||'').trim()==='待跟进',list=cases().filter(function(r){return !onlyTodo||r.follow==='需要'});root.innerHTML=list.map(function(r,i){var c=splitClass(r),n=group(r).length,status=r.follow==='需要'?'待跟进':'已完结';return '<div class="card care-v1-row" data-care-index="'+rows.indexOf(r)+'" data-case-key="'+esc(key(r))+'"><div class="stu-hd"><div class="avatar">'+esc(r.name.slice(0,1))+'</div><div style="flex:1"><div class="stu-nm">'+esc(r.name)+' <span class="chip '+(status==='待跟进'?'amber':'teal')+'">'+status+'</span></div><div class="stu-sub muted">'+esc(c.grade+' · '+c.klass)+'</div></div></div><div class="kv"><span class="k">最近关爱</span><span class="v">'+esc(r.date)+'</span></div><div class="kv"><span class="k">关爱次数</span><span class="v">'+n+'次</span></div><div class="kv"><span class="k">关爱来源</span><span class="v">'+esc(r.source==='预警'?'预警信息':r.source==='心理测评'?'心理测评':'日常上传')+'</span></div><div class="kv"><span class="k">关爱类型</span><span class="v">'+esc(r.type)+'</span></div><div class="kv"><span class="k">关爱方式</span><span class="v">'+esc(r.method)+'</span></div><div class="kv"><span class="k">关爱结果</span><span class="v">'+esc(r.result)+'</span></div><div class="care-row-foot"><button type="button" class="btn ghost sm care-case-delete">删除个案</button></div></div>'}).join('')||'<div class="cm-note" style="text-align:center;padding:38px 0">暂无符合条件的关爱个案</div>';Array.from(root.querySelectorAll('.care-v1-row')).forEach(function(card,i){var r=list[i];card.onclick=function(e){if(e.target.closest('button'))return;selectedCase=r;window.cmView(i)};card.querySelector('.care-case-delete').onclick=function(e){e.stopPropagation();window.teacherCareDeleteCase(key(r))}})}
-  function closeCaseDialog(){var m=document.getElementById('care-case-delete-dialog');if(m)m.remove()}
-  window.teacherCareDeleteCase=function(caseKey){var list=rows.filter(function(r){return key(r)===caseKey&&!r.deletedAt});if(!list.length)return;if(window.CARE_CURRENT_PERMISSIONS&&window.CARE_CURRENT_PERMISSIONS.delete===false){notify('暂无权限');return}var period=window.CARE_ACADEMIC_YEAR_RANGE||{start:'2026-09-01',end:'2027-08-31'};if(list.some(function(r){return r.date<period.start||r.date>period.end})){notify('仅可删除本学年关爱个案');return}if(!list.some(function(r){return r.createdById===meId})){notify('暂无权限');return}closeCaseDialog();var mask=document.createElement('div');mask.id='care-case-delete-dialog';mask.className='care-delete-dialog';mask.innerHTML='<div class="care-delete-dialog-box" role="dialog" aria-modal="true" aria-label="删除个案"><div class="care-delete-dialog-body"><b>删除个案</b><p>确认删除该学生的个案吗？删除后不可恢复！</p></div><div class="care-delete-dialog-foot"><button type="button" data-action="cancel">取消</button><button type="button" data-action="confirm">确定</button></div></div>';mask.onclick=function(e){if(e.target===mask||e.target.dataset.action==='cancel')closeCaseDialog();if(e.target.dataset.action==='confirm'){list.forEach(function(r){r.deletedAt=new Date().toISOString();r.deletedById=meId;r.deletedByRole='老师';r.deleteScope='case';deleted.push(r);var index=rows.indexOf(r);if(index>=0)rows.splice(index,1)});selectedCase=null;closeCaseDialog();draw();notify('已删除关爱个案')}};document.body.appendChild(mask)};
-  function roster(){var a=(window.CARE_TEACHER_STUDENT_ROSTER||[{name:'张小明',grade:'七年级（2025级）',klass:'2班',status:'在读'},{name:'李小红',grade:'七年级（2025级）',klass:'1班',status:'在读'},{name:'陈小强',grade:'八年级（2024级）',klass:'3班',status:'在读'},{name:'王小华',grade:'八年级（2024级）',klass:'3班',status:'在读',demoOnly:true}]).slice(),period=window.CARE_ACADEMIC_YEAR_RANGE||{start:'2026-09-01',end:'2027-08-31'};return a.filter(function(x){return (!x.academicYear||String(x.academicYear).indexOf(period.start.slice(0,4))>=0)&&(!x.status||x.status==='在读'||x.status==='active')&&x.grade&&x.klass&&x.name}).filter(function(x,i,list){return list.findIndex(function(y){return (y.studentId&&y.studentId===x.studentId)||(y.name===x.name&&y.grade===x.grade&&y.klass===x.klass)})===i})}
-  function option(value){return '<option value="'+esc(value)+'">'+esc(value)+'</option>'}
-  function studentCard(){return document.querySelector('#sc-care-add .pad>.card:first-child')}
-  function setStudent(entry){var card=studentCard();if(!card)return;var n=card.querySelector('.stu-nm'),s=card.querySelector('.stu-sub'),a=card.querySelector('.avatar');if(n)n.firstChild.nodeValue=entry?entry.name:'';if(s)s.textContent=entry?entry.grade+' · '+entry.klass:'';if(a)a.textContent=entry?entry.name.slice(0,1):''}
-  function filterSources(){var screen=document.getElementById('sc-care-add');if(!screen||screen.dataset.selectingStudent!=='1')return;var stu=document.getElementById('care-student-select'),select=document.getElementById('care-datasource'),source=document.getElementById('care-source');if(!select||!source)return;if(source.value==='daily')return;var name=stu&&stu.value||'',all=Array.from(select.options).map(function(o){return {value:o.value,text:o.textContent}}),matched=all.filter(function(o){return name&&o.text.indexOf(name+'｜')===0});select.innerHTML=matched.length?matched.map(function(o){return '<option value="'+esc(o.value)+'">'+esc(o.text)+'</option>'}).join(''):'<option value="">'+(name?'该学生本学年暂无对应记录':'请先选择学生')+'</option>';var display=document.getElementById('care-full-source');if(display)display.textContent=matched.length?matched[0].text:select.options[0].textContent}
-  function selectors(show){var screen=document.getElementById('sc-care-add'),card=studentCard();if(!screen||!card)return;screen.dataset.selectingStudent=show?'1':'0';var box=card.querySelector('.care-student-selectors');if(!show){if(box)box.remove();return}if(box)box.remove();box=document.createElement('div');box.className='care-student-selectors';box.innerHTML='<div class="frm-row care-cascade-row"><span class="lb">年级<span class="req">*</span></span><select class="val" id="care-grade-select"><option value="">请选择年级</option></select></div><div class="frm-row care-cascade-row"><span class="lb">班级<span class="req">*</span></span><select class="val" id="care-class-select"><option value="">请先选择年级</option></select></div><div class="frm-row care-cascade-row"><span class="lb">学生姓名<span class="req">*</span></span><select class="val" id="care-student-select"><option value="">请先选择班级</option></select></div>';card.appendChild(box);var data=roster(),grade=box.querySelector('#care-grade-select'),klass=box.querySelector('#care-class-select'),student=box.querySelector('#care-student-select');function refreshSource(){window.careSourceChange((document.getElementById('care-source')||{}).value||'daily')}grade.innerHTML='<option value="">请选择年级</option>'+Array.from(new Set(data.map(function(x){return x.grade}))).map(option).join('');grade.onchange=function(){klass.innerHTML='<option value="">请选择班级</option>'+Array.from(new Set(data.filter(function(x){return x.grade===grade.value}).map(function(x){return x.klass}))).map(option).join('');student.innerHTML='<option value="">请先选择班级</option>';setStudent(null);refreshSource()};klass.onchange=function(){student.innerHTML='<option value="">请选择学生</option>'+data.filter(function(x){return x.grade===grade.value&&x.klass===klass.value}).map(function(x){return option(x.name)}).join('');setStudent(null);refreshSource()};student.onchange=function(){var entry=data.find(function(x){return x.grade===grade.value&&x.klass===klass.value&&x.name===student.value});setStudent(entry);refreshSource()};setStudent(null);refreshSource()}
-  var oldSource=window.careSourceChange;window.careSourceChange=function(value){if(typeof oldSource==='function')oldSource.apply(this,arguments);filterSources()};
-  function activeCaseFor(student,except){normalize();return cases().find(function(r){return key(r)!==except&&studentKey(r)===studentKey(student)&&r.follow==='需要'})}
-  function bindFormBack(origin){var back=document.querySelector('#sc-care-add .sub-hd .back');if(back)back.onclick=function(){editingForCase=null;editOrigin=null;if(typeof window.careResetForm==='function')window.careResetForm();window.go(origin)}}
-  var editingForCase=null,editOrigin=null,oldOpen=window.cmOpen;window.cmOpen=function(){var origin=location.hash.slice(1)||'sc-care-menu';editingForCase=null;editOrigin=null;if(typeof oldOpen==='function')oldOpen.apply(this,arguments);selectors(true);bindFormBack(origin)};var add=document.querySelector('#care-mobile-upload button');if(add)add.onclick=function(){window.cmOpen()};
-  var oldEdit=window.teacherCareEdit;window.teacherCareEdit=function(index){var origin=location.hash.slice(1)||'sc-care-menu';if(typeof oldEdit==='function')oldEdit(index);if(location.hash==='#sc-care-add'){editingForCase=rows[index]||null;editOrigin=origin;selectors(false);bindFormBack(origin)}};
-  var oldFollow=window.openCareFollow;window.openCareFollow=function(card){var r=rows[Number(card&&card.dataset.careIndex)],origin=location.hash.slice(1)||'sc-care-detail';if(!r||!canAct(r)){notify('暂无权限');return}editingForCase=null;editOrigin=null;if(typeof oldFollow==='function')oldFollow(card);if(location.hash==='#sc-care-add'){selectors(false);bindFormBack(origin)}};
-  var oldSubmit=window.submitCareRecord;window.submitCareRecord=function(){var screen=document.getElementById('sc-care-add'),isNew=screen&&screen.dataset.selectingStudent==='1',before=rows.length,chosen=null,origin=editOrigin,edited=editingForCase;if(isNew){var grade=document.getElementById('care-grade-select'),klass=document.getElementById('care-class-select'),student=document.getElementById('care-student-select'),src=document.getElementById('care-source'),data=document.getElementById('care-datasource');if(!grade.value){notify('请选择年级');return}if(!klass.value){notify('请选择班级');return}if(!student.value){notify('请选择学生');return}chosen=roster().find(function(x){return x.grade===grade.value&&x.klass===klass.value&&x.name===student.value});if(!chosen){notify('学生状态变更，请重新进入页面');return}var candidate={name:chosen.name,cls:chosen.grade+' · '+chosen.klass,studentId:chosen.studentId};if(activeCaseFor(candidate)){notify('该学生已有待跟进个案，请进入个案详情继续跟进');return}if(!canAct(candidate)){notify('暂无权限');return}if(src.value!=='daily'&&(!data||!data.value)){notify('请选择该学生本学年的数据源');return}}if(editingForCase&&group(editingForCase)[0]===editingForCase&&editingForCase.follow!=='需要'&&(document.getElementById('care-follow')||{}).value==='需要'&&activeCaseFor(editingForCase,key(editingForCase))){notify('该学生已有待跟进个案，不可将此个案改为待跟进');return}var out=typeof oldSubmit==='function'?oldSubmit.apply(this,arguments):undefined;if(rows.length>before){if(chosen&&chosen.studentId)rows[0].studentId=chosen.studentId;normalize();draw()}else if(location.hash==='#sc-care-menu'){editingForCase=null;editOrigin=null;normalize();draw();if(edited&&origin==='sc-care-detail'){var index=Array.from(document.querySelectorAll('#sc-care-menu .care-v1-row')).findIndex(function(card){return card.dataset.caseKey===key(edited)});if(index>=0){selectedCase=edited;window.cmView(index)}}}return out};
-  var oldView=window.cmView;window.cmView=function(index){if(window.CARE_CURRENT_PERMISSIONS&&window.CARE_CURRENT_PERMISSIONS.detail===false){notify('暂无权限');return}return typeof oldView==='function'?oldView(index):undefined};
-  var oldRefresh=window.teacherCareRefresh;window.teacherCareRefresh=function(){if(typeof oldRefresh==='function')oldRefresh.apply(this,arguments);draw()};
-  var oldTab=window.careUnifiedTab;window.careUnifiedTab=function(){if(typeof oldTab==='function')oldTab.apply(this,arguments);draw()};
-  function updateCaseCount(){var count=document.getElementById('care-count');if(!count)return;var period=window.CARE_ACADEMIC_YEAR_RANGE||{start:'2026-09-01',end:'2027-08-31'},total=Array.from(document.querySelectorAll('#sc-care-menu .care-v1-row')).filter(function(card){var r=rows[Number(card.dataset.careIndex)];return card.style.display!=='none'&&r&&r.date>=period.start&&r.date<=period.end}).length;count.textContent='本学年共 '+total+' 个关爱个案'}
-  var oldSearch=window.careSearch;window.careSearch=function(value){if(typeof oldSearch==='function')oldSearch(value);updateCaseCount()};var caseList=document.getElementById('cm-list');if(caseList)new MutationObserver(updateCaseCount).observe(caseList,{childList:true});
-  function detailActions(){var root=document.getElementById('care-detail-content'),screen=document.getElementById('sc-care-detail'),title=screen&&screen.querySelector('.sub-hd b');if(title)title.textContent='关爱个案详情';if(!root||!screen)return;var cards=Array.from(root.querySelectorAll('.care-timeline-card'));if(!cards.length)return;var name=(root.querySelector('.stu-nm')||{}).textContent||'',r=selectedCase&&name.indexOf(selectedCase.name)>=0?selectedCase:rows.find(function(x){return name.indexOf(x.name)>=0});if(!r)return;var list=group(r);cards.forEach(function(card,i){var item=list[i],bar=card.querySelector('.care-record-actions');if(!item)return;if(!bar){bar=document.createElement('div');bar.className='care-record-actions';card.appendChild(bar)}if(bar.dataset.caseActions==='2')return;bar.dataset.caseActions='2';bar.innerHTML='';var edit=document.createElement('button'),del=document.createElement('button');[edit,del].forEach(function(b){b.type='button';b.className='btn ghost sm'});edit.textContent='编辑';del.textContent='删除';edit.onclick=function(){window.teacherCareEdit(rows.indexOf(item))};del.onclick=function(){window.teacherCareDelete(rows.indexOf(item))};bar.appendChild(edit);bar.appendChild(del)});var footer=screen.querySelector('.care-case-follow-footer');if(!footer){footer=document.createElement('div');footer.className='care-case-follow-footer';footer.innerHTML='<button type="button">继续跟进</button>';screen.appendChild(footer)}var latest=list[0],button=footer.querySelector('button');button.disabled=!latest||latest.follow!=='需要';button.title=button.disabled?'已完结的关爱个案不可继续跟进':'';button.onclick=function(){if(button.disabled)return;if(!canAct(latest)){notify('暂无权限');return}var fake=document.createElement('div');fake.dataset.careIndex=String(rows.indexOf(latest));fake.innerHTML='<div class="stu-nm"><span class="chip">待跟进</span></div><div class="stu-sub">'+esc(latest.cls)+'</div>';window.openCareFollow(fake)}}
-  var caseListClick=document.getElementById('cm-list');if(caseListClick)caseListClick.addEventListener('click',function(e){var button=e.target.closest('.care-case-delete');if(!button)return;e.preventDefault();e.stopImmediatePropagation();var card=button.closest('.care-v1-row');if(card)window.teacherCareDeleteCase(card.dataset.caseKey)},true);
-  var detail=document.getElementById('care-detail-content');if(detail)new MutationObserver(detailActions).observe(detail,{childList:true,subtree:true});normalize();draw();detailActions();updateCaseCount();
-})();
-</script>
-<style id="care-v29-targeted-style">
-#sc-care-add #care-source-row:has(select:disabled),#sc-care-add #care-datasource-row:has(select:disabled){background:#f3f5f8;color:#9aa6b6}
-#sc-care-add #care-source-row select:disabled,#sc-care-add #care-datasource-row select:disabled,#sc-care-add #care-datasource-row:has(select:disabled) #care-full-source{color:#9aa6b6!important;opacity:1!important;cursor:not-allowed!important}
-#sc-care-menu .care-case-result .v{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;white-space:normal;overflow-wrap:anywhere;text-overflow:ellipsis;text-align:left}
-#sc-care-add #care-full-source[data-kind="warning"],#sc-care-add #care-full-source[data-kind="psych"]{white-space:normal!important;overflow:visible!important;overflow-wrap:anywhere!important;text-align:right;line-height:20px}
-.care-source-option{display:flex;align-items:center;gap:10px;width:100%;padding:11px 12px;text-align:left;border:0;border-bottom:1px solid #eef2f7;background:#fff;color:#23344c;font:inherit;line-height:1.5}
-.care-source-option.on{background:#edf5ff;color:#2165c5}.care-source-option input{pointer-events:none}
-.care-source-sheet-footer{padding:10px 16px 18px;background:#fff}.care-source-sheet-footer button{width:100%;height:38px;border:0;border-radius:7px;background:#2d75e8;color:#fff;font:inherit}
-.care-source-feedback{display:block;width:calc(100% - 32px);height:105px;box-sizing:border-box;margin:12px 16px 2px;padding:10px;border:1px solid #dce5f1;border-radius:7px;resize:none;font:inherit}
-</style>
-<script id="care-v29-targeted-behavior">
-(function(){
-  var rows=window.teacherCareRows||[],selectedSourceIndex=-1,mode='new',activeRecord=null,oldSourceChange=window.careSourceChange;
-  var caseStarts={};rows.forEach(function(r){var k=r.caseId||r.id;if(!caseStarts[k]||r.date<caseStarts[k])caseStarts[k]=r.date});rows.forEach(function(r){if(!r.caseCreatedAt)r.caseCreatedAt=caseStarts[r.caseId||r.id]||r.date});
-  var period=window.CARE_ACADEMIC_YEAR_RANGE||{start:'2026-09-01',end:'2027-08-31'};
-  function byId(id){return document.getElementById(id)}
-  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-  function msg(s){if(typeof window.toast==='function')window.toast(s);else alert(s)}
-  function sourceKey(r){return r.source==='预警'||r.source==='预警信息'?'warning':r.source==='心理测评'?'psych':r.source==='家长反馈'?'parent':'teacher'}
-  function sourceLabel(r){return {warning:'预警信息',psych:'心理测评',teacher:'老师/学生反馈',parent:'家长反馈'}[sourceKey(r)]}
-  function student(){return (byId('care-student-select')||{}).value||(activeRecord&&activeRecord.name)||((document.querySelector('#sc-care-add .pad>.card:first-child .stu-nm')||{}).textContent||'').trim()}
-  function info(r){if(r.sourceInfo)return r.sourceInfo;if(r.dataSource&&/老师\/学生反馈|家长反馈/.test(r.source))return r.dataSource;if(r.source==='心理测评')return r.name+'｜重点关注学生｜'+(r.dataSource||'测评时间未记录');if(r.source==='预警'||r.source==='预警信息')return r.name+'｜'+(r.warningReason||'预警原因未记录')+'｜'+(r.dataSource||'预警时间未记录');return r.dataSource||'日常记录'}
-  function trunc(s,n){s=String(s||'--');return Array.from(s).length>n?Array.from(s).slice(0,n).join('')+'...':s}
-  function sources(key,name){var external=key==='warning'?window.CARE_WARNING_RECORDS:window.CARE_PSYCH_RECORDS;var demo=key==='warning'?[{id:'demo-warning-1',studentName:'张小明',date:'2026-09-16',text:'张小明｜连续缺勤3个工作日｜2026-09-16 18:05'},{id:'demo-warning-2',studentName:'张小明',date:'2026-09-22',text:'张小明｜无故缺勤1个工作日｜2026-09-22 18:05'}]:[{id:'demo-psych-1',studentName:'李小红',date:'2026-09-15',text:'李小红｜重点关注学生｜2026-09-15'}];var list=Array.isArray(external)?external:demo;return list.filter(function(x){return (x.studentName||x.name)===name&&x.date>=period.start&&x.date<=period.end}).map(function(x){return {id:x.id,text:x.text||x.label||x.summary||'',date:x.date}})}
-  function setInfo(value){var select=byId('care-datasource'),display=byId('care-full-source');if(!select)return;var found=Array.from(select.options).find(function(o){return o.value===value||o.textContent===value});if(!found&&value){found=document.createElement('option');found.value=value;found.textContent=value;select.appendChild(found)}select.value=found?found.value:'';if(display){var key=(byId('care-source')||{}).value;display.textContent=found?(key==='teacher'||key==='parent'?trunc(found.textContent,10):found.textContent):'请选择信息来源'}}
-  function configureSource(key,preserve){var row=byId('care-datasource-row'),select=byId('care-datasource'),display=byId('care-full-source');if(!row||!select)return;row.style.display='flex';var saved=preserve!=null?preserve:'',items=key==='warning'||key==='psych'?sources(key,student()):[];select.replaceChildren();if(!key){select.add(new Option('请选择信息来源',''))}else if(key==='warning'||key==='psych'){select.add(new Option('请选择信息来源',''));items.forEach(function(x){select.add(new Option(x.text,x.id))});if(saved){var match=items.find(function(x){return x.id===saved||x.text===saved});if(match)select.value=match.id;else setInfo(saved)}}else{var text=saved||'';select.add(new Option(text||'请填写该学生的真实状况',text));select.value=text}if(display){display.dataset.kind=key;var shown=select.selectedOptions.length?select.selectedOptions[0].textContent:'请选择信息来源';display.textContent=key==='teacher'||key==='parent'?trunc(shown,10):shown}select.dataset.sourceKind=key;display&&display.classList.toggle('locked',select.disabled)}
-  window.careSourceChange=function(key){if(typeof oldSourceChange==='function')oldSourceChange(key);configureSource((byId('care-source')||{}).value||'')};
-  function openPicker(){var select=byId('care-datasource'),key=(byId('care-source')||{}).value;if(!select||select.disabled)return;if(typeof window.sheet!=='function')return;if(!key){window.sheet('<div class="pk-hd"><b>选择来源信息</b><button onclick="closeSheet()">取消</button></div><div style="padding:18px;color:#8290a5">请先选择关爱来源</div>');return}if(key==='teacher'||key==='parent'){var text=select.value||'';window.sheet('<div class="pk-hd"><b>填写来源信息</b><button onclick="closeSheet()">取消</button></div><textarea id="care-feedback-input" class="care-source-feedback" maxlength="50" placeholder="请输入该学生的真实状况">'+esc(text)+'</textarea><div class="care-source-sheet-footer"><button type="button" onclick="careConfirmSource()">确定</button></div>');return}var options=Array.from(select.options).filter(function(o){return o.value});selectedSourceIndex=options.findIndex(function(o){return o.value===select.value});window.sheet('<div class="pk-hd"><b>选择来源信息</b><button onclick="closeSheet()">取消</button></div><div class="care-full-options">'+(options.length?options.map(function(o,i){return '<button type="button" class="care-source-option'+(select.value===o.value?' on':'')+'" onclick="careChooseSource('+i+')"><input type="radio" '+(select.value===o.value?'checked':'')+'><span>'+esc(o.textContent)+'</span></button>'}).join(''):'<div style="padding:18px;color:#8290a5">本学年暂无该学生对应数据信息</div>')+'</div><div class="care-source-sheet-footer"><button type="button" onclick="careConfirmSource()">确定</button></div>')}
-  window.careChooseSource=function(i){selectedSourceIndex=i;document.querySelectorAll('.care-source-option').forEach(function(b,j){b.classList.toggle('on',j===i);b.querySelector('input').checked=j===i})};
-  window.careConfirmSource=function(){var select=byId('care-datasource'),key=(byId('care-source')||{}).value;if(!select)return;if(key==='teacher'||key==='parent'){var value=(byId('care-feedback-input')||{}).value.trim();if(!value){msg('请输入该学生的真实状况');return}if(Array.from(value).length>50){msg('来源信息最多50字');return}setInfo(value)}else{var options=Array.from(select.options).filter(function(o){return o.value});if(selectedSourceIndex<0||!options[selectedSourceIndex]){msg('请选择来源信息');return}select.value=options[selectedSourceIndex].value;var display=byId('care-full-source');if(display)display.textContent=options[selectedSourceIndex].textContent}if(typeof window.closeSheet==='function')window.closeSheet()};
-  var display=byId('care-full-source');if(display)display.onclick=openPicker;
-  function lockSource(locked,record){var source=byId('care-source'),infoSelect=byId('care-datasource');if(!source||!infoSelect)return;if(record){source.value=sourceKey(record);configureSource(source.value,record.dataSource||record.sourceInfo||info(record))}source.disabled=locked;infoSelect.disabled=locked;source.closest('.frm-row')?.classList.toggle('care-field-locked',locked);infoSelect.closest('.frm-row')?.classList.toggle('care-field-locked',locked);byId('care-full-source')?.classList.toggle('locked',locked)}
-  var oldOpen=window.cmOpen;window.cmOpen=function(){mode='new';activeRecord=null;var result=typeof oldOpen==='function'?oldOpen.apply(this,arguments):undefined;lockSource(false);var src=byId('care-source');if(src){src.value='';configureSource('')}return result};
-  var oldEdit=window.teacherCareEdit;window.teacherCareEdit=function(index){var result=typeof oldEdit==='function'?oldEdit.apply(this,arguments):undefined;if(location.hash==='#sc-care-add'){mode='edit';activeRecord=rows[index];lockSource(true,activeRecord)}return result};
-  var oldFollow=window.openCareFollow;window.openCareFollow=function(card){var result=typeof oldFollow==='function'?oldFollow.apply(this,arguments):undefined;if(location.hash==='#sc-care-add'){mode='follow';activeRecord=rows[Number(card&&card.dataset.careIndex)];lockSource(true,activeRecord)}return result};
-  function snapshot(r){var copy={};Object.keys(r).forEach(function(k){if(k!=='auditVersions')copy[k]=r[k]});return JSON.parse(JSON.stringify(copy))}
-  var oldSubmit=window.submitCareRecord;window.submitCareRecord=function(){var source=byId('care-source'),select=byId('care-datasource'),before=rows.length,edited=mode==='edit'?activeRecord:null,previous=edited?JSON.stringify(snapshot(edited)):null;var key=source&&source.value,selected=select&&select.selectedOptions[0],label=selected&&selected.textContent||'';if(mode==='new'&&(!select||!select.value)){msg('请选择或填写来源信息');return}var out=typeof oldSubmit==='function'?oldSubmit.apply(this,arguments):undefined;var now=new Date().toISOString(),me=window.CARE_CURRENT_USER_ID||'teacher-wang-demo',role=window.CARE_CURRENT_ROLE||'老师';if(rows.length>before){var r=rows[0];r.source=key==='warning'?'预警信息':key==='psych'?'心理测评':key==='parent'?'家长反馈':'老师/学生反馈';r.sourceInfo=(key==='teacher'||key==='parent')?select.value:label;r.dataSource=select.value;r.createdAt=now;r.createdById=me;r.createdByRole=role;r.filledAt=now;r.filledById=me;r.caseCreatedAt=activeRecord?.caseCreatedAt||activeRecord?.date||r.date;r.auditVersions=[{version:1,kind:'create',snapshot:snapshot(r),filledById:me,filledByRole:role,filledAt:now}];if(typeof window.teacherCareRefresh==='function')window.teacherCareRefresh()}else if(edited&&JSON.stringify(snapshot(edited))!==previous){edited.updatedAt=now;edited.updatedById=me;edited.updatedByRole=role;var history=edited.auditVersions||(edited.auditVersions=[]);history.push({version:history.length+1,kind:'edit',snapshot:snapshot(edited),filledById:me,filledByRole:role,filledAt:now});if(typeof window.teacherCareRefresh==='function')window.teacherCareRefresh()}return out};
-  function caseRecords(r){var k=r.caseId||r.id;return rows.filter(function(x){return (x.caseId||x.id)===k&&!x.deletedAt}).sort(function(a,b){return a.date.localeCompare(b.date)})}
-  function field(k,v,cls){var row=document.createElement('div');row.className='kv'+(cls?' '+cls:'');var label=document.createElement('span'),value=document.createElement('span');label.className='k';label.textContent=k;value.className='v';value.textContent=v;row.append(label,value);return row}
-  function cards(){document.querySelectorAll('#sc-care-menu .care-v1-row').forEach(function(card){if(card.dataset.v29==='1')return;var r=rows[Number(card.dataset.careIndex)];if(!r)return;var chain=caseRecords(r),origin=chain[0]||r,head=card.querySelector('.stu-hd'),foot=card.querySelector('.care-row-foot');if(!head||!foot)return;card.dataset.v29='1';Array.from(card.querySelectorAll('.kv')).forEach(function(x){x.remove()});var cells=[field('创建日期',origin.caseCreatedAt||origin.date),field('关爱来源',sourceLabel(origin)),field('来源信息',trunc(info(origin),10),'care-source-summary'),field('关爱次数',chain.length+'次'),field('最近关爱',r.date),field('关爱结果',r.result||'--','care-case-result')];cells.forEach(function(x){card.insertBefore(x,foot)})})}
-  var list=byId('cm-list');if(list){new MutationObserver(cards).observe(list,{childList:true});cards()}
-  function detailLabels(){var root=byId('care-detail-content');if(!root)return;root.querySelectorAll('.care-timeline-card').forEach(function(card){var r=rows.find(function(x){return x.id===card.dataset.careRecordId});card.querySelectorAll('.kv').forEach(function(kv){var label=kv.querySelector('.k'),value=kv.querySelector('.v');if(!label||!value)return;if(label.textContent==='数据源')label.textContent='来源信息';if(label.textContent==='来源信息'&&r&&value.textContent!==info(r))value.textContent=info(r);else if(label.textContent==='关爱来源'&&r&&value.textContent!==sourceLabel(r))value.textContent=sourceLabel(r)})})}
-  var detail=byId('care-detail-content');if(detail)new MutationObserver(detailLabels).observe(detail,{childList:true,subtree:true});detailLabels();
-  var initialSource=byId('care-source');if(initialSource){initialSource.add(new Option('请选择关爱来源',''),0);initialSource.value=''}configureSource('');
-  // 空值选项只用于折叠状态占位，不作为下拉菜单中的可选项。
-  function fixCarePlaceholders(){document.querySelectorAll('#sc-care-add select option[value=""]').forEach(function(option){if(!option.disabled)option.disabled=true;if(!option.hidden)option.hidden=true})}
-  var careForm=byId('sc-care-add');if(careForm){new MutationObserver(fixCarePlaceholders).observe(careForm,{childList:true,subtree:true});fixCarePlaceholders()}
-  var submitWithSource=window.submitCareRecord;window.submitCareRecord=function(){if(mode==='new'&&!(byId('care-source')||{}).value){msg('请选择关爱来源');return}return submitWithSource.apply(this,arguments)};
-})();
-</script>
+
+
+
+
+
+
+
+
+
+<!-- 旧控辍关爱联动已移除；仅使用第二版共用入口。 -->
+
+
+
+
+
+
 <script src="./关爱个案-交互-V3.0-20260929.js"></script>
 <script src="./控辍保学-关爱联动-V2.0-20260930.js"></script>
 </body></html>

@@ -15,6 +15,132 @@
       },
     );
   }
+  function academicYear(date) {
+    var match = String(date || "").match(/^(\d{4})-(\d{2})/);
+    return match
+      ? String(Number(match[1]) - (Number(match[2]) < 9 ? 1 : 0))
+      : "";
+  }
+  // 共享学生维度筛选，原处理状态、类型、方式和日期控件不替换。
+  function studentFilters(scope, prefix, getRows) {
+    function input(key) {
+      return scope.querySelector('[data-dom-id="' + prefix + key + '"]');
+    }
+    var nameInput = input("student");
+    if (!nameInput) return null;
+    var namePair = nameInput.parentElement,
+      toolbar = namePair.parentElement;
+    var oldClass = input("class");
+    if (oldClass) oldClass.parentElement.remove();
+    function pair(key, title) {
+      var wrapper = namePair.cloneNode(false),
+        label = namePair.querySelector("label").cloneNode(true),
+        select = document.createElement("select");
+      label.textContent = title;
+      select.className = nameInput.className;
+      select.style.cssText = nameInput.style.cssText;
+      select.dataset.domId = prefix + key;
+      wrapper.append(label, select);
+      toolbar.insertBefore(wrapper, namePair);
+      return select;
+    }
+    var year = pair("year", "学年"),
+      grade = pair("grade", "年级"),
+      klass = pair("class", "班级");
+    toolbar.style.display = "flex";
+    toolbar.style.flexWrap = "wrap";
+    toolbar.style.gap = "16px 40px";
+    Array.from(toolbar.children).forEach(function (wrapper) {
+      wrapper.style.whiteSpace = "nowrap";
+      wrapper.style.flex = "0 0 auto";
+    });
+    [year, grade, klass, nameInput].forEach(function (control) {
+      control.style.width = control === nameInput ? "170px" : "140px";
+      control.style.flex = "0 0 auto";
+    });
+    function options(control, values, emptyTitle) {
+      var previous = control.value;
+      control.innerHTML =
+        '<option value="">' +
+        emptyTitle +
+        "</option>" +
+        Array.from(new Set(values.filter(Boolean)))
+          .sort()
+          .map(function (value) {
+            return (
+              '<option value="' +
+              esc(value) +
+              '">' +
+              esc(control === year ? value + "学年" : value) +
+              "</option>"
+            );
+          })
+          .join("");
+      control.value = Array.from(control.options).some(function (o) {
+        return o.value === previous;
+      })
+        ? previous
+        : "";
+    }
+    function refresh() {
+      var rows = getRows();
+      options(
+        year,
+        rows.map(function (r) {
+          return academicYear(r.time);
+        }),
+        "全部学年",
+      );
+      var byYear = rows.filter(function (r) {
+        return !year.value || academicYear(r.time) === year.value;
+      });
+      options(
+        grade,
+        byYear.map(function (r) {
+          return r.grade;
+        }),
+        "全部年级",
+      );
+      options(
+        klass,
+        byYear
+          .filter(function (r) {
+            return !grade.value || r.grade === grade.value;
+          })
+          .map(function (r) {
+            return r.klass;
+          }),
+        "全部班级",
+      );
+    }
+    year.onchange = function () {
+      grade.value = "";
+      klass.value = "";
+      refresh();
+    };
+    grade.onchange = function () {
+      klass.value = "";
+      refresh();
+    };
+    refresh();
+    return {
+      matches: function (row) {
+        return (
+          (!year.value || academicYear(row.time) === year.value) &&
+          (!grade.value || row.grade === grade.value) &&
+          (!klass.value || row.klass === klass.value) &&
+          (!nameInput.value.trim() || row.name.includes(nameInput.value.trim()))
+        );
+      },
+      reset: function () {
+        year.value = "";
+        grade.value = "";
+        klass.value = "";
+        nameInput.value = "";
+        refresh();
+      },
+    };
+  }
   function boot() {
     var firstRow = document.querySelector(
       '#section-warning-list tr[data-dom-id^="row-warning-"]',
@@ -119,10 +245,83 @@
       selectedTab = "visit",
       currentSchool = "";
     var section = document.getElementById("section-warning-list");
+    var dimensions = studentFilters(section, "filter-", function () {
+      return rows.map(info);
+    });
+    var visitSection = document.getElementById("section-visit-ledger");
+    if (visitSection && window.schoolCareV3Data) {
+      function visitRows() {
+        return Array.from(visitSection.querySelectorAll("tbody tr")).filter(
+          function (row) {
+            return row.cells.length > 6;
+          },
+        );
+      }
+      function visitInfo(row) {
+        return {
+          name: row.cells[3].textContent.trim(),
+          grade: row.cells[4].textContent.trim(),
+          klass: row.cells[5].textContent.trim(),
+          time: row.cells[1].textContent.trim(),
+        };
+      }
+      var visitDimensions = studentFilters(
+        visitSection,
+        "visit-filter-",
+        function () {
+          return visitRows().map(visitInfo);
+        },
+      );
+      visitSection.addEventListener(
+        "click",
+        function (event) {
+          var button = event.target.closest(
+            '[data-dom-id="btn-visit-search"],[data-dom-id="btn-visit-reset"]',
+          );
+          if (!button) return;
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          function field(key) {
+            return visitSection.querySelector(
+              '[data-dom-id="visit-filter-' + key + '"]',
+            );
+          }
+          if (button.dataset.domId === "btn-visit-reset") {
+            visitDimensions.reset();
+            ["method", "date-start", "date-end"].forEach(function (key) {
+              if (field(key)) field(key).value = "";
+            });
+          }
+          var methods = {
+            phone: "电话沟通",
+            visit: "实地劝返",
+            wechat: "微信问询",
+            "school-visit": "到校劝返",
+            meeting: "集中座谈",
+          };
+          var method = field("method").value,
+            start = field("date-start").value,
+            end = field("date-end").value;
+          visitRows().forEach(function (row) {
+            var info = visitInfo(row);
+            row.hidden = !(
+              visitDimensions.matches(info) &&
+              (!method ||
+                row.cells[2].textContent.trim() ===
+                  (methods[method] || method)) &&
+              (!start || info.time.slice(0, 10) >= start) &&
+              (!end || info.time.slice(0, 10) <= end)
+            );
+          });
+        },
+        true,
+      );
+    }
     function filterInput(key) {
       return section.querySelector('[data-dom-id="filter-' + key + '"]');
     }
     function resetInputs() {
+      if (dimensions) dimensions.reset();
       ["student", "class", "status", "type"].forEach(function (key) {
         var input = filterInput(key);
         if (input) input.value = "";
@@ -155,8 +354,10 @@
             !currentSchool || row.dataset.warningSchool === currentSchool;
         row.hidden = !(
           schoolOK &&
+          (!dimensions || dimensions.matches(w)) &&
           (!name || w.name.includes(name)) &&
           (!klass ||
+            w.klass === klass ||
             w.klass.includes((classNumber ? classNumber[1] : klass) + "班")) &&
           (!status ||
             w.status === (status === "pending" ? "待处理" : "已处理")) &&
@@ -202,7 +403,10 @@
     function linked(w) {
       return records
         .filter(function (r) {
-          return !r.deletedAt && r.warningId === w.id;
+          return (
+            !r.deletedAt &&
+            (r.warningId === w.id || (r.warningIds || []).includes(w.id))
+          );
         })
         .sort(function (a, b) {
           return String(a.date).localeCompare(String(b.date));

@@ -98,6 +98,41 @@ async function test() {
       reset = list.querySelector('[data-dom-id="btn-reset"]');
     const student = list.querySelector('[data-dom-id="filter-student"]');
     assert.ok(query && reset && student);
+    const year = list.querySelector('[data-dom-id="filter-year"]');
+    const grade = list.querySelector('[data-dom-id="filter-grade"]');
+    const klass = list.querySelector('[data-dom-id="filter-class"]');
+    assert.deepEqual(
+      [year, grade, klass, student].map((x) =>
+        x.parentElement.querySelector("label").textContent.trim(),
+      ),
+      ["学年", "年级", "班级", "学生姓名"],
+    );
+    assert.ok(year.options.length > 1);
+    const dateParts = first.cells[5].textContent
+      .trim()
+      .match(/^(\d{4})-(\d{2})/);
+    year.value = String(
+      Number(dateParts[1]) - (Number(dateParts[2]) < 9 ? 1 : 0),
+    );
+    year.dispatchEvent(new w.Event("change"));
+    grade.value = first.cells[1].textContent.trim();
+    grade.dispatchEvent(new w.Event("change"));
+    klass.value = first.cells[2].textContent.trim();
+    student.value = first.cells[0].textContent.trim();
+    query.click();
+    assert.ok(
+      [...list.querySelectorAll("tbody tr")].some((x) => !x.hidden),
+      "四维组合应匹配真实学生",
+    );
+    assert.ok(
+      [...list.querySelectorAll("tbody tr")]
+        .filter((x) => !x.hidden)
+        .every((x) => x.cells[0].textContent.trim() === student.value),
+    );
+    reset.click();
+    assert.equal(year.value, "");
+    assert.equal(grade.value, "");
+    assert.equal(klass.value, "");
     student.value = "不存在的学生";
     query.click();
     assert.ok([...list.querySelectorAll("tbody tr")].every((x) => x.hidden));
@@ -121,6 +156,29 @@ async function test() {
       );
       assert.ok(care.querySelector("[data-drill]"));
     } else {
+      const visit = d.getElementById("section-visit-ledger");
+      const visitReset = visit.querySelector('[data-dom-id="btn-visit-reset"]');
+      visitReset.click();
+      const visitName = visit.querySelector(
+        '[data-dom-id="visit-filter-student"]',
+      );
+      const visitYear = visit.querySelector(
+        '[data-dom-id="visit-filter-year"]',
+      );
+      assert.ok(visitYear.options.length > 1);
+      visitName.value = "不存在的学生";
+      visit.querySelector('[data-dom-id="btn-visit-search"]').click();
+      assert.ok([...visit.querySelectorAll("tbody tr")].every((x) => x.hidden));
+      visitReset.click();
+      assert.ok([...visit.querySelectorAll("tbody tr")].some((x) => !x.hidden));
+      visitYear.value = "2025";
+      visitYear.dispatchEvent(new w.Event("change"));
+      visit.querySelector('[data-dom-id="btn-visit-search"]').click();
+      assert.ok(
+        [...visit.querySelectorAll("tbody tr")].some((x) => !x.hidden),
+        "2026年5月应属于2025学年",
+      );
+      visitReset.click();
       w.schoolMenuGo("care");
       assert.equal(
         d.getElementById("section-care-menu-v1").classList.contains("hidden"),

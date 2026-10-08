@@ -9,6 +9,10 @@ async function test() {
   assert.deepEqual(errors, [], "页面启动应无脚本异常");
   assert.equal(d.getElementById("sc-care-add"), null, "旧页面不应保留");
   assert.equal(
+    d.getElementById("sc-care-menu").parentElement,
+    d.querySelector(".phone"),
+  );
+  assert.equal(
     d.querySelector("#sc-list .back").disabled,
     true,
     "外部返回暂时禁用",
@@ -86,6 +90,21 @@ async function test() {
   );
   const today = record.querySelector("[data-care-date]").value;
   assert.ok(today);
+  record.querySelector("[data-care-date]").nextElementSibling.click();
+  await new Promise((resolve) => w.setTimeout(resolve, 0));
+  assert.equal(d.querySelectorAll(".cv3-picker-actions button").length, 2);
+  d.querySelector("[data-day]:not([disabled])").click();
+  assert.equal(
+    record.querySelector("[data-care-date]").value,
+    today,
+    "日期选择应暂存",
+  );
+  d.querySelector("[data-picker-cancel]").click();
+  assert.equal(
+    record.querySelector("[data-care-date]").value,
+    today,
+    "日期取消不提交",
+  );
   record.querySelector(".cv3-bottom button").click();
   assert.equal(w.CARE_CASE_V3_API.cases.length, c0, "无结果时不可提交");
   change(w, record.querySelector("[data-care-method]"), "谈心谈话");
@@ -154,9 +173,65 @@ async function test() {
     "第一版仍禁止同生未完结重复建案",
   );
   assert.equal(w.location.hash, "#sc-case-v3-add");
+  const api = w.CARE_CASE_V3_API;
+  const original = api.findForWarning(w.wlData[0]);
+  const oldRecords = original.records.map((x) => x.id);
+  const extra = Object.assign({}, w.wlData[0], {
+    id: "merge-extra-warning",
+    reason: "新增预警",
+    visits: [],
+  });
+  w.wlData.push(extra);
+  api.openFromWarning(extra);
+  choose(w, form.querySelector("[data-warning-type]"), [0]);
+  form.querySelector("[data-warning-association]").click();
+  await new Promise((resolve) => w.setTimeout(resolve, 0));
+  assert.equal(
+    d.querySelector("#cv3-picker-overlay .cv3-picker-title button"),
+    null,
+  );
+  assert.equal(
+    d.querySelectorAll("#cv3-picker-overlay .cv3-picker-actions button").length,
+    2,
+  );
+  assert.match(
+    d.querySelector(".cv3-picker-hint").textContent,
+    /合并为一个个案/,
+  );
+  d.querySelector("#cv3-picker-overlay [data-cancel]").click();
+  choose(w, form.querySelector("[data-warning-association]"), [0, 1]);
+  form.querySelector("textarea").value = "多预警合并测试";
+  form.querySelector(".cv3-bottom button").click();
+  change(w, record.querySelector("[data-care-method]"), "谈心谈话");
+  record.querySelector("[data-care-result]").value = "合并后新关爱";
+  change(w, record.querySelector("[data-care-follow]"), "需要");
+  record.querySelector("[data-care-next]").value = today;
+  record.querySelector(".cv3-bottom button").click();
+  const merged = api.findForWarning(extra);
+  assert.ok(merged, "合并提交成功");
+  assert.equal(api.findForWarning(w.wlData[0]), merged, "两个预警指向同一个案");
+  assert.equal(merged.records.length, oldRecords.length + 1);
+  oldRecords.forEach((id) =>
+    assert.ok(merged.records.some((x) => x.id === id)),
+  );
+  assert.equal(api.cases.includes(original), false, "不保留重复活动个案");
+  assert.equal(merged.createdAt, original.createdAt, "合并保留最早创建日期");
+  const freshLi = Object.assign({}, warning, {
+    id: "fresh-li-warning",
+    reason: "新预警",
+  });
+  w.wlData.push(freshLi);
+  api.openFromWarning(freshLi);
+  form.querySelector("[data-warning-association]").click();
+  assert.ok(
+    ![...d.querySelectorAll("#cv3-picker-overlay input")].some(
+      (x) => x.value === warning.reason + "（" + warning.time + "）",
+    ),
+    "已完结个案对应预警不应可选",
+  );
   assert.deepEqual(errors, []);
   console.log(
-    "PASS 老师端：首记两步、校验、取消、多条关联、班主任默认、保存建案、继续关爱、完结和第一版入口",
+    "PASS 老师端：手机容器、底部并列操作、日期取消、两步建案、多预警合并、历史保留、完结排除及第一版回归",
   );
 }
 test()

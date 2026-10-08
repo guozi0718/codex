@@ -465,6 +465,31 @@
       photosByRoot = new WeakMap();
     var menu = el("sc-care-menu"),
       menuBody = menu.querySelector(".body");
+    // 静态菜单位于文档末尾，必须与所有移动页面共用手机定位容器。
+    var phone = document.querySelector(".phone");
+    phone.appendChild(menu);
+    if (!menu.querySelector(".statusbar") && phone.querySelector(".statusbar"))
+      menu.prepend(phone.querySelector(".statusbar").cloneNode(true));
+    function alignPickerActions(overlay) {
+      var sheet = overlay.querySelector(".cv3-picker-sheet");
+      if (!sheet || sheet.querySelector(".cv3-picker-actions")) return;
+      var cancel = sheet.querySelector(".cv3-picker-title button"),
+        confirm = sheet.querySelector(".cv3-picker-confirm");
+      if (!cancel || !confirm) return;
+      var actions = document.createElement("div");
+      actions.className = "cv3-picker-actions";
+      cancel.classList.add("cv3-picker-cancel");
+      actions.append(cancel, confirm);
+      sheet.appendChild(actions);
+    }
+    function mountPicker(sheet) {
+      alignPickerActions(sheet);
+      document.querySelector(".phone").appendChild(sheet);
+    }
+    var pickerStyle = document.createElement("style");
+    pickerStyle.textContent =
+      ".cv3-picker-actions{display:flex;gap:12px;flex-shrink:0;margin-top:12px}.cv3-picker-actions button{flex:1;width:0;height:36px;border-radius:7px;font-size:12px}.cv3-picker-cancel{border:1px solid #dce5f1;background:#fff;color:#536b90}.cv3-picker-hint{font-size:12px;line-height:1.6;color:#8292aa;margin:10px 0 0}";
+    document.head.appendChild(pickerStyle);
     menuBody.innerHTML =
       '<div class="cv3-list-shell"><div class="cv3-tabs"></div><div class="cv3-scroll"><input class="cv3-search" id="cv3-search" placeholder="搜索学生姓名"><div class="cv3-count" id="cv3-count"></div><div id="cv3-list"></div></div><div class="cv3-bottom"><button type="button" id="cv3-new">新增关爱个案</button></div></div>';
     menu.querySelector(".sub-hd b").textContent = "关爱个案";
@@ -853,7 +878,7 @@
           renderEvidence(formMode === "edit" ? currentCase : null, true);
         closePicker();
       };
-      phone.appendChild(sheet);
+      mountPicker(sheet);
     }
     function evidenceItems(key, name) {
       var external =
@@ -990,7 +1015,7 @@
         renderEvidence(formMode === "edit" ? currentCase : null);
         closePicker();
       };
-      document.querySelector(".phone").appendChild(sheet);
+      mountPicker(sheet);
     }
     function refreshSelect(select) {
       var button = select && select.nextElementSibling;
@@ -1105,7 +1130,7 @@
           }
           closePicker();
         };
-        document.querySelector(".phone").appendChild(sheet);
+        mountPicker(sheet);
       };
     }
     function localToday() {
@@ -1171,6 +1196,19 @@
           '<div class="cv3-picker-sheet"><div class="cv3-picker-title"><b>选择' +
           (kind === "care" ? "关爱时间" : "下次跟进日期") +
           '</b><button type="button" data-picker-cancel>取消</button></div><div class="cv3-calendar-nav"><button type="button" data-prev>‹</button><b data-month></b><button type="button" data-next>›</button></div><div class="cv3-calendar-grid" data-calendar></div></div>';
+        var pendingDate = input.value;
+        var confirmDate = document.createElement("button");
+        confirmDate.type = "button";
+        confirmDate.className = "cv3-picker-confirm";
+        confirmDate.textContent = "确定";
+        confirmDate.onclick = function () {
+          if (!pendingDate) return;
+          input.value = pendingDate;
+          input.dispatchEvent(new Event("change", { bubbles: true }));
+          refresh();
+          closePicker();
+        };
+        sheet.querySelector(".cv3-picker-sheet").appendChild(confirmDate);
         function draw() {
           sheet.querySelector("[data-month]").textContent =
             year + "年" + month + "月";
@@ -1196,7 +1234,7 @@
               '" ' +
               (blocked ? "disabled" : "") +
               ' class="' +
-              (value === input.value ? "on" : "") +
+              (value === pendingDate ? "on" : "") +
               '">' +
               day +
               "</button>";
@@ -1204,10 +1242,8 @@
           sheet.querySelector("[data-calendar]").innerHTML = html;
           sheet.querySelectorAll("[data-day]").forEach(function (b) {
             b.onclick = function () {
-              input.value = b.dataset.day;
-              input.dispatchEvent(new Event("change", { bubbles: true }));
-              refresh();
-              closePicker();
+              pendingDate = b.dataset.day;
+              draw();
             };
           });
         }
@@ -1232,7 +1268,7 @@
           if (e.target === sheet) closePicker();
         };
         draw();
-        document.querySelector(".phone").appendChild(sheet);
+        mountPicker(sheet);
       };
     }
     function fillCascade(c) {
@@ -1870,24 +1906,72 @@
         toast("关爱记录已更新");
       } else {
         if (c._warningDraft) {
+          var merging = teacherCases.filter(function (existing) {
+            return (existing.warningIds || []).some(function (id) {
+              return c.warningIds.includes(id);
+            });
+          });
           if (
-            teacherCases.some(function (existing) {
+            merging.some(function (existing) {
               return (
-                existing.id !== c._warningReplaceId &&
-                (existing.warningIds || []).some(function (id) {
-                  return c.warningIds.includes(id);
-                })
+                statusOf(existing) === "已完结" ||
+                existing.name !== c.name ||
+                existing.grade !== c.grade ||
+                existing.klass !== c.klass ||
+                !canTake(existing)
               );
             })
           ) {
-            toast("该预警已有关爱个案，请在原个案继续关爱");
+            toast("所选预警已完结或无权限，请重新选择");
             return;
           }
+          var mergedRecords = new Map();
+          merging.forEach(function (existing) {
+            existing.records.forEach(function (record) {
+              mergedRecords.set(record.id, record);
+            });
+            c.warningIds = Array.from(
+              new Set(c.warningIds.concat(existing.warningIds || [])),
+            );
+            c.caseVersions = c.caseVersions.concat(existing.caseVersions || []);
+            c.evidence["辍学预警"] = Array.from(
+              new Set(
+                c.evidence["辍学预警"].concat(
+                  (existing.evidence || {})["辍学预警"] || [],
+                ),
+              ),
+            );
+          });
+          c.records = Array.from(mergedRecords.values()).sort(function (a, b) {
+            return (
+              String(a.date).localeCompare(String(b.date)) ||
+              String(a.filledAt || "").localeCompare(String(b.filledAt || ""))
+            );
+          });
+          c.mergedCaseIds = merging.map(function (existing) {
+            return existing.id;
+          });
+          c.mergedCaseSnapshots = merging.map(snapshot);
           /* 控辍预警入口暂不校验同一学生是否已有其他未完结个案；第一版菜单仍保留该校验。 */ addRecord(
             c,
             values,
           );
-          c.createdAt = today();
+          var recordedCases = merging.filter(function (existing) {
+            return existing.records.length;
+          });
+          c.records.sort(function (a, b) {
+            return (
+              String(a.date).localeCompare(String(b.date)) ||
+              String(a.filledAt || "").localeCompare(String(b.filledAt || ""))
+            );
+          });
+          c.createdAt = recordedCases.length
+            ? recordedCases
+                .map(function (existing) {
+                  return existing.createdAt;
+                })
+                .sort()[0]
+            : today();
           var replaceId = c._warningReplaceId;
           delete c._warningDraft;
           delete c._warningReplaceId;
@@ -1899,16 +1983,24 @@
             filledByRole: role(),
             filledAt: stamp(),
           });
-          if (replaceId) {
-            var replaceIndex = teacherCases.findIndex(function (existing) {
-              return existing.id === replaceId;
-            });
-            if (replaceIndex >= 0) teacherCases.splice(replaceIndex, 1, c);
-            else teacherCases.unshift(c);
-          } else teacherCases.unshift(c);
+          for (var index = teacherCases.length - 1; index >= 0; index--) {
+            if (
+              merging.includes(teacherCases[index]) ||
+              teacherCases[index].id === replaceId
+            )
+              teacherCases.splice(index, 1);
+          }
+          teacherCases.unshift(c);
         } else addRecord(c, values);
         toast("关爱记录已保存");
       }
+      if ((c.warningIds || []).length > 1)
+        c.records.sort(function (a, b) {
+          return (
+            String(a.date).localeCompare(String(b.date)) ||
+            String(a.filledAt || "").localeCompare(String(b.filledAt || ""))
+          );
+        });
       currentCase = c;
       renderDetail();
       renderList();
@@ -2072,13 +2164,57 @@
         );
       });
     };
+    function warningEvidenceRows(w) {
+      var rows = evidenceItems("辍学预警", w.name).map(function (text, index) {
+        var external = (window.CARE_WARNING_RECORDS || []).find(
+          function (item) {
+            return (
+              (item.studentName || item.name) === w.name &&
+              (item.text || item.label || item.summary || item.date) === text
+            );
+          },
+        );
+        return {
+          id:
+            (external && (external.warningId || external.id)) ||
+            "evidence-" + (w.studentId || w.name) + "-" + index,
+          text: text,
+          state: external && (external.caseStatus || external.status),
+        };
+      });
+      (window.wlData || [])
+        .filter(function (item) {
+          return (
+            item.year === "current" &&
+            item.name === w.name &&
+            item.grade === w.grade &&
+            item.cls === w.cls
+          );
+        })
+        .forEach(function (item) {
+          rows.unshift({
+            id: item.id,
+            text: item.reason + "（" + item.time + "）",
+          });
+        });
+      return rows.filter(function (item) {
+        if (item.state === "已完结") return false;
+        return !teacherCases.some(function (c) {
+          return (
+            (c.warningIds || []).includes(item.id) && statusOf(c) === "已完结"
+          );
+        });
+      });
+    }
     function openWarningPicker(kind) {
       if (!warningSetup) return;
       closePicker();
       var isType = kind === "type",
         opts = isType
           ? TYPE_OPTIONS
-          : evidenceItems("辍学预警", warningSetup.warning.name);
+          : warningEvidenceRows(warningSetup.warning).map(function (item) {
+              return item.text;
+            });
       var order = (
           isType ? warningSetup.types : warningSetup.associations
         ).slice(),
@@ -2104,6 +2240,13 @@
           })
           .join("") +
         '</div><button type="button" class="cv3-picker-confirm">确定</button></div>';
+      if (!isType) {
+        var hint = document.createElement("p");
+        hint.className = "cv3-picker-hint";
+        hint.textContent =
+          "可勾选多条预警，所选预警下的关爱记录将合并为一个个案，按关爱时间从新到旧展示。已完结个案对应的预警不可选择。";
+        sheet.querySelector(".cv3-picker-title").after(hint);
+      }
       sheet.onclick = function (event) {
         if (event.target === sheet) closePicker();
       };
@@ -2130,7 +2273,7 @@
             : "请选择关联信息";
         closePicker();
       };
-      document.querySelector(".phone").appendChild(sheet);
+      mountPicker(sheet);
     }
     function openWarningSetup(w, existing) {
       closePicker();
@@ -2197,7 +2340,19 @@
           sources: ["辍学预警"],
           evidence: { 辍学预警: warningSetup.associations.slice() },
           reason: reason,
-          warningIds: [w.id],
+          warningIds: Array.from(
+            new Set(
+              [w.id].concat(
+                warningEvidenceRows(w)
+                  .filter(function (item) {
+                    return warningSetup.associations.includes(item.text);
+                  })
+                  .map(function (item) {
+                    return item.id;
+                  }),
+              ),
+            ),
+          ),
           caseVersions: [],
           records: [],
           _warningDraft: true,
@@ -2239,7 +2394,7 @@
           openRecordForm(c, "add", null, "sc-detail");
           return;
         }
-        /* 第二版暂按一条预警一份个案；此入口不套用第一版按学生限制未完结个案的规则。 */
+        /* 多选预警可合并未完结个案；第一版独立入口的学生限制不变。 */
         openWarningSetup(w);
       },
     };

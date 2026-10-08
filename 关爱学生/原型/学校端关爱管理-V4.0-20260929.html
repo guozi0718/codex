@@ -3460,8 +3460,8 @@ html, body { margin: 0px; padding: 0px; overflow: hidden; }
                 </div>
               </div>
               <div class="flex items-center justify-end gap-3 mt-4 pt-4 border-t" style="border-color:#f0f0f0;">
-                <button class="px-4 py-1.5 text-sm border rounded text-gray-600 hover:bg-gray-50 transition-colors" style="border-color:#d9d9d9;" data-dom-id="btn-visit-reset" onclick="resetVisitFilters()">重置</button>
-                <button class="px-4 py-1.5 text-sm text-white rounded transition-colors hover:opacity-90" style="background:#1677ff;" data-dom-id="btn-visit-search" onclick="searchVisits()">
+                <button class="px-4 py-1.5 text-sm border rounded text-gray-600 hover:bg-gray-50 transition-colors" style="border-color:#d9d9d9;" data-dom-id="btn-visit-reset">重置</button>
+                <button class="px-4 py-1.5 text-sm text-white rounded transition-colors hover:opacity-90" style="background:#1677ff;" data-dom-id="btn-visit-search">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="search" aria-hidden="true" class="lucide lucide-search w-3.5 h-3.5 inline-block mr-1 -mt-0.5"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>查询
                 </button>
               </div>
@@ -4454,13 +4454,7 @@ html, body { margin: 0px; padding: 0px; overflow: hidden; }
         if(node){ node.remove(); showToast('劝返记录已删除'); }
       }
 
-      // ===== 控辍劝返台账筛选 =====
-      function resetVisitFilters(){
-        ['visit-filter-teacher','visit-filter-method'].forEach(function(id){ var e=document.getElementById(id); if(e) e.value=''; });
-        var ds = document.getElementById('visit-filter-date-start'); if(ds) ds.value='';
-        var de = document.getElementById('visit-filter-date-end'); if(de) de.value='';
-      }
-      function searchVisits(){ }
+      // 控辍劝返台账筛选由共享 Web 联动模块唯一接管。
 
       // ===== 学生数据库（模拟）+ 年级/班级/学生/家长联动（新增劝返记录弹窗） =====
       var STUDENT_DB = [

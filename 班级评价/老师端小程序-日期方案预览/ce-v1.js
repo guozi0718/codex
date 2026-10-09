@@ -56,7 +56,7 @@ function ceAskLeaveToday(){
 function ceV1ClassDetailSheet(){
   const classes=ceSessionClasses().filter(Boolean);
   const rows=classes.map(c=>'<div class="ce-class-lock-card"><span>'+ceEscape(ceClassDisplayName(c))+'</span></div>').join('');
-  sheet('<div class="ce-class-detail-sheet"><h3>锁定班级</h3><div class="ce-class-detail-scroll ce-class-lock-grid">'+(rows||'<div class="ce-class-detail-empty">暂无评价班级</div>')+'</div></div>');
+  sheet('<div class="ce-class-detail-sheet"><h3>锁定班级</h3><div class="ce-class-detail-scroll ce-class-lock-grid">'+(rows||'<div class="ce-class-detail-empty">暂无评价班级</div>')+'</div><div class="ce-popup-footer"><button class="ce-popup-confirm" onclick="closeSheet()">关闭</button></div></div>');
 }
 function ceV1ActionBar(){
  const bar=document.getElementById('ce-actionbar');

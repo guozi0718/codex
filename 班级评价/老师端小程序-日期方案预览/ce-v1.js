@@ -62,7 +62,7 @@ function ceV1ActionBar(){
  const bar=document.getElementById('ce-actionbar');
  if(!bar||curScreen!=='ce-today')return;
  const classes=ceSessionClasses().filter(Boolean);
-  bar.innerHTML='<div class="ce-classpick ce-locked"><b>评价班级 · '+classes.length+'个</b><button class="ce-classpick-detail" onclick="ceV1ClassDetailSheet()">锁定班级 ›</button></div><button class="ce-done" onclick="ceFinish()">完成评价</button>';
+  bar.innerHTML='<div class="ce-classpick ce-locked"><b>评价班级 · '+classes.length+'个</b><button class="ce-classpick-detail" onclick="ceV1ClassDetailSheet()">已锁定前一页所选班级 ›</button></div><button class="ce-done" onclick="ceFinish()">完成评价</button>';
 }
 ceRecordIsMine=r=>!!r&&r.createdBy===ceRecordCurrentTeacherId;
 ceRecordCanManage=r=>ceRecordIsMine(r)&&r.date>=ceSchoolConfig.schoolYearStart&&r.date<=ceV1.businessDate&&!(curScreen==='ce-records'&&ceRecordMode==='class');

@@ -150,6 +150,8 @@
     var records = window.schoolCareV3Data || window.careRegV3Data;
     if (!table || !modal || !Array.isArray(records)) return;
     var school = !!window.schoolCareV3Data;
+    var warningCases = window.CARE_WARNING_CASES || [];
+    window.CARE_WARNING_CASES = warningCases;
     if (!school) {
       var examples = records.filter(function (r) {
         return r.sourceKey === "warning" && r.warning && r.school;
@@ -577,7 +579,7 @@
       );
     }
     function careEvidence(w) {
-      var first = linked(w)[0];
+      var first = warningCase(w);
       if (!first) return { caseEvidence: [] };
       if (window.careCaseEvidenceItemsV3(first).length) return first;
       var ids = [w.id].concat(first.referenceWarningIds || []);
@@ -591,6 +593,12 @@
         },
       };
     }
+    function warningCase(w) {
+      return warningCases.find(function (c) {
+        return !c.deletedAt &&
+          (c.warningId === w.id || (c.warningIds || []).includes(w.id));
+      });
+    }
     function evidenceField(w) {
       var count = window.careCaseEvidenceItemsV3(careEvidence(w)).length;
       return '<div class="care-warning-web-row"><span>关联信息</span><span>' +
@@ -599,6 +607,7 @@
     }
     function careCards(w) {
       var chain = linked(w),
+        c = warningCase(w),
         last = chain[chain.length - 1],
         state = !last ? "待关爱" : last.status === "need" ? "关爱中" : "已完结";
       return (
@@ -607,15 +616,17 @@
         "次）</b><span>个案状态：" +
         state +
         "</span></div>" +
-        (chain.length
-          ? '<div class="care-warning-web-card">' +
-            field("创建日期", chain[0].caseCreatedAt || chain[0].date) +
+        (c
+          ? '<div class="care-warning-web-card" data-warning-case-info>' +
+            field("创建日期", c.caseCreatedAt || c.createdAt || c.date) +
             field("关爱来源", "控辍保学") +
             evidenceField(w) +
-            field("关爱类型", chain[0].type) +
-            field("关爱原因", chain[0].careReason || w.reason) +
-            "</div>" +
-            chain
+            field("关爱类型", (c.caseTypes || [c.type]).join("、")) +
+            field("关爱原因", c.caseReason || c.careReason || w.reason) +
+            "</div>"
+          : "") +
+        (chain.length
+          ? chain
               .slice()
               .reverse()
               .map(function (r, i) {
@@ -716,6 +727,11 @@
       });
     }
     seed();
+    rows.forEach(function (row) {
+      var w = info(row), first = linked(w)[0];
+      if (first && !warningCase(w))
+        warningCases.push(Object.assign({}, first, { id: first.caseId }));
+    });
     decorateRows();
     if (!school && window.CARE_REGULATOR_V31) {
       var hierarchy = window.CARE_REGULATOR_V31,

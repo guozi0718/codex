@@ -23,6 +23,9 @@ async function test() {
     '[data-warning-index="1"] [data-warning-action="care"]',
   );
   assert.equal(first.textContent, "关爱");
+  first.closest("[data-warning-index]").querySelector('[data-warning-action="detail"]').click();
+  d.querySelector('[data-warning-tab="care"]').click();
+  assert.equal(d.querySelector("[data-warning-case-info]"), null, "未建案不显示个案卡");
   first.click();
   assert.equal(w.location.hash, "#sc-case-v3-warning-setup");
   const form = d.getElementById("sc-case-v3-warning-setup");
@@ -139,6 +142,14 @@ async function test() {
   assert.equal(created.records.length, 1);
   assert.equal(created.createdAt, today);
   assert.equal(created.records[0].next, "", "第二版需要跟进但无日期允许保存");
+  const infoCard = d.querySelector("[data-warning-case-info]");
+  assert.ok(infoCard);
+  assert.deepEqual([...infoCard.querySelectorAll(".k")].map(x => x.textContent),
+    ["创建日期", "关爱来源", "关联信息", "关爱类型", "关爱原因"]);
+  assert.equal(infoCard.parentElement.querySelector(".card"), infoCard, "个案卡在所有关爱内容之前");
+  infoCard.querySelector("[data-warning-case-evidence]").click();
+  assert.ok(d.querySelector(".care-evidence-mask"));
+  d.querySelector(".care-evidence-close").click();
   const nextDateRow = [
     ...d.querySelectorAll('[data-warning-pane="care"] .kv'),
   ].find((row) => row.querySelector(".k").textContent === "下次跟进日期");
@@ -178,6 +189,14 @@ async function test() {
   change(w, record.querySelector("[data-care-follow]"), "不需要");
   record.querySelector(".cv3-bottom button").click();
   assert.equal(created.records.length, 2);
+  assert.equal(d.querySelectorAll("[data-warning-case-info]").length, 1, "多次关爱不重复生成个案卡");
+  const savedRecords = created.records.splice(0);
+  w.go("sc-list");
+  d.querySelector('[data-warning-index="1"] [data-warning-action="detail"]').click();
+  d.querySelector('[data-warning-tab="care"]').click();
+  assert.ok(d.querySelector("[data-warning-case-info]"), "已建案零内容仍显示个案卡");
+  assert.equal(d.querySelectorAll('[data-warning-pane="care"] .care-warning-record').length, 0);
+  created.records.push(...savedRecords);
   assert.equal(created.createdAt, today);
   w.go("sc-list");
   assert.equal(

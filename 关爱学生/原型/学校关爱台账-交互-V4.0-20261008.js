@@ -380,7 +380,7 @@
           "操作",
         ]
           .map(function (label) {
-            return "<th>" + label + "</th>";
+            return "<th" + (/^关爱(来源|类型)$/.test(label) ? ' class="care-enum-cell"' : "") + ">" + label + "</th>";
           })
           .join("") +
         '</tr></thead><tbody id="sv3-body"></tbody></table></div></div></div>';
@@ -427,7 +427,7 @@
               esc(r.grade),
               esc(r.className),
               esc(c.created),
-              esc(source(r).join("、")),
+              window.careCaseEnumHtmlV3(source(r).join("、")),
               count
                 ? '<button type="button" class="care-evidence-button" data-school-evidence="' +
                   index +
@@ -435,7 +435,7 @@
                   count +
                   "条信息</button>"
                 : "--",
-              esc(type(r).join("、")),
+              window.careCaseEnumHtmlV3(type(r).join("、")),
               '<span title="' +
                 esc(reason(r)) +
                 '">' +
@@ -462,8 +462,8 @@
               c.status +
               '" data-case-v3-old-hidden="0">' +
               content
-                .map(function (cell) {
-                  return "<td>" + cell + "</td>";
+                .map(function (cell, column) {
+                  return "<td" + ([4, 6].includes(column) ? ' class="care-enum-cell"' : "") + ">" + cell + "</td>";
                 })
                 .join("") +
               "</tr>"
@@ -561,6 +561,10 @@
           return;
         }
         if (event.target.dataset.action !== "confirm") return;
+        (window.CARE_WARNING_CASES || []).forEach(function (item) {
+          if (item.caseId === c.first.caseId)
+            item.deletedAt = new Date().toISOString();
+        });
         c.rows.forEach(function (r) {
           r.deletedAt = new Date().toISOString();
           r.deletedById = window.CARE_CURRENT_USER_ID || "school-admin-demo";

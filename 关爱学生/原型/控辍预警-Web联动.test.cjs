@@ -3,6 +3,26 @@ const fs = require("node:fs"),
   path = require("node:path"),
   vm = require("node:vm");
 const { load, root, pages } = require("./原型测试工具-V2.0-20261008.cjs");
+function checkEnumColumns(w, care, records, render) {
+  const saved = records.map(r => [r, r.caseSources, r.caseTypes]);
+  const source = ["班主任发现", "任课教师反映", "学生主动反映"];
+  const types = ["家庭变故", "学业困难", "同伴关系"];
+  records.forEach(r => { r.caseSources = source; r.caseTypes = types; });
+  render();
+  const row = care.querySelector("tbody tr");
+  [4, 6].forEach((index, n) => {
+    const td = row.cells[index], full = (n ? types : source).join("、");
+    assert.ok(care.querySelectorAll("th")[index].classList.contains("care-enum-cell"));
+    assert.equal(w.getComputedStyle(td).textAlign, "center");
+    assert.equal(td.querySelector(".care-enum-value").title, full);
+    assert.equal(td.textContent, Array.from(full).slice(0, 10).join("") + "...");
+  });
+  saved.forEach(([r, sources, types]) => {
+    if (sources === undefined) delete r.caseSources; else r.caseSources = sources;
+    if (types === undefined) delete r.caseTypes; else r.caseTypes = types;
+  });
+  render();
+}
 async function test() {
   for (const name of pages) {
     const html = fs.readFileSync(path.join(root, name), "utf8");
@@ -20,7 +40,7 @@ async function test() {
           name + "引用缺失：" + ref,
         );
     }
-    if (name.startsWith("老师") || name.startsWith("家长")) continue;
+    if (name.startsWith("老师")) continue;
     const list = d.getElementById("section-warning-list");
     if (!name.startsWith("学校")) {
       w.cityMenuGo("warning-district");
@@ -182,6 +202,17 @@ async function test() {
     assert.equal(detail.querySelector('[data-web-pane="care"]').hidden, true);
     detail.querySelector('[data-web-tab="care"]').click();
     assert.equal(detail.querySelector('[data-web-pane="care"]').hidden, false);
+    assert.equal(detail.querySelectorAll("[data-warning-case-info]").length, 1, "多次关爱仅一张顶部个案卡");
+    const noCare = warningRows.find(row => row.querySelector("[data-warning-care-count]").textContent === "--");
+    noCare.querySelector('[data-dom-id^="btn-view-detail-"]').click();
+    assert.equal(detail.querySelector("[data-warning-case-info]"), null, "未建案不显示个案卡");
+    const emptyCase = { caseId: "empty-case-test", warningId: "warning-" + noCare.getAttribute("data-dom-id").replace("row-warning-", ""), caseCreatedAt: "2026-10-10", type: "学业困难", careReason: "已建案零内容" };
+    w.CARE_WARNING_CASES.push(emptyCase);
+    noCare.querySelector('[data-dom-id^="btn-view-detail-"]').click();
+    assert.ok(detail.querySelector("[data-warning-case-info]"), "已建案零内容仍显示个案卡");
+    assert.equal(noCare.querySelector("[data-warning-care-count]").textContent, "--", "个案卡不伪造关爱次数");
+    w.CARE_WARNING_CASES.splice(w.CARE_WARNING_CASES.indexOf(emptyCase), 1);
+    count.click();
     const query = list.querySelector('[data-dom-id="btn-search"]'),
       reset = list.querySelector('[data-dom-id="btn-reset"]');
     const student = list.querySelector('[data-dom-id="filter-student"]');
@@ -259,6 +290,7 @@ async function test() {
         name + "第一版详情字段顺序",
       );
       w.cityCareClose();
+      checkEnumColumns(w, care, recordSource, w.careRegV3Render);
     } else {
       const visit = d.getElementById("section-visit-ledger");
       const visitReset = visit.querySelector('[data-dom-id="btn-visit-reset"]');
@@ -320,6 +352,7 @@ async function test() {
         ["关爱来源", "关联信息", "关爱类型"],
       );
       w.schoolCareClose();
+      checkEnumColumns(w, care, recordSource, w.schoolV3Render);
       w.schoolMenuGo("warning-list");
       w.schoolMenuGo("care");
       assert.deepEqual(
@@ -366,7 +399,7 @@ async function test() {
         "：字段、名称下钻、学校范围、计数、双 tab、查询、重置与关爱入口",
     );
   }
-  console.log("PASS 七端启动、语法、资源引用及唯一 ID");
+  console.log("PASS 六端启动、语法、资源引用及唯一 ID");
 }
 test()
   .then(() => process.exit(0))

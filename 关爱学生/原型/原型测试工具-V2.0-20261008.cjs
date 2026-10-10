@@ -22,7 +22,6 @@ const pages = [
   "地市监管端关爱监管-V3.7-20260929.html",
   "省级监管端关爱监管-V1.6-20260929.html",
   "部级监管端关爱监管-V1.5-20260929.html",
-  "家长端关爱查看-V1.0-20260929.html",
 ];
 class LocalResources extends ResourceLoader {
   fetch(url) {

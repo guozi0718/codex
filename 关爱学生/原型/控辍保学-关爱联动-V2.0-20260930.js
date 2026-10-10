@@ -241,6 +241,19 @@
         '次）</span><span class="care-warning-state">个案状态：' +
         esc(state) +
         "</span></div>" +
+        (c
+          ? '<div class="card care-warning-case-info" data-warning-case-info>' +
+            kv("创建日期", c.createdAt) +
+            kv("关爱来源", "控辍保学") +
+            '<div class="kv"><span class="k">关联信息</span><span class="v">' +
+            (window.careCaseEvidenceItemsV3(c).length
+              ? '<button type="button" class="care-evidence-button" data-warning-case-evidence>关联' +
+                window.careCaseEvidenceItemsV3(c).length + "条信息</button>"
+              : "--") + "</span></div>" +
+            kv("关爱类型", (c.types || []).join("、")) +
+            kv("关爱原因", c.reason) +
+            "</div>"
+          : "") +
         (records.length
           ? records
               .slice()
@@ -268,6 +281,10 @@
               .join("")
           : '<div class="card care-warning-empty">暂无关爱记录</div>') +
         "</div>";
+      var evidence = pad.querySelector("[data-warning-case-evidence]");
+      if (evidence) evidence.onclick = function () {
+        window.openCareEvidenceV3(c, true);
+      };
       pad.querySelectorAll("[data-warning-tab]").forEach(function (button) {
         button.onclick = function () {
           activeTab = button.dataset.warningTab;

@@ -386,7 +386,7 @@
         '<div class="crv3-table-wrap"><table class="crv3-table care-record-table"><thead><tr>' +
         heads
           .map(function (h) {
-            return "<th>" + h + "</th>";
+            return "<th" + (/^关爱(来源|类型)$/.test(h) ? ' class="care-enum-cell"' : "") + ">" + h + "</th>";
           })
           .join("") +
         "</tr></thead><tbody>" +
@@ -416,8 +416,8 @@
               esc(r.className) +
               "</td><td>" +
               esc(c.created) +
-              "</td><td>" +
-              esc(source) +
+              '</td><td class="care-enum-cell">' +
+              window.careCaseEnumHtmlV3(source) +
               "</td><td>" +
               (count
                 ? '<button type="button" class="care-evidence-button" data-evidence="' +
@@ -426,8 +426,8 @@
                   count +
                   "条信息</button>"
                 : "--") +
-              "</td><td>" +
-              esc(c.type.join("、")) +
+              '</td><td class="care-enum-cell">' +
+              window.careCaseEnumHtmlV3(c.type.join("、")) +
               '</td><td title="' +
               esc(reason) +
               '">' +

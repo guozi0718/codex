@@ -1,0 +1,12 @@
+{
+  "name": "student-care-phase-one-prototypes",
+  "private": true,
+  "version": "1.0.0",
+  "description": "第一期：独立关爱菜单与控辍保学关爱入口的原型回归",
+  "scripts": {
+    "test": "node 控辍保学-关爱联动.test.cjs && node 控辍预警-Web联动.test.cjs && node 交付链接核对.test.cjs"
+  },
+  "devDependencies": {
+    "jsdom": "22.1.0"
+  }
+}

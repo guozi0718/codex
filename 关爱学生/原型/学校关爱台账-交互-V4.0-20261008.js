@@ -300,7 +300,7 @@
       var map = new Map();
       records
         .filter(function (r) {
-          return !r.deletedAt;
+          return !r.deletedAt && !r.superseded;
         })
         .forEach(function (r) {
           var key = r.caseId || r.id;
@@ -369,9 +369,9 @@
           "年级",
           "班级",
           "创建日期",
-          "关爱类型",
           "关爱来源",
           "关联信息",
+          "关爱类型",
           "关爱原因",
           "关爱次数",
           "最近关爱日期",
@@ -427,7 +427,6 @@
               esc(r.grade),
               esc(r.className),
               esc(c.created),
-              esc(type(r).join("、")),
               esc(source(r).join("、")),
               count
                 ? '<button type="button" class="care-evidence-button" data-school-evidence="' +
@@ -436,6 +435,7 @@
                   count +
                   "条信息</button>"
                 : "--",
+              esc(type(r).join("、")),
               '<span title="' +
                 esc(reason(r)) +
                 '">' +

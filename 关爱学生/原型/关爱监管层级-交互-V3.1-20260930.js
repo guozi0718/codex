@@ -163,14 +163,16 @@
         });
       });
     });
-    var byCase = new Map();
-    records.forEach(function (r) {
-      if (r.deletedAt) return;
-      var k = r.caseId || r.id;
-      if (!byCase.has(k)) byCase.set(k, []);
-      byCase.get(k).push(r);
-    });
-    var cases = Array.from(byCase.values())
+    var cases = [];
+    function refreshCases() {
+      var byCase = new Map();
+      records.forEach(function (r) {
+        if (r.deletedAt || r.superseded) return;
+        var k = r.caseId || r.id;
+        if (!byCase.has(k)) byCase.set(k, []);
+        byCase.get(k).push(r);
+      });
+      var current = Array.from(byCase.values())
       .map(function (rows) {
         rows.sort(function (a, b) {
           return String(a.date).localeCompare(String(b.date));
@@ -201,6 +203,8 @@
           };
         }),
       );
+      cases.splice.apply(cases, [0, cases.length].concat(current));
+    }
     var style = document.createElement("style");
     style.id = "care-reg-hierarchy-v31-style";
     style.textContent =
@@ -217,6 +221,7 @@
       menuButton.title = "功能菜单";
     }
     function currentCases() {
+      refreshCases();
       return cases.filter(function (c) {
         var r = c.first,
           date = c.created;
@@ -367,9 +372,9 @@
         "年级",
         "班级",
         "创建日期",
-        "关爱类型",
         "关爱来源",
         "关联信息",
+        "关爱类型",
         "关爱原因",
         "关爱次数",
         "最近关爱日期",
@@ -412,8 +417,6 @@
               "</td><td>" +
               esc(c.created) +
               "</td><td>" +
-              esc(c.type.join("、")) +
-              "</td><td>" +
               esc(source) +
               "</td><td>" +
               (count
@@ -423,6 +426,8 @@
                   count +
                   "条信息</button>"
                 : "--") +
+              "</td><td>" +
+              esc(c.type.join("、")) +
               '</td><td title="' +
               esc(reason) +
               '">' +
@@ -539,9 +544,9 @@
         row("年级", r.grade) +
         row("班级", r.className) +
         row("创建日期", c.created) +
-        row("关爱类型", c.type.join("、")) +
         row("关爱来源", (r.caseSources || [r.source]).join("、")) +
         row("关联信息", "--") +
+        row("关爱类型", c.type.join("、")) +
         row("关爱原因", r.caseReason) +
         row("个案状态", "待关爱") +
         '</div><div class="crv3-detail-title">关爱情况（共0次）</div></div><div class="ecm-foot"><button class="ecm-btn" onclick="cityCareClose()">关闭</button></div>';

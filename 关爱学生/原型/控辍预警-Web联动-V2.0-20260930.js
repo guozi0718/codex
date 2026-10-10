@@ -404,7 +404,7 @@
       return records
         .filter(function (r) {
           return (
-            !r.deletedAt &&
+            !r.deletedAt && !r.superseded &&
             (r.warningId === w.id || (r.warningIds || []).includes(w.id))
           );
         })
@@ -419,6 +419,7 @@
         if (index === 0) {
           var first = records.find(function (r) {
             return (
+              !r.deletedAt && !r.superseded &&
               r.sourceKey === "warning" &&
               r.name === w.name &&
               r.grade === w.grade &&
@@ -518,7 +519,7 @@
       var head = table.tHead && table.tHead.rows[0];
       if (!head) return;
       var th = document.createElement("th");
-      th.textContent = "关联关爱";
+      th.textContent = "关爱次数";
       th.className = head.lastElementChild.className;
       head.insertBefore(th, head.lastElementChild);
       rows.forEach(function (row) {
@@ -551,7 +552,7 @@
       var button = document.createElement("button");
       button.type = "button";
       button.className = "care-warning-web-link";
-      button.textContent = chain.length + "条";
+      button.textContent = chain.length + "次";
       button.onclick = function () {
         selected = row;
         selectedTab = "care";
@@ -575,6 +576,27 @@
         "</span></div>"
       );
     }
+    function careEvidence(w) {
+      var first = linked(w)[0];
+      if (!first) return { caseEvidence: [] };
+      if (window.careCaseEvidenceItemsV3(first).length) return first;
+      var ids = [w.id].concat(first.referenceWarningIds || []);
+      return {
+        caseEvidence: {
+          "控辍保学": rows.map(info).filter(function (item) {
+            return ids.includes(item.id);
+          }).map(function (item) {
+            return item.reason + "（" + item.time + "）";
+          }),
+        },
+      };
+    }
+    function evidenceField(w) {
+      var count = window.careCaseEvidenceItemsV3(careEvidence(w)).length;
+      return '<div class="care-warning-web-row"><span>关联信息</span><span>' +
+        (count ? '<button type="button" class="care-evidence-button" data-web-evidence>关联' +
+          count + "条信息</button>" : "--") + "</span></div>";
+    }
     function careCards(w) {
       var chain = linked(w),
         last = chain[chain.length - 1],
@@ -588,8 +610,9 @@
         (chain.length
           ? '<div class="care-warning-web-card">' +
             field("创建日期", chain[0].caseCreatedAt || chain[0].date) +
-            field("关爱类型", chain[0].type) +
             field("关爱来源", "控辍保学") +
+            evidenceField(w) +
+            field("关爱类型", chain[0].type) +
             field("关爱原因", chain[0].careReason || w.reason) +
             "</div>" +
             chain
@@ -611,7 +634,7 @@
                       : "--",
                   ) +
                   field("继续跟进", r.status === "need" ? "需要" : "暂不需要") +
-                  (r.status === "need" ? field("下次跟进日期", r.next) : "") +
+                  field("下次跟进日期", r.next || "--") +
                   "</div>"
                 );
               })
@@ -676,6 +699,10 @@
         ">" +
         careCards(w) +
         "</div>";
+      var evidenceButton = root.querySelector("[data-web-evidence]");
+      if (evidenceButton) evidenceButton.onclick = function () {
+        window.openCareEvidenceV3(careEvidence(w));
+      };
       root.querySelectorAll("[data-web-tab]").forEach(function (button) {
         button.onclick = function () {
           selectedTab = button.dataset.webTab;
@@ -882,6 +909,19 @@
         renderDetail();
         return result;
       };
+    // 同一交付页提供第一期两种入口，链接直达不依赖菜单默认态。
+    function routeEntry() {
+      var hash = window.location.hash;
+      if (hash === "#care-v1") {
+        if (school) window.schoolMenuGo("care");
+        else window.cityCareOpen();
+      } else if (hash === "#care-v2") {
+        if (school) window.schoolMenuGo("warning-list");
+        else window.cityMenuGo("warning-district");
+      }
+    }
+    window.addEventListener("hashchange", routeEntry);
+    routeEntry();
   }
   /* HTML 显式先加载关爱层级模块，再初始化第二版预警适配。 */
   if (document.readyState === "complete") boot();

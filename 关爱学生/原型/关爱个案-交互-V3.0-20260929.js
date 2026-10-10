@@ -814,9 +814,9 @@
         (editing ? "disabled" : "") +
         "></select></div></div>" +
         '<div class="cv3-title">个案信息</div><div class="cv3-card">' +
-        choices(TYPE_OPTIONS, (c && c.types) || [], "关爱类型", false) +
         choices(SOURCE_OPTIONS, (c && c.sources) || [], "关爱来源", lock) +
         '<div id="cv3-evidence"></div>' +
+        choices(TYPE_OPTIONS, (c && c.types) || [], "关爱类型", false) +
         '<div class="cv3-field stack"><label>关爱原因<span class="req">*</span></label><textarea id="cv3-reason" maxlength="100" placeholder="请概述需要关爱的实际情况，最多100字">' +
         esc((c && c.reason) || "") +
         "</textarea></div></div>" +
@@ -1178,7 +1178,9 @@
       button.className = "cv3-date-trigger";
       input.after(button);
       function refresh() {
-        button.textContent = input.value || "请选择日期";
+        button.textContent =
+          input.value ||
+          (kind === "care" ? "请选择日期" : "请选择日期");
         button.disabled = input.disabled;
       }
       refresh();
@@ -1455,10 +1457,6 @@
         toast("请选择是否继续跟进");
         return null;
       }
-      if (follow.value === "需要" && !next.value) {
-        toast("请选择下次跟进日期");
-        return null;
-      }
       return {
         date: date.value,
         people: people.value,
@@ -1659,7 +1657,7 @@
         '>需要</option><option value="不需要" ' +
         (r && r.follow === "不需要" ? "selected" : "") +
         ">不需要</option></select></div>" +
-        '<div class="cv3-field" data-next-wrap><label>下次跟进日期<span class="req">*</span></label><input data-care-next type="text" placeholder="请选择日期" value="' +
+        '<div class="cv3-field" data-next-wrap><label>下次跟进日期</label><input data-care-next type="text" placeholder="请选择日期" value="' +
         esc((r && r.next) || "") +
         '"></div></div>'
       );
@@ -1850,14 +1848,16 @@
         '</b><div class="cv3-sub">' +
         esc(c.grade + " · " + c.klass) +
         "</div></span></div>" +
-        row("关爱类型", esc(typeText(c))) +
         row(
           "关爱来源",
           esc(returnTarget === "sc-detail" ? "控辍保学" : sourceText(c)),
         ) +
+        teacherEvidenceRow(c) +
+        row("关爱类型", esc(typeText(c))) +
         row("关爱原因", esc(c.reason)) +
         "</div>" +
         careFields(editingRecord, false);
+      bindTeacherEvidence(recordForm, c);
       bindCareFields(recordForm, editingRecord);
       var early = editingRecord && editingRecord !== latest(c);
       if (early)
@@ -1906,105 +1906,70 @@
         toast("关爱记录已更新");
       } else {
         if (c._warningDraft) {
-          var merging = teacherCases.filter(function (existing) {
-            return (existing.warningIds || []).some(function (id) {
-              return c.warningIds.includes(id);
-            });
-          });
-          if (
-            merging.some(function (existing) {
+          var primaryId = c.warningIds[0],
+            emptyCase = teacherCases.find(function (item) {
+              return item.id === c._warningReplaceId;
+            }),
+            occupied = teacherCases.some(function (item) {
               return (
-                statusOf(existing) === "已完结" ||
-                existing.name !== c.name ||
-                existing.grade !== c.grade ||
-                existing.klass !== c.klass ||
-                !canTake(existing)
+                item !== emptyCase &&
+                (item.warningIds || []).includes(primaryId)
               );
-            })
+            });
+          if (
+            occupied ||
+            (emptyCase &&
+              (emptyCase.records.length ||
+                !(emptyCase.warningIds || []).includes(primaryId) ||
+                !canTake(emptyCase)))
           ) {
-            toast("所选预警已完结或无权限，请重新选择");
+            toast("当前预警的关爱个案已变化，请重新进入");
             return;
           }
-          var mergedRecords = new Map();
-          merging.forEach(function (existing) {
-            existing.records.forEach(function (record) {
-              mergedRecords.set(record.id, record);
-            });
-            c.warningIds = Array.from(
-              new Set(c.warningIds.concat(existing.warningIds || [])),
-            );
-            c.caseVersions = c.caseVersions.concat(existing.caseVersions || []);
-            c.evidence["辍学预警"] = Array.from(
-              new Set(
-                c.evidence["辍学预警"].concat(
-                  (existing.evidence || {})["辍学预警"] || [],
-                ),
-              ),
-            );
-          });
-          c.records = Array.from(mergedRecords.values()).sort(function (a, b) {
-            return (
-              String(a.date).localeCompare(String(b.date)) ||
-              String(a.filledAt || "").localeCompare(String(b.filledAt || ""))
-            );
-          });
-          c.mergedCaseIds = merging.map(function (existing) {
-            return existing.id;
-          });
-          c.mergedCaseSnapshots = merging.map(snapshot);
-          /* 控辍预警入口暂不校验同一学生是否已有其他未完结个案；第一版菜单仍保留该校验。 */ addRecord(
-            c,
-            values,
-          );
-          var recordedCases = merging.filter(function (existing) {
-            return existing.records.length;
-          });
-          c.records.sort(function (a, b) {
-            return (
-              String(a.date).localeCompare(String(b.date)) ||
-              String(a.filledAt || "").localeCompare(String(b.filledAt || ""))
-            );
-          });
-          c.createdAt = recordedCases.length
-            ? recordedCases
-                .map(function (existing) {
-                  return existing.createdAt;
-                })
-                .sort()[0]
-            : today();
-          var replaceId = c._warningReplaceId;
+          // 每个入口预警单独归案；参考预警不参与记录合并、归属或次数计算。
+          c.warningIds = [primaryId];
+          c.createdAt = today();
+          c.caseVersions = emptyCase
+            ? (emptyCase.caseVersions || []).slice()
+            : [];
+          addRecord(c, values);
           delete c._warningDraft;
           delete c._warningReplaceId;
           c.caseVersions.push({
-            version: 1,
+            version: c.caseVersions.length + 1,
             kind: "create",
             after: snapshot(c),
             filledById: person(),
             filledByRole: role(),
             filledAt: stamp(),
           });
-          for (var index = teacherCases.length - 1; index >= 0; index--) {
-            if (
-              merging.includes(teacherCases[index]) ||
-              teacherCases[index].id === replaceId
-            )
-              teacherCases.splice(index, 1);
-          }
-          teacherCases.unshift(c);
+          if (emptyCase) {
+            Object.assign(emptyCase, c);
+            c = recordCase = emptyCase;
+          } else teacherCases.unshift(c);
         } else addRecord(c, values);
         toast("关爱记录已保存");
       }
-      if ((c.warningIds || []).length > 1)
-        c.records.sort(function (a, b) {
-          return (
-            String(a.date).localeCompare(String(b.date)) ||
-            String(a.filledAt || "").localeCompare(String(b.filledAt || ""))
-          );
-        });
       currentCase = c;
       renderDetail();
       renderList();
       callGo(recordBackTarget);
+    }
+    function teacherEvidenceRow(c) {
+      var count = caseEvidenceItems(c).length;
+      return row(
+        "关联信息",
+        count
+          ? '<button type="button" class="care-evidence-button" data-teacher-evidence>关联' +
+            count + "条信息</button>"
+          : "--",
+      );
+    }
+    function bindTeacherEvidence(container, c) {
+      var button = container.querySelector("[data-teacher-evidence]");
+      if (button) button.onclick = function () {
+        window.openCareEvidenceV3(c, true);
+      };
     }
     function renderDetail() {
       var c = currentCase;
@@ -2023,8 +1988,9 @@
         esc(c.grade + " · " + c.klass) +
         "</div></span></div>" +
         row("创建日期", esc(c.createdAt)) +
-        row("关爱类型", esc(typeText(c))) +
         row("关爱来源", esc(sourceText(c))) +
+        teacherEvidenceRow(c) +
+        row("关爱类型", esc(typeText(c))) +
         row("关爱原因", esc(c.reason)) +
         '<div class="cv3-edit-controls"><button type="button" data-case-edit>编辑个案</button></div></div><div class="cv3-title">关爱情况（共' +
         c.records.length +
@@ -2055,28 +2021,39 @@
                     : "--") +
                   "</span></div>" +
                   row("继续跟进", esc(r.follow)) +
-                  (r.follow === "需要"
-                    ? row("下次跟进日期", esc(r.next))
-                    : "") +
+                  row("下次跟进日期", esc(r.next || "--")) +
                   '<div class="cv3-edit-controls"><button type="button" data-record-edit>编辑</button><button type="button" data-record-delete>删除</button></div></div>'
                 );
               })
               .join("")
           : '<div class="cv3-card cv3-note">尚无关爱记录，请点击下方“关爱”添加首次关爱。</div>');
+      bindTeacherEvidence(pad, c);
       pad.querySelector("[data-case-edit]").onclick = function () {
+        if (!inYear(c.createdAt) || c.createdById !== person()) {
+          toast("暂无权限");
+          return;
+        }
+        if (c.records.length) {
+          toast("已有的关爱内容，个案信息不可编辑");
+          return;
+        }
         openCaseForm("edit", c);
       };
       pad.querySelectorAll("[data-record-index]").forEach(function (card) {
         var index = Number(card.dataset.recordIndex),
           r = c.records[index];
         card.querySelector("[data-record-edit]").onclick = function () {
-          if (r.filledById !== person()) {
+          if (!inYear(r.date) || r.filledById !== person()) {
             toast("暂无权限");
             return;
           }
           openRecordForm(c, "edit", index);
         };
         card.querySelector("[data-record-delete]").onclick = function () {
+          if (!inYear(r.date)) {
+            toast("暂无权限");
+            return;
+          }
           if (r !== latest(c)) {
             toast("已有最新关联记录，不可删除");
             return;
@@ -2100,70 +2077,6 @@
         openRecordForm(c, "add");
       };
     }
-    var renderDetailBase = renderDetail;
-    renderDetail = function () {
-      renderDetailBase();
-      var pad = detail.querySelector(".cv3-pad"),
-        top = pad && pad.querySelector(".cv3-card"),
-        c = currentCase;
-      if (!top || !c) return;
-      var info = document.createElement("div"),
-        evidenceCount = caseEvidenceItems(c).length;
-      info.className = "cv3-kv";
-      info.innerHTML =
-        '<span class="k">关联信息</span><span class="v">' +
-        (evidenceCount
-          ? '<button type="button" class="care-evidence-button" data-teacher-evidence>关联' +
-            evidenceCount +
-            "条信息</button>"
-          : "--") +
-        "</span>";
-      var evidenceButton = info.querySelector("[data-teacher-evidence]");
-      if (evidenceButton)
-        evidenceButton.onclick = function () {
-          window.openCareEvidenceV3(c, true);
-        };
-      var reasonRow = Array.from(top.querySelectorAll(".cv3-kv")).find(
-        function (x) {
-          return (
-            x.querySelector(".k") &&
-            x.querySelector(".k").textContent === "关爱原因"
-          );
-        },
-      );
-      if (reasonRow) top.insertBefore(info, reasonRow);
-      var caseEdit = top.querySelector("[data-case-edit]"),
-        oldCaseEdit = caseEdit && caseEdit.onclick;
-      if (caseEdit)
-        caseEdit.onclick = function () {
-          if (!inYear(c.createdAt) || c.createdById !== person()) {
-            toast("暂无权限");
-            return;
-          }
-          if (c.records.length) {
-            toast("已有的关爱内容，个案信息不可编辑");
-            return;
-          }
-          oldCaseEdit();
-        };
-      pad.querySelectorAll("[data-record-index]").forEach(function (card) {
-        var r = c.records[Number(card.dataset.recordIndex)];
-        ["[data-record-edit]", "[data-record-delete]"].forEach(
-          function (selector) {
-            var button = card.querySelector(selector),
-              old = button && button.onclick;
-            if (button)
-              button.onclick = function () {
-                if (!inYear(r.date)) {
-                  toast("暂无权限");
-                  return;
-                }
-                old();
-              };
-          },
-        );
-      });
-    };
     function warningEvidenceRows(w) {
       var rows = evidenceItems("辍学预警", w.name).map(function (text, index) {
         var external = (window.CARE_WARNING_RECORDS || []).find(
@@ -2244,7 +2157,7 @@
         var hint = document.createElement("p");
         hint.className = "cv3-picker-hint";
         hint.textContent =
-          "可勾选多条预警，所选预警下的关爱记录将合并为一个个案，按关爱时间从新到旧展示。已完结个案对应的预警不可选择。";
+          "当前预警自动关联。其他预警可作为历史参考；每个预警记录的关爱内容都单独保存";
         sheet.querySelector(".cv3-picker-title").after(hint);
       }
       sheet.onclick = function (event) {
@@ -2252,6 +2165,15 @@
       };
       sheet.querySelector("[data-cancel]").onclick = closePicker;
       sheet.querySelectorAll("input").forEach(function (input) {
+        if (
+          !isType &&
+          warningEvidenceRows(warningSetup.warning).some(function (item) {
+            return (
+              item.id === warningSetup.warning.id && item.text === input.value
+            );
+          })
+        )
+          input.disabled = true;
         input.onchange = function () {
           order = order.filter(function (text) {
             return text !== input.value;
@@ -2282,7 +2204,13 @@
         warning: w,
         origin: location.hash === "#sc-detail" ? "sc-detail" : "sc-list",
         types: [],
-        associations: [],
+        associations: warningEvidenceRows(w)
+          .filter(function (item) {
+            return item.id === w.id;
+          })
+          .map(function (item) {
+            return item.text;
+          }),
         existing: existing || null,
       };
       warningScreen.querySelector(".cv3-pad").innerHTML =
@@ -2294,10 +2222,13 @@
         esc(w.grade + " · " + w.cls) +
         "</div></span></div></div>" +
         '<div class="cv3-title">个案信息</div><div class="cv3-card">' +
-        '<div class="cv3-field cv3-picker-row"><label>关爱类型<span class="req">*</span></label><button type="button" class="cv3-picker-head" data-warning-type><span data-summary="关爱类型" data-warning-type-summary>请选择关爱类型</span></button></div>' +
         '<div class="cv3-field"><label>关爱来源<span class="req">*</span></label><span class="cv3-warning-source">控辍保学</span></div>' +
         '<div class="cv3-field cv3-picker-row"><label>关联控辍保学<span class="req">*</span></label><button type="button" class="cv3-picker-head" data-warning-association><span data-summary="关联控辍保学" data-warning-association-summary>请选择关联信息</span></button></div>' +
+        '<div class="cv3-field cv3-picker-row"><label>关爱类型<span class="req">*</span></label><button type="button" class="cv3-picker-head" data-warning-type><span data-summary="关爱类型" data-warning-type-summary>请选择关爱类型</span></button></div>' +
         '<div class="cv3-field stack"><label>关爱原因<span class="req">*</span></label><textarea id="cv3-warning-reason" maxlength="100" placeholder="请概述需要关爱的实际情况，最多100字"></textarea></div></div>';
+      warningScreen.querySelector(
+        "[data-warning-association-summary]",
+      ).textContent = "已选" + warningSetup.associations.length + "条关联信息";
       warningScreen.querySelector("[data-warning-type]").onclick = function () {
         openWarningPicker("type");
       };
@@ -2340,17 +2271,19 @@
           sources: ["辍学预警"],
           evidence: { 辍学预警: warningSetup.associations.slice() },
           reason: reason,
-          warningIds: Array.from(
+          warningIds: [w.id],
+          referenceWarningIds: Array.from(
             new Set(
-              [w.id].concat(
-                warningEvidenceRows(w)
-                  .filter(function (item) {
-                    return warningSetup.associations.includes(item.text);
-                  })
-                  .map(function (item) {
-                    return item.id;
-                  }),
-              ),
+              warningEvidenceRows(w)
+                .filter(function (item) {
+                  return warningSetup.associations.includes(item.text);
+                })
+                .map(function (item) {
+                  return item.id;
+                })
+                .filter(function (id) {
+                  return id !== w.id;
+                }),
             ),
           ),
           caseVersions: [],
@@ -2394,7 +2327,7 @@
           openRecordForm(c, "add", null, "sc-detail");
           return;
         }
-        /* 多选预警可合并未完结个案；第一版独立入口的学生限制不变。 */
+        /* 不同预警独立个案；其他预警仅作参考，第一版独立入口的学生限制不变。 */
         openWarningSetup(w);
       },
     };
@@ -2425,19 +2358,15 @@
       };
     }
     var viewName = school ? "schoolCareView" : "cityCareView",
-      renderName = school ? "schoolV3Render" : "careRegV3Render",
       modalId = school ? "school-care-modal-v1" : "city-care-modal-v1",
       bodyClass = school ? "scm-modal-body" : "ecm-modal-body";
-    var sourceId = school ? "sv3-source" : "crv3-source",
-      statusId = school ? null : "crv3-status";
-    var oldView = window[viewName],
-      oldRender = window[renderName];
+    var oldView = window[viewName];
     function group(r) {
       if (!r) return [];
       var k = r.caseId || r.id || r.name;
       return records
         .filter(function (x) {
-          return (x.caseId || x.id || x.name) === k && !x.deletedAt;
+          return (x.caseId || x.id || x.name) === k && !x.deletedAt && !x.superseded;
         })
         .sort(function (a, b) {
           return String(a.date).localeCompare(String(b.date));
@@ -2470,7 +2399,6 @@
             : source === "心理测评"
               ? "测评提示该生需要重点关注，应及时沟通并提供支持。"
               : "该生学习遇到困难，需要持续关注和帮助。"),
-        evidence: caseEvidenceItems(first),
       };
     }
     function evidenceHtml(first) {
@@ -2547,9 +2475,7 @@
                 "继续跟进",
                 r.status === "need" || r.follow === "需要" ? "需要" : "不需要",
               ) +
-              (r.status === "need" || r.follow === "需要"
-                ? row("下次跟进日期", esc(r.next))
-                : "") +
+              row("下次跟进日期", esc(r.next || "--")) +
               "</div>"
             );
           })
@@ -2565,9 +2491,9 @@
         row("年级", esc(first.grade)) +
         row("班级", esc(first.className)) +
         row("创建日期", esc(first.caseCreatedAt || first.date)) +
-        row("关爱类型", esc(m.types.join("、"))) +
         row("关爱来源", esc(m.sources.join("、"))) +
         row("关联信息", evidenceHtml(first)) +
+        row("关爱类型", esc(m.types.join("、"))) +
         row("关爱原因", esc(m.reason)) +
         row("个案状态", status(list)) +
         '</div><div class="' +
@@ -2584,278 +2510,11 @@
       var title = modal.querySelector("h3");
       if (title) title.textContent = "关爱个案详情";
     }
-    function decorateList() {
-      var table = document.querySelector(
-        school
-          ? "#section-care-menu-v1 .scm-v3-table"
-          : "#section-care-menu-v1 .care-record-table",
-      );
-      if (!table || !table.tHead || !table.tBodies.length) return;
-      var heading = table.tHead.rows[0],
-        labels = Array.from(heading.cells).map(function (x) {
-          return x.textContent.trim();
-        });
-      if (!labels.includes("创建日期") || !labels.includes("关爱来源")) return;
-      if (!labels.includes("关爱类型")) {
-        var th = document.createElement("th");
-        th.textContent = "关爱类型";
-        heading.insertBefore(th, heading.cells[labels.indexOf("关爱来源")]);
-      }
-      labels = Array.from(heading.cells).map(function (x) {
-        return x.textContent.trim();
-      });
-      if (!labels.includes("关爱原因")) {
-        var reasonHead = document.createElement("th");
-        reasonHead.textContent = "关爱原因";
-        heading.insertBefore(
-          reasonHead,
-          heading.cells[labels.indexOf("关爱次数")],
-        );
-      }
-      var relatedHead = Array.from(heading.cells).find(function (x) {
-        return x.textContent.trim() === "来源信息";
-      });
-      if (relatedHead) relatedHead.textContent = "关联信息";
-      var statusHead = Array.from(heading.cells).find(function (x) {
-        return x.textContent.trim() === "关爱状态";
-      });
-      if (statusHead) statusHead.textContent = "个案状态";
-      Array.from(table.tBodies[0].rows).forEach(function (tr) {
-        if (tr.cells.length === 1) {
-          tr.cells[0].colSpan = heading.cells.length;
-          return;
-        }
-        if (tr.querySelector("[data-case-v3-type]")) return;
-        var name = tr.cells[0] && tr.cells[0].textContent.trim(),
-          created = tr.cells[3] && tr.cells[3].textContent.trim();
-        var hit =
-          records.find(function (r) {
-            return (
-              r.name === name && String(r.caseCreatedAt || r.date) === created
-            );
-          }) ||
-          records.find(function (r) {
-            return r.name === name;
-          });
-        if (!hit) return;
-        var chain = group(hit),
-          first = chain[0],
-          m = meta(first),
-          typeCell = document.createElement("td"),
-          reasonCell = document.createElement("td");
-        typeCell.dataset.caseV3Type = "1";
-        typeCell.textContent = m.types.join("、");
-        typeCell.title = typeCell.textContent;
-        reasonCell.textContent = short(m.reason, 10);
-        reasonCell.title = m.reason;
-        tr.dataset.caseV3Sources = m.sources.join("|");
-        tr.dataset.caseV3State = status(chain);
-        tr.dataset.caseV3OldHidden = tr.hidden ? "1" : "0";
-        tr.insertBefore(typeCell, tr.cells[4]);
-        tr.insertBefore(reasonCell, tr.cells[7]);
-        tr.cells[5].textContent = m.sources.join("、");
-        tr.cells[5].title = tr.cells[5].textContent;
-        tr.cells[6].innerHTML = evidenceHtml(first);
-        var evidenceButton = tr.cells[6].querySelector("[data-care-evidence]");
-        if (evidenceButton)
-          evidenceButton.onclick = function () {
-            window.openCareEvidenceV3(first);
-          };
-        var stateIndex = Array.from(heading.cells).findIndex(function (th) {
-            return /关爱状态|个案状态/.test(th.textContent);
-          }),
-          stateCell = stateIndex >= 0 ? tr.cells[stateIndex] : null;
-        if (stateCell && status(chain) === "关爱中")
-          stateCell.innerHTML = stateCell.innerHTML.replace(
-            /待跟进/g,
-            "关爱中",
-          );
-      });
-    }
-    function normalizeSource(value) {
-      return value === "warning"
-        ? "辍学预警"
-        : value === "psych"
-          ? "心理测评"
-          : value === "daily"
-            ? "班主任发现"
-            : value === "parent"
-              ? "家长反映"
-              : value || "all";
-    }
-    function normalizeStatus(value) {
-      return value === "need"
-        ? "关爱中"
-        : value === "done"
-          ? "已完结"
-          : value || "all";
-    }
-    function decorateFilters(sourceChoice, statusChoice) {
-      var source = el(sourceId),
-        state = statusId && el(statusId);
-      if (!source) return;
-      source.innerHTML =
-        '<option value="all">全部</option>' +
-        SOURCE_OPTIONS.map(function (x) {
-          return '<option value="' + esc(x) + '">' + esc(x) + "</option>";
-        }).join("");
-      source.value = normalizeSource(sourceChoice);
-      if (state) {
-        state.innerHTML =
-          '<option value="all">全部</option><option value="待关爱">待关爱</option><option value="关爱中">关爱中</option><option value="已完结">已完结</option>';
-        state.value = normalizeStatus(statusChoice);
-      }
-    }
-    function applyClientFilters(sourceChoice, statusChoice) {
-      document
-        .querySelectorAll(
-          school
-            ? "#section-care-menu-v1 .scm-v3-table tbody tr[data-case-v3-type]"
-            : "#section-care-menu-v1 .care-record-table tbody tr[data-case-v3-type]",
-        )
-        .forEach(function (tr) {
-          var sources = (tr.dataset.caseV3Sources || "").split("|"),
-            state = tr.dataset.caseV3State;
-          tr.hidden =
-            tr.dataset.caseV3OldHidden === "1" ||
-            (sourceChoice !== "all" && !sources.includes(sourceChoice)) ||
-            (statusChoice !== "all" && state !== statusChoice);
-        });
-    }
-    function fixSchoolToolbar() {
-      if (!school) return;
-      var toolbar = document.querySelector(
-        "#section-care-menu-v1 .scm-v3-toolbar",
-      );
-      if (!toolbar) return;
-      var parent = toolbar.querySelector(".care-toolbar-filters") || toolbar;
-      Array.from(parent.children).forEach(function (label) {
-        if (
-          label.tagName !== "LABEL" ||
-          label.classList.contains("care-hierarchy-filter")
-        )
-          return;
-        var control = label.nextElementSibling;
-        if (
-          !control ||
-          !(
-            ["INPUT", "SELECT"].includes(control.tagName) ||
-            control.classList.contains("scm-v3-range")
-          )
-        )
-          return;
-        var pair = document.createElement("div");
-        pair.className = "care-school-filter-pair";
-        parent.insertBefore(pair, label);
-        pair.appendChild(label);
-        pair.appendChild(control);
-      });
-      toolbar
-        .querySelectorAll(".care-school-filter-pair label")
-        .forEach(function (label) {
-          if (label.textContent.trim() === "日期范围")
-            label.textContent = "创建日期";
-        });
-    }
-    function applySchoolCreateDateFilter() {
-      if (!school) return;
-      var table = document.querySelector("#section-care-menu-v1 .scm-v3-table");
-      if (!table || !table.tHead || !table.tBodies.length) return;
-      var headers = Array.from(table.tHead.rows[0].cells).map(function (th) {
-          return th.textContent.trim();
-        }),
-        index = headers.indexOf("创建日期"),
-        start = (el("sv3-start") || {}).value || "",
-        end = (el("sv3-end") || {}).value || "";
-      if (index < 0) return;
-      table.tBodies[0]
-        .querySelectorAll("tr[data-case-v3-type]")
-        .forEach(function (tr) {
-          var date =
-            (tr.cells[index] && tr.cells[index].textContent.trim()) || "";
-          if ((start && date < start) || (end && date > end)) tr.hidden = true;
-        });
-    }
-    function fixSchoolMenuDot() {
-      if (!school) return;
-      var button = document.querySelector(
-        "#school-float-menu .school-menu-btn",
-      );
-      if (button) {
-        button.textContent = "";
-        button.setAttribute("aria-label", "功能菜单");
-        button.title = "功能菜单";
-      }
-    }
-    if (school) {
-      var layoutStyle = document.createElement("style");
-      layoutStyle.textContent =
-        "#section-care-menu-v1 .scm-v3-toolbar .care-toolbar-filters{column-gap:40px!important;row-gap:12px!important}#section-care-menu-v1 .scm-v3-toolbar .care-school-filter-pair{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;flex:0 0 auto}#section-care-menu-v1 .scm-v3-toolbar .care-school-filter-pair #sv3-q{min-width:140px}#school-float-menu.school-float-menu{top:30px;right:42px}#school-float-menu .school-menu-btn{width:14px;height:14px;min-width:14px;padding:0;border:0;border-radius:50%;background:#079b45;box-shadow:0 0 0 3px #fff;font-size:0}#school-float-menu .school-menu-panel{top:24px}";
-      document.head.appendChild(layoutStyle);
-    }
     if (typeof oldView === "function")
       window[viewName] = function (index) {
         var result = oldView.apply(this, arguments);
         decorate(Number(index));
         return result;
       };
-    if (typeof oldRender === "function")
-      window[renderName] = function () {
-        var source = el(sourceId),
-          state = statusId && el(statusId),
-          sourceChoice = normalizeSource(source && source.value),
-          statusChoice = normalizeStatus(state && state.value),
-          table = document.querySelector(
-            school
-              ? "#section-care-menu-v1 .scm-v3-table"
-              : "#section-care-menu-v1 .care-record-table",
-          );
-        if (table) {
-          if (source) source.value = "all";
-          if (state) state.value = "all";
-        }
-        var startInput = school && el("sv3-start"),
-          endInput = school && el("sv3-end"),
-          savedStart = startInput && startInput.value,
-          savedEnd = endInput && endInput.value,
-          result;
-        if (startInput) startInput.value = "";
-        if (endInput) endInput.value = "";
-        try {
-          result = oldRender.apply(this, arguments);
-        } finally {
-          if (startInput) startInput.value = savedStart;
-          if (endInput) endInput.value = savedEnd;
-        }
-        decorateList();
-        if (
-          document.querySelector(
-            school
-              ? "#section-care-menu-v1 .scm-v3-table"
-              : "#section-care-menu-v1 .care-record-table",
-          )
-        ) {
-          decorateFilters(sourceChoice, statusChoice);
-          applyClientFilters(sourceChoice, statusChoice);
-          fixSchoolToolbar();
-          applySchoolCreateDateFilter();
-          fixSchoolMenuDot();
-        }
-        return result;
-      };
-    decorateList();
-    if (
-      document.querySelector(
-        school
-          ? "#section-care-menu-v1 .scm-v3-table"
-          : "#section-care-menu-v1 .care-record-table",
-      )
-    ) {
-      decorateFilters("all", "all");
-      applyClientFilters("all", "all");
-      fixSchoolToolbar();
-      applySchoolCreateDateFilter();
-      fixSchoolMenuDot();
-    }
   }
 })();

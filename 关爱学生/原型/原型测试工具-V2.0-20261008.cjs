@@ -32,7 +32,7 @@ class LocalResources extends ResourceLoader {
     return Promise.resolve(fs.readFileSync(file));
   }
 }
-async function load(name) {
+async function load(name, hash = "") {
   const errors = [],
     messages = [],
     console = new VirtualConsole();
@@ -40,7 +40,7 @@ async function load(name) {
     if (!/parse CSS stylesheet/.test(error.message)) errors.push(error.message);
   });
   const dom = new JSDOM(fs.readFileSync(path.join(root, name), "utf8"), {
-    url: pathToFileURL(path.join(root, name)).href,
+    url: pathToFileURL(path.join(root, name)).href + hash,
     runScripts: "dangerously",
     resources: new LocalResources(),
     virtualConsole: console,

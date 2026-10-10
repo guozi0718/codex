@@ -84,11 +84,99 @@ async function test() {
     assert.equal(first.cells.length, 11);
     const count = first.querySelector(".care-warning-web-link");
     assert.ok(count);
-    assert.match(count.textContent, /^\d+条$/);
+    assert.match(count.textContent, /^\d+次$/);
+    assert.equal(list.querySelectorAll("thead th")[9].textContent, "关爱次数");
+    const warningRows = [...list.querySelectorAll("tbody tr")];
+    assert.ok(warningRows.some(row => row.querySelector("[data-warning-care-count]").textContent === "--"), "无关爱内容显示 --");
+    const beforeReferenceCounts = warningRows.map(
+      (row) => row.querySelector("[data-warning-care-count]").textContent,
+    );
+    const recordSource = w.schoolCareV3Data || w.careRegV3Data;
+    const currentWarningId = "warning-" + first.getAttribute("data-dom-id").replace("row-warning-", "");
+    assert.equal(count.textContent, recordSource.filter(r => !r.deletedAt && !r.superseded && (r.warningId === currentWarningId || (r.warningIds || []).includes(currentWarningId))).length + "次");
+    const obsolete = Object.assign({}, recordSource.find(r => r.warningId === currentWarningId), { superseded: true });
+    const liveCount = count.textContent;
+    recordSource.push(obsolete);
+    w.refreshWarningCareLinks();
+    assert.equal(first.querySelector(".care-warning-web-link").textContent, liveCount, "审计旧版本不得重复计次");
+    recordSource.splice(recordSource.indexOf(obsolete), 1);
+    w.refreshWarningCareLinks();
+    const sampleRecord = recordSource.find((r) => r.warningId && !r.deletedAt);
+    if (sampleRecord && warningRows.length > 1) {
+      const oldReferences = sampleRecord.referenceWarningIds;
+      sampleRecord.referenceWarningIds = warningRows.map(
+        (row) =>
+          "warning-" +
+          row.getAttribute("data-dom-id").replace("row-warning-", ""),
+      );
+      w.refreshWarningCareLinks();
+      assert.deepEqual(
+        warningRows.map(
+          (row) => row.querySelector("[data-warning-care-count]").textContent,
+        ),
+        beforeReferenceCounts,
+        "学校和监管端参考线索不得进入归案计数",
+      );
+      sampleRecord.referenceWarningIds = oldReferences;
+    }
     count.click();
+    const firstWarningId =
+      "warning-" +
+      first.getAttribute("data-dom-id").replace("row-warning-", "");
+    const dateRecord = recordSource.find(
+      (r) =>
+        !r.deletedAt &&
+        (r.warningId === firstWarningId ||
+          (r.warningIds || []).includes(firstWarningId)),
+    );
+    if (dateRecord) {
+      const oldNext = dateRecord.next;
+      dateRecord.next = "";
+      count.click();
+      assert.ok(
+        [
+          ...d.querySelectorAll(
+            "#care-warning-web-detail .care-warning-web-row",
+          ),
+        ].some(
+          (row) =>
+            row.firstElementChild.textContent === "下次跟进日期" &&
+            row.lastElementChild.textContent === "--",
+        ),
+        "空日期显示 --：" + name,
+      );
+      dateRecord.next = "2026-10-12";
+      count.click();
+      assert.ok(
+        [
+          ...d.querySelectorAll(
+            "#care-warning-web-detail .care-warning-web-row",
+          ),
+        ].some(
+          (row) =>
+            row.firstElementChild.textContent === "下次跟进日期" &&
+            row.lastElementChild.textContent === "2026-10-12",
+        ),
+        "已填日期应回显：" + name,
+      );
+      dateRecord.next = oldNext;
+      count.click();
+    }
     assert.ok(d.getElementById("care-warning-web-detail"));
     const detail = d.getElementById("care-warning-web-detail");
     assert.equal(detail.querySelector('[data-web-pane="care"]').hidden, false);
+    assert.deepEqual(
+      [...detail.querySelector('[data-web-pane="care"] .care-warning-web-card').querySelectorAll(".care-warning-web-row > span:first-child")].map(x => x.textContent),
+      ["创建日期", "关爱来源", "关联信息", "关爱类型", "关爱原因"],
+      name + "第二版详情顺序",
+    );
+    detail.querySelector("[data-web-evidence]").click();
+    const evidence = d.querySelector(".care-evidence-dialog");
+    assert.ok(evidence, name + "复用第一版关联信息弹窗");
+    assert.ok(evidence.querySelectorAll(".care-evidence-list li").length > 0);
+    assert.match(evidence.textContent, /关联信息（共\d+条）/);
+    evidence.querySelector(".care-evidence-close").click();
+    assert.equal(d.querySelector(".care-evidence-mask"), null);
     detail.querySelector('[data-web-tab="visit"]').click();
     assert.equal(detail.querySelector('[data-web-pane="visit"]').hidden, false);
     assert.equal(detail.querySelector('[data-web-pane="care"]').hidden, true);
@@ -148,6 +236,8 @@ async function test() {
       );
       assert.equal(summary.querySelector("th").textContent, "学校");
       w.cityCareOpen();
+      const linkedCase = w.CARE_REGULATOR_V31.cases.find(c => c.first.caseId === sampleRecord.caseId);
+      assert.equal(linkedCase.rows.length, recordSource.filter(r => !r.deletedAt && !r.superseded && r.caseId === sampleRecord.caseId).length, "第一版关爱台账不得保留第二版追加前的旧计数缓存");
       const care = d.getElementById("section-care-menu-v1");
       assert.equal(
         care.classList.contains("hidden"),
@@ -155,6 +245,20 @@ async function test() {
         "第一版关爱菜单应可用",
       );
       assert.ok(care.querySelector("[data-drill]"));
+      for (let level = 0; level < 4 && care.querySelector("[data-drill]"); level++)
+        care.querySelector("[data-drill]").click();
+      assert.deepEqual(
+        [...care.querySelectorAll("thead th")].slice(4, 7).map(x => x.textContent),
+        ["关爱来源", "关联信息", "关爱类型"],
+        name + "第一版学校台账字段顺序",
+      );
+      care.querySelector("[data-view]").click();
+      assert.deepEqual(
+        [...d.querySelectorAll("#city-care-modal-v1 .crv3-row .label")].slice(5, 8).map(x => x.textContent),
+        ["关爱来源", "关联信息", "关爱类型"],
+        name + "第一版详情字段顺序",
+      );
+      w.cityCareClose();
     } else {
       const visit = d.getElementById("section-visit-ledger");
       const visitReset = visit.querySelector('[data-dom-id="btn-visit-reset"]');
@@ -190,9 +294,9 @@ async function test() {
         "年级",
         "班级",
         "创建日期",
-        "关爱类型",
         "关爱来源",
         "关联信息",
+        "关爱类型",
         "关爱原因",
         "关爱次数",
         "最近关爱日期",
@@ -210,6 +314,10 @@ async function test() {
         d
           .querySelector("#school-care-modal-v1 .scm-modal-body")
           .textContent.includes("关爱情况"),
+      );
+      assert.deepEqual(
+        [...d.querySelectorAll("#school-care-modal-v1 .scm-v2-row .label")].slice(5, 8).map(x => x.textContent),
+        ["关爱来源", "关联信息", "关爱类型"],
       );
       w.schoolCareClose();
       w.schoolMenuGo("warning-list");
@@ -244,6 +352,14 @@ async function test() {
       );
     }
     assert.deepEqual(errors, [], name + "交互异常");
+    for (const hash of ["#care-v1", "#care-v2"]) {
+      const entry = await load(name, hash);
+      const target = hash === "#care-v1"
+        ? "section-care-menu-v1"
+        : name.startsWith("学校") ? "section-warning-list" : "section-warning-district";
+      assert.equal(entry.document.getElementById(target).classList.contains("hidden"), false, name + hash + "直达链接");
+      assert.deepEqual(entry.errors, [], name + hash);
+    }
     console.log(
       "PASS " +
         name +

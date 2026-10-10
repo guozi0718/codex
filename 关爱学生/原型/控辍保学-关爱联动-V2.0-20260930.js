@@ -92,6 +92,8 @@
     style.textContent =
       "#sc-detail .care-warning-section{margin-top:12px}#sc-detail .care-warning-section.with-status{display:flex;align-items:center;justify-content:space-between;gap:8px}#sc-detail .care-warning-state{font-size:12px;font-weight:400;color:var(--ink-3)}#sc-detail .care-warning-record{margin-bottom:9px}#sc-detail .care-warning-record h4{margin:0 0 8px;font-size:13px;color:var(--navy)}#sc-detail .care-warning-empty{font-size:12px;color:var(--ink-3)}#sc-detail .care-warning-proof{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:7px}#sc-detail .care-warning-proof img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:7px}#sc-detail .care-warning-tabs{display:flex;background:#fff;border-bottom:1px solid var(--line);margin:0 -16px 12px;padding:0 16px}#sc-detail .care-warning-tab{flex:1;border:0;background:none;padding:12px 0;font:inherit;font-size:14px;color:var(--ink-3);border-bottom:2px solid transparent}#sc-detail .care-warning-tab.on{color:var(--navy);font-weight:600;border-bottom-color:var(--navy)}#wl-cards .care-warning-buttons{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:10px}";
     document.head.appendChild(style);
+    style.textContent +=
+      "#wl-cards .care-warning-action-wrap{display:inline-flex}#wl-cards [data-warning-closed]{cursor:not-allowed}#wl-cards [data-warning-closed]:focus-visible{outline:2px solid var(--navy);outline-offset:3px;border-radius:6px}#wl-cards button[data-warning-action=care]:disabled{background:#f1f3f6;color:#9aa6b5;border-color:#e0e5ec;opacity:1;pointer-events:none}#wl-cards .care-warning-closed-tip{margin-top:8px;font-size:11px;line-height:1.6;color:var(--ink-3)}";
     var active = null,
       activeTab = "visit",
       container = document.getElementById("wl-cards");
@@ -133,13 +135,27 @@
             kv("预警原因", w.reason) +
             kv("预警时间", w.time) +
             kv("最后处理", w.last) +
-            '<div class="care-warning-buttons"><button type="button" class="btn ghost sm" data-warning-action="detail">详情</button><button type="button" class="btn ghost sm" data-warning-action="care" ' +
-            (closed ? 'disabled title="个案已完结"' : "") +
+            '<div class="care-warning-buttons"><button type="button" class="btn ghost sm" data-warning-action="detail">详情</button><span class="care-warning-action-wrap" ' +
+            (closed
+              ? 'data-warning-closed tabindex="0" title="该个案已完结，不能继续关爱，请通过详情查看历史记录" aria-describedby="warning-closed-tip-' +
+                i +
+                '"'
+              : "") +
+            '><button type="button" class="btn ghost sm" data-warning-action="care" ' +
+            (closed
+              ? 'disabled aria-disabled="true" title="该个案已完结，不能继续关爱"'
+              : "") +
             ">" +
             action(w) +
-            '</button><button type="button" class="btn pri sm" data-warning-action="process">' +
+            '</button></span><button type="button" class="btn pri sm" data-warning-action="process">' +
             (w.status === "pending" ? "处理" : "重新处理") +
-            "</button></div></div>"
+            "</button></div>" +
+            (closed
+              ? '<div class="care-warning-closed-tip" id="warning-closed-tip-' +
+                i +
+                '">该个案已完结，不能继续关爱，请通过详情查看历史记录。</div>'
+              : "") +
+            "</div>"
           );
         })
         .join("");
@@ -248,8 +264,10 @@
             '<div class="kv"><span class="k">关联信息</span><span class="v">' +
             (window.careCaseEvidenceItemsV3(c).length
               ? '<button type="button" class="care-evidence-button" data-warning-case-evidence>关联' +
-                window.careCaseEvidenceItemsV3(c).length + "条信息</button>"
-              : "--") + "</span></div>" +
+                window.careCaseEvidenceItemsV3(c).length +
+                "条信息</button>"
+              : "--") +
+            "</span></div>" +
             kv("关爱类型", (c.types || []).join("、")) +
             kv("关爱原因", c.reason) +
             "</div>"
@@ -282,9 +300,10 @@
           : '<div class="card care-warning-empty">暂无关爱记录</div>') +
         "</div>";
       var evidence = pad.querySelector("[data-warning-case-evidence]");
-      if (evidence) evidence.onclick = function () {
-        window.openCareEvidenceV3(c, true);
-      };
+      if (evidence)
+        evidence.onclick = function () {
+          window.openCareEvidenceV3(c, true);
+        };
       pad.querySelectorAll("[data-warning-tab]").forEach(function (button) {
         button.onclick = function () {
           activeTab = button.dataset.warningTab;
@@ -302,6 +321,10 @@
     container.addEventListener("click", function (e) {
       var card = e.target.closest("[data-warning-index]");
       if (!card) return;
+      if (e.target.closest("[data-warning-closed]")) {
+        toast("该个案已完结，不能继续关爱，请通过详情查看历史记录");
+        return;
+      }
       var w = wlData[Number(card.dataset.warningIndex)],
         button = e.target.closest("[data-warning-action]"),
         act = (button && button.dataset.warningAction) || "detail";
@@ -318,6 +341,15 @@
         return;
       }
       go("sc-detail");
+    });
+    container.addEventListener("keydown", function (e) {
+      if (
+        e.target.closest("[data-warning-closed]") &&
+        (e.key === "Enter" || e.key === " ")
+      ) {
+        e.preventDefault();
+        toast("该个案已完结，不能继续关爱，请通过详情查看历史记录");
+      }
     });
     var oldGo = window.go;
     window.go = function (id) {

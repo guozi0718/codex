@@ -23,9 +23,16 @@ async function test() {
     '[data-warning-index="1"] [data-warning-action="care"]',
   );
   assert.equal(first.textContent, "关爱");
-  first.closest("[data-warning-index]").querySelector('[data-warning-action="detail"]').click();
+  first
+    .closest("[data-warning-index]")
+    .querySelector('[data-warning-action="detail"]')
+    .click();
   d.querySelector('[data-warning-tab="care"]').click();
-  assert.equal(d.querySelector("[data-warning-case-info]"), null, "未建案不显示个案卡");
+  assert.equal(
+    d.querySelector("[data-warning-case-info]"),
+    null,
+    "未建案不显示个案卡",
+  );
   first.click();
   assert.equal(w.location.hash, "#sc-case-v3-warning-setup");
   const form = d.getElementById("sc-case-v3-warning-setup");
@@ -78,7 +85,9 @@ async function test() {
   assert.equal(w.CARE_CASE_V3_API.cases.length, c0, "下一步不得提前创建空个案");
   const record = d.getElementById("sc-case-v3-record");
   assert.deepEqual(
-    [...record.querySelectorAll(".cv3-card:first-child .cv3-kv .k")].map(x => x.textContent),
+    [...record.querySelectorAll(".cv3-card:first-child .cv3-kv .k")].map(
+      (x) => x.textContent,
+    ),
     ["关爱来源", "关联信息", "关爱类型", "关爱原因"],
     "第二步只读摘要顺序与第一步一致",
   );
@@ -127,7 +136,12 @@ async function test() {
   record.querySelector("[data-care-result]").value = "已沟通，继续了解返校情况";
   change(w, record.querySelector("[data-care-follow]"), "需要");
   assert.equal(record.querySelector("[data-next-wrap]").style.display, "flex");
-  assert.equal(record.querySelector("[data-care-next]").nextElementSibling.textContent.trim(), "请选择日期");
+  assert.equal(
+    record
+      .querySelector("[data-care-next]")
+      .nextElementSibling.textContent.trim(),
+    "请选择日期",
+  );
   assert.equal(
     record.querySelector("[data-next-wrap] .req"),
     null,
@@ -144,9 +158,15 @@ async function test() {
   assert.equal(created.records[0].next, "", "第二版需要跟进但无日期允许保存");
   const infoCard = d.querySelector("[data-warning-case-info]");
   assert.ok(infoCard);
-  assert.deepEqual([...infoCard.querySelectorAll(".k")].map(x => x.textContent),
-    ["创建日期", "关爱来源", "关联信息", "关爱类型", "关爱原因"]);
-  assert.equal(infoCard.parentElement.querySelector(".card"), infoCard, "个案卡在所有关爱内容之前");
+  assert.deepEqual(
+    [...infoCard.querySelectorAll(".k")].map((x) => x.textContent),
+    ["创建日期", "关爱来源", "关联信息", "关爱类型", "关爱原因"],
+  );
+  assert.equal(
+    infoCard.parentElement.querySelector(".card"),
+    infoCard,
+    "个案卡在所有关爱内容之前",
+  );
   infoCard.querySelector("[data-warning-case-evidence]").click();
   assert.ok(d.querySelector(".care-evidence-mask"));
   d.querySelector(".care-evidence-close").click();
@@ -189,13 +209,26 @@ async function test() {
   change(w, record.querySelector("[data-care-follow]"), "不需要");
   record.querySelector(".cv3-bottom button").click();
   assert.equal(created.records.length, 2);
-  assert.equal(d.querySelectorAll("[data-warning-case-info]").length, 1, "多次关爱不重复生成个案卡");
+  assert.equal(
+    d.querySelectorAll("[data-warning-case-info]").length,
+    1,
+    "多次关爱不重复生成个案卡",
+  );
   const savedRecords = created.records.splice(0);
   w.go("sc-list");
-  d.querySelector('[data-warning-index="1"] [data-warning-action="detail"]').click();
+  d.querySelector(
+    '[data-warning-index="1"] [data-warning-action="detail"]',
+  ).click();
   d.querySelector('[data-warning-tab="care"]').click();
-  assert.ok(d.querySelector("[data-warning-case-info]"), "已建案零内容仍显示个案卡");
-  assert.equal(d.querySelectorAll('[data-warning-pane="care"] .care-warning-record').length, 0);
+  assert.ok(
+    d.querySelector("[data-warning-case-info]"),
+    "已建案零内容仍显示个案卡",
+  );
+  assert.equal(
+    d.querySelectorAll('[data-warning-pane="care"] .care-warning-record')
+      .length,
+    0,
+  );
   created.records.push(...savedRecords);
   assert.equal(created.createdAt, today);
   w.go("sc-list");
@@ -205,6 +238,41 @@ async function test() {
     true,
     "完结不可继续",
   );
+  const closedButton = d.querySelector(
+    '[data-warning-index="1"] [data-warning-action="care"]',
+  );
+  assert.equal(closedButton.textContent, "继续关爱");
+  assert.equal(closedButton.getAttribute("aria-disabled"), "true");
+  assert.equal(w.getComputedStyle(closedButton).color, "rgb(154, 166, 181)");
+  assert.equal(
+    w.getComputedStyle(closedButton).backgroundColor,
+    "rgb(241, 243, 246)",
+  );
+  const closedWrap = closedButton.closest("[data-warning-closed]");
+  assert.ok(closedWrap && closedWrap.title.includes("已完结"));
+  assert.match(
+    d.getElementById(closedWrap.getAttribute("aria-describedby")).textContent,
+    /不能继续关爱/,
+  );
+  const originalToast = w.toast,
+    closedMessages = [];
+  w.toast = (text) => closedMessages.push(text);
+  closedButton.click();
+  closedWrap.click();
+  closedWrap.dispatchEvent(
+    new w.KeyboardEvent("keydown", { key: "Enter", bubbles: true }),
+  );
+  w.CARE_CASE_V3_API.openFromWarning(warning);
+  record.querySelector(".cv3-bottom button").click();
+  assert.equal(
+    w.location.hash,
+    "#sc-list",
+    "禁用按钮、提示及API入口均不得跳转",
+  );
+  assert.equal(created.records.length, 2, "完结后不得通过旧表单重复提交");
+  assert.ok(closedMessages.length >= 4);
+  assert.ok(closedMessages.every((text) => /已完结.*不能继续关爱/.test(text)));
+  w.toast = originalToast;
   w.go("sc-care-menu");
   d.querySelector("#cv3-new").click();
   assert.equal(w.location.hash, "#sc-case-v3-add", "第一版独立菜单仍可新增");
@@ -351,7 +419,9 @@ async function test() {
   change(w, firstVersionForm.querySelector("#cv3-student"), newStudent.value);
   choose(w, firstVersionForm.querySelector('[data-picker="关爱类型"]'), [0]);
   choose(w, firstVersionForm.querySelector('[data-picker="关爱来源"]'), [0, 1]);
-  const labels = [...firstVersionForm.querySelectorAll(".cv3-field > label")].map(x => x.textContent.replace("*", ""));
+  const labels = [
+    ...firstVersionForm.querySelectorAll(".cv3-field > label"),
+  ].map((x) => x.textContent.replace("*", ""));
   assert.ok(labels.indexOf("关爱来源") < labels.indexOf("关联控辍保学"));
   assert.ok(labels.indexOf("关联心理测评") < labels.indexOf("关爱类型"));
   firstVersionForm.querySelector("#cv3-reason").value = "第一版选填日期验证";
@@ -361,7 +431,12 @@ async function test() {
   firstFields.querySelector("[data-care-result]").value =
     "已开展关爱，暂不约定下次日期";
   change(w, firstFields.querySelector("[data-care-follow]"), "需要");
-  assert.equal(firstFields.querySelector("[data-care-next]").nextElementSibling.textContent.trim(), "请选择日期");
+  assert.equal(
+    firstFields
+      .querySelector("[data-care-next]")
+      .nextElementSibling.textContent.trim(),
+    "请选择日期",
+  );
   firstFields.querySelector("[data-care-next]").value = "";
   firstVersionForm.querySelector(".cv3-bottom button").click();
   assert.equal(w.location.hash, "#sc-care-menu");
@@ -375,7 +450,11 @@ async function test() {
   ].find((row) => row.querySelector(".k").textContent === "下次跟进日期");
   assert.equal(firstNextRow.querySelector(".v").textContent, "--");
   assert.deepEqual(
-    [...d.querySelectorAll("#sc-case-v3-detail .cv3-card:first-child .cv3-kv .k")].map(x => x.textContent),
+    [
+      ...d.querySelectorAll(
+        "#sc-case-v3-detail .cv3-card:first-child .cv3-kv .k",
+      ),
+    ].map((x) => x.textContent),
     ["创建日期", "关爱来源", "关联信息", "关爱类型", "关爱原因"],
   );
   console.log(

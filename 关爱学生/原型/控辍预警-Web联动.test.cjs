@@ -4,22 +4,33 @@ const fs = require("node:fs"),
   vm = require("node:vm");
 const { load, root, pages } = require("./原型测试工具-V2.0-20261008.cjs");
 function checkEnumColumns(w, care, records, render) {
-  const saved = records.map(r => [r, r.caseSources, r.caseTypes]);
+  const saved = records.map((r) => [r, r.caseSources, r.caseTypes]);
   const source = ["班主任发现", "任课教师反映", "学生主动反映"];
   const types = ["家庭变故", "学业困难", "同伴关系"];
-  records.forEach(r => { r.caseSources = source; r.caseTypes = types; });
+  records.forEach((r) => {
+    r.caseSources = source;
+    r.caseTypes = types;
+  });
   render();
   const row = care.querySelector("tbody tr");
   [4, 6].forEach((index, n) => {
-    const td = row.cells[index], full = (n ? types : source).join("、");
-    assert.ok(care.querySelectorAll("th")[index].classList.contains("care-enum-cell"));
+    const td = row.cells[index],
+      full = (n ? types : source).join("、");
+    assert.ok(
+      care.querySelectorAll("th")[index].classList.contains("care-enum-cell"),
+    );
     assert.equal(w.getComputedStyle(td).textAlign, "center");
     assert.equal(td.querySelector(".care-enum-value").title, full);
-    assert.equal(td.textContent, Array.from(full).slice(0, 10).join("") + "...");
+    assert.equal(
+      td.textContent,
+      Array.from(full).slice(0, 10).join("") + "...",
+    );
   });
   saved.forEach(([r, sources, types]) => {
-    if (sources === undefined) delete r.caseSources; else r.caseSources = sources;
-    if (types === undefined) delete r.caseTypes; else r.caseTypes = types;
+    if (sources === undefined) delete r.caseSources;
+    else r.caseSources = sources;
+    if (types === undefined) delete r.caseTypes;
+    else r.caseTypes = types;
   });
   render();
 }
@@ -74,11 +85,15 @@ async function test() {
           : name.startsWith("地市")
             ? ["凤翔区", "凤翔区第一实验小学"]
             : ["凤翔区第一实验小学"];
+      let schoolSummary;
       for (const value of target) {
         const button = [
           ...summary.querySelectorAll("[data-warning-drill]"),
         ].find((x) => x.textContent === value);
         assert.ok(button, "层级缺失 " + value);
+        schoolSummary = [...button.closest("tr").cells]
+          .slice(1)
+          .map((cell) => Number(cell.textContent));
         button.click();
       }
       assert.equal(
@@ -90,6 +105,39 @@ async function test() {
         (x) => !x.hidden,
       );
       assert.ok(visible.length);
+      assert.equal(visible.length, 10, "学校明细第一页10条示例");
+      const schoolRows = [...list.querySelectorAll("tbody tr")].filter(
+        (row) => row.dataset.warningSchool === "凤翔区第一实验小学",
+      );
+      assert.ok(schoolRows.length >= 12, "每校至少12条预警示例");
+      assert.deepEqual(
+        schoolSummary,
+        [
+          schoolRows.length,
+          schoolRows.filter((row) => row.cells[6].textContent === "待处理")
+            .length,
+          schoolRows.filter((row) => row.cells[6].textContent === "已处理")
+            .length,
+        ],
+        "预警汇总按处理状态统计，不以关爱个案有无代替",
+      );
+      const next = list.querySelector('[data-warning-page="2"]');
+      assert.ok(next && !next.disabled);
+      next.click();
+      const secondPage = [...list.querySelectorAll("tbody tr")].filter(
+        (row) => !row.hidden,
+      );
+      assert.equal(secondPage.length, schoolRows.length - 10);
+      assert.ok(
+        secondPage.every(
+          (row) => row.dataset.warningSchool === "凤翔区第一实验小学",
+        ),
+      );
+      assert.ok(
+        secondPage.every((row) => !visible.includes(row)),
+        "分页不能重复第一页",
+      );
+      list.querySelector('[data-warning-page="1"]').click();
       assert.ok(
         visible.every((x) => x.dataset.warningSchool === "凤翔区第一实验小学"),
         "不得混入其他学校",
@@ -102,23 +150,115 @@ async function test() {
     );
     const first = [...list.querySelectorAll("tbody tr")].find((x) => !x.hidden);
     assert.equal(first.cells.length, 11);
+    assert.deepEqual(
+      [...list.querySelectorAll("thead th")].map((th) => th.textContent.trim()),
+      [
+        "学生姓名",
+        "年级",
+        "班级",
+        "预警类型",
+        "预警原因",
+        "预警时间",
+        "处理状态",
+        "处理结果",
+        "最后处理时间",
+        "关爱次数",
+        "操作",
+      ],
+      "学校与监管原字段、顺序保持一致",
+    );
+    const ledger = first.closest("table");
+    assert.equal(ledger.querySelectorAll("colgroup col").length, 11);
+    assert.equal(w.getComputedStyle(ledger).tableLayout, "fixed");
+    assert.equal(w.getComputedStyle(ledger.parentElement).overflow, "auto");
+    [...list.querySelectorAll("tbody tr")].forEach((row, rowIndex) => {
+      assert.equal(row.cells.length, 11);
+      if (rowIndex < 10)
+        [...row.cells].forEach((cell, index) => {
+          const align = [4, 7].includes(index) ? "left" : "center";
+          assert.equal(
+            w.getComputedStyle(cell).textAlign,
+            align,
+            name + "正文列对齐",
+          );
+          assert.equal(
+            w.getComputedStyle(ledger.tHead.rows[0].cells[index]).textAlign,
+            align,
+            name + "表头对齐",
+          );
+        });
+      [4, 7].forEach((index) => {
+        const span = row.cells[index].querySelector(".care-warning-cell-text");
+        assert.ok(span && span.title === span.textContent);
+      });
+      if (!name.startsWith("学校")) {
+        assert.deepEqual(
+          [...row.cells[10].querySelectorAll("button,a")].map(
+            (x) => x.textContent,
+          ),
+          ["详情"],
+          "监管仅居中详情",
+        );
+      }
+    });
+    if (!name.startsWith("学校")) {
+      const schoolCounts = new Map();
+      [...list.querySelectorAll("tbody tr")].forEach((row) => {
+        const key = row.dataset.warningSchool;
+        schoolCounts.set(key, (schoolCounts.get(key) || 0) + 1);
+      });
+      assert.ok([...schoolCounts.values()].every((count) => count >= 12));
+      assert.equal(
+        new Set(
+          [...list.querySelectorAll("tbody tr")].map(
+            (row) => row.dataset.domId,
+          ),
+        ).size,
+        list.querySelectorAll("tbody tr").length,
+      );
+    }
     const count = first.querySelector(".care-warning-web-link");
     assert.ok(count);
     assert.match(count.textContent, /^\d+次$/);
     assert.equal(list.querySelectorAll("thead th")[9].textContent, "关爱次数");
     const warningRows = [...list.querySelectorAll("tbody tr")];
-    assert.ok(warningRows.some(row => row.querySelector("[data-warning-care-count]").textContent === "--"), "无关爱内容显示 --");
+    assert.ok(
+      warningRows.some(
+        (row) =>
+          row.querySelector("[data-warning-care-count]").textContent === "--",
+      ),
+      "无关爱内容显示 --",
+    );
     const beforeReferenceCounts = warningRows.map(
       (row) => row.querySelector("[data-warning-care-count]").textContent,
     );
     const recordSource = w.schoolCareV3Data || w.careRegV3Data;
-    const currentWarningId = "warning-" + first.getAttribute("data-dom-id").replace("row-warning-", "");
-    assert.equal(count.textContent, recordSource.filter(r => !r.deletedAt && !r.superseded && (r.warningId === currentWarningId || (r.warningIds || []).includes(currentWarningId))).length + "次");
-    const obsolete = Object.assign({}, recordSource.find(r => r.warningId === currentWarningId), { superseded: true });
+    const currentWarningId =
+      "warning-" +
+      first.getAttribute("data-dom-id").replace("row-warning-", "");
+    assert.equal(
+      count.textContent,
+      recordSource.filter(
+        (r) =>
+          !r.deletedAt &&
+          !r.superseded &&
+          (r.warningId === currentWarningId ||
+            (r.warningIds || []).includes(currentWarningId)),
+      ).length + "次",
+    );
+    const obsolete = Object.assign(
+      {},
+      recordSource.find((r) => r.warningId === currentWarningId),
+      { superseded: true },
+    );
     const liveCount = count.textContent;
     recordSource.push(obsolete);
     w.refreshWarningCareLinks();
-    assert.equal(first.querySelector(".care-warning-web-link").textContent, liveCount, "审计旧版本不得重复计次");
+    assert.equal(
+      first.querySelector(".care-warning-web-link").textContent,
+      liveCount,
+      "审计旧版本不得重复计次",
+    );
     recordSource.splice(recordSource.indexOf(obsolete), 1);
     w.refreshWarningCareLinks();
     const sampleRecord = recordSource.find((r) => r.warningId && !r.deletedAt);
@@ -186,7 +326,11 @@ async function test() {
     const detail = d.getElementById("care-warning-web-detail");
     assert.equal(detail.querySelector('[data-web-pane="care"]').hidden, false);
     assert.deepEqual(
-      [...detail.querySelector('[data-web-pane="care"] .care-warning-web-card').querySelectorAll(".care-warning-web-row > span:first-child")].map(x => x.textContent),
+      [
+        ...detail
+          .querySelector('[data-web-pane="care"] .care-warning-web-card')
+          .querySelectorAll(".care-warning-web-row > span:first-child"),
+      ].map((x) => x.textContent),
       ["创建日期", "关爱来源", "关联信息", "关爱类型", "关爱原因"],
       name + "第二版详情顺序",
     );
@@ -202,15 +346,41 @@ async function test() {
     assert.equal(detail.querySelector('[data-web-pane="care"]').hidden, true);
     detail.querySelector('[data-web-tab="care"]').click();
     assert.equal(detail.querySelector('[data-web-pane="care"]').hidden, false);
-    assert.equal(detail.querySelectorAll("[data-warning-case-info]").length, 1, "多次关爱仅一张顶部个案卡");
-    const noCare = warningRows.find(row => row.querySelector("[data-warning-care-count]").textContent === "--");
+    assert.equal(
+      detail.querySelectorAll("[data-warning-case-info]").length,
+      1,
+      "多次关爱仅一张顶部个案卡",
+    );
+    const noCare = warningRows.find(
+      (row) =>
+        row.querySelector("[data-warning-care-count]").textContent === "--",
+    );
     noCare.querySelector('[data-dom-id^="btn-view-detail-"]').click();
-    assert.equal(detail.querySelector("[data-warning-case-info]"), null, "未建案不显示个案卡");
-    const emptyCase = { caseId: "empty-case-test", warningId: "warning-" + noCare.getAttribute("data-dom-id").replace("row-warning-", ""), caseCreatedAt: "2026-10-10", type: "学业困难", careReason: "已建案零内容" };
+    assert.equal(
+      detail.querySelector("[data-warning-case-info]"),
+      null,
+      "未建案不显示个案卡",
+    );
+    const emptyCase = {
+      caseId: "empty-case-test",
+      warningId:
+        "warning-" +
+        noCare.getAttribute("data-dom-id").replace("row-warning-", ""),
+      caseCreatedAt: "2026-10-10",
+      type: "学业困难",
+      careReason: "已建案零内容",
+    };
     w.CARE_WARNING_CASES.push(emptyCase);
     noCare.querySelector('[data-dom-id^="btn-view-detail-"]').click();
-    assert.ok(detail.querySelector("[data-warning-case-info]"), "已建案零内容仍显示个案卡");
-    assert.equal(noCare.querySelector("[data-warning-care-count]").textContent, "--", "个案卡不伪造关爱次数");
+    assert.ok(
+      detail.querySelector("[data-warning-case-info]"),
+      "已建案零内容仍显示个案卡",
+    );
+    assert.equal(
+      noCare.querySelector("[data-warning-care-count]").textContent,
+      "--",
+      "个案卡不伪造关爱次数",
+    );
     w.CARE_WARNING_CASES.splice(w.CARE_WARNING_CASES.indexOf(emptyCase), 1);
     count.click();
     const query = list.querySelector('[data-dom-id="btn-search"]'),
@@ -267,8 +437,17 @@ async function test() {
       );
       assert.equal(summary.querySelector("th").textContent, "学校");
       w.cityCareOpen();
-      const linkedCase = w.CARE_REGULATOR_V31.cases.find(c => c.first.caseId === sampleRecord.caseId);
-      assert.equal(linkedCase.rows.length, recordSource.filter(r => !r.deletedAt && !r.superseded && r.caseId === sampleRecord.caseId).length, "第一版关爱台账不得保留第二版追加前的旧计数缓存");
+      const linkedCase = w.CARE_REGULATOR_V31.cases.find(
+        (c) => c.first.caseId === sampleRecord.caseId,
+      );
+      assert.equal(
+        linkedCase.rows.length,
+        recordSource.filter(
+          (r) =>
+            !r.deletedAt && !r.superseded && r.caseId === sampleRecord.caseId,
+        ).length,
+        "第一版关爱台账不得保留第二版追加前的旧计数缓存",
+      );
       const care = d.getElementById("section-care-menu-v1");
       assert.equal(
         care.classList.contains("hidden"),
@@ -276,16 +455,24 @@ async function test() {
         "第一版关爱菜单应可用",
       );
       assert.ok(care.querySelector("[data-drill]"));
-      for (let level = 0; level < 4 && care.querySelector("[data-drill]"); level++)
+      for (
+        let level = 0;
+        level < 4 && care.querySelector("[data-drill]");
+        level++
+      )
         care.querySelector("[data-drill]").click();
       assert.deepEqual(
-        [...care.querySelectorAll("thead th")].slice(4, 7).map(x => x.textContent),
+        [...care.querySelectorAll("thead th")]
+          .slice(4, 7)
+          .map((x) => x.textContent),
         ["关爱来源", "关联信息", "关爱类型"],
         name + "第一版学校台账字段顺序",
       );
       care.querySelector("[data-view]").click();
       assert.deepEqual(
-        [...d.querySelectorAll("#city-care-modal-v1 .crv3-row .label")].slice(5, 8).map(x => x.textContent),
+        [...d.querySelectorAll("#city-care-modal-v1 .crv3-row .label")]
+          .slice(5, 8)
+          .map((x) => x.textContent),
         ["关爱来源", "关联信息", "关爱类型"],
         name + "第一版详情字段顺序",
       );
@@ -348,7 +535,9 @@ async function test() {
           .textContent.includes("关爱情况"),
       );
       assert.deepEqual(
-        [...d.querySelectorAll("#school-care-modal-v1 .scm-v2-row .label")].slice(5, 8).map(x => x.textContent),
+        [...d.querySelectorAll("#school-care-modal-v1 .scm-v2-row .label")]
+          .slice(5, 8)
+          .map((x) => x.textContent),
         ["关爱来源", "关联信息", "关爱类型"],
       );
       w.schoolCareClose();
@@ -387,10 +576,17 @@ async function test() {
     assert.deepEqual(errors, [], name + "交互异常");
     for (const hash of ["#care-v1", "#care-v2"]) {
       const entry = await load(name, hash);
-      const target = hash === "#care-v1"
-        ? "section-care-menu-v1"
-        : name.startsWith("学校") ? "section-warning-list" : "section-warning-district";
-      assert.equal(entry.document.getElementById(target).classList.contains("hidden"), false, name + hash + "直达链接");
+      const target =
+        hash === "#care-v1"
+          ? "section-care-menu-v1"
+          : name.startsWith("学校")
+            ? "section-warning-list"
+            : "section-warning-district";
+      assert.equal(
+        entry.document.getElementById(target).classList.contains("hidden"),
+        false,
+        name + hash + "直达链接",
+      );
       assert.deepEqual(entry.errors, [], name + hash);
     }
     console.log(

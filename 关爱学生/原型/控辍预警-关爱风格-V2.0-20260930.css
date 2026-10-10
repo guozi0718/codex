@@ -86,11 +86,6 @@
 #section-warning-list table td {
   border-color: #dce4ee !important;
 }
-#section-warning-list table tbody tr[data-warning-school] td {
-  padding: 10px 14px;
-  border-bottom: 1px solid #dce4ee;
-  font-size: 12px;
-}
 #section-warning-list table tbody tr[data-warning-school] td:last-child button {
   color: #009d3b;
   background: none;
@@ -130,6 +125,90 @@
 #section-warning-list .care-warning-school-actions button {
   margin: 0 !important;
   text-align: center;
+}
+/* 学校与四级监管使用同一明细列宽及表头／单元格对齐规则。 */
+#section-warning-list .care-warning-ledger-scroll {
+  max-height: min(560px, 52vh);
+  overflow: auto;
+}
+#section-warning-list table.care-warning-ledger {
+  min-width: 1350px;
+  table-layout: fixed;
+  font-size: 12px;
+}
+#section-warning-list table.care-warning-ledger th,
+#section-warning-list table.care-warning-ledger td {
+  box-sizing: border-box;
+  height: 44px;
+  padding: 10px 12px !important;
+  text-align: center !important;
+  vertical-align: middle;
+  white-space: nowrap;
+  overflow: hidden;
+  border-bottom: 1px solid #dce4ee;
+}
+#section-warning-list table.care-warning-ledger th:nth-child(5),
+#section-warning-list table.care-warning-ledger th:nth-child(8),
+#section-warning-list table.care-warning-ledger td.care-warning-long-cell {
+  text-align: left !important;
+}
+#section-warning-list table.care-warning-ledger th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+#section-warning-list table.care-warning-ledger tbody tr:hover {
+  background: #f7faff;
+}
+#section-warning-list .care-warning-cell-text {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#section-warning-list .care-warning-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 6px;
+  border: 1px solid #b7eb8f;
+  border-radius: 4px;
+  color: #52c41a;
+  background: #f6ffed;
+  font-size: 11px;
+}
+#section-warning-list .care-warning-status.pending {
+  border-color: #ffe58f;
+  color: #d89614;
+  background: #fffbe6;
+}
+#section-warning-list .care-warning-ledger-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-top: 1px solid #dce4ee;
+  color: #617898;
+  font-size: 12px;
+}
+#section-warning-list .care-warning-ledger-pages {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+#section-warning-list .care-warning-ledger-pages button {
+  padding: 4px 10px;
+  border: 1px solid #d7e1ef;
+  border-radius: 4px;
+  background: #fff;
+  color: #09244b;
+  cursor: pointer;
+}
+#section-warning-list .care-warning-ledger-pages button:disabled {
+  color: #a9b2bf;
+  background: #f7f8fa;
+  cursor: not-allowed;
 }
 #care-warning-web-detail {
   color: #09244b;

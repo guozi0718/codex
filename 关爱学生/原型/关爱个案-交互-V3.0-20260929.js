@@ -86,8 +86,13 @@
   }
   window.careCaseEnumHtmlV3 = function (value) {
     var full = String(value || "--");
-    return '<span class="care-enum-value" title="' + esc(full) + '">' +
-      esc(short(full, 10)) + "</span>";
+    return (
+      '<span class="care-enum-value" title="' +
+      esc(full) +
+      '">' +
+      esc(short(full, 10)) +
+      "</span>"
+    );
   };
   function person() {
     return window.CARE_CURRENT_USER_ID || "teacher-wang-demo";
@@ -1184,8 +1189,7 @@
       input.after(button);
       function refresh() {
         button.textContent =
-          input.value ||
-          (kind === "care" ? "请选择日期" : "请选择日期");
+          input.value || (kind === "care" ? "请选择日期" : "请选择日期");
         button.disabled = input.disabled;
       }
       refresh();
@@ -1891,6 +1895,10 @@
         toast("暂无权限");
         return;
       }
+      if (!r && recordBackTarget === "sc-detail" && statusOf(c) === "已完结") {
+        toast("该个案已完结，不能继续关爱，请通过详情查看历史记录");
+        return;
+      }
       var values = readCare(recordForm);
       if (!values) return;
       if (r) {
@@ -1966,15 +1974,17 @@
         "关联信息",
         count
           ? '<button type="button" class="care-evidence-button" data-teacher-evidence>关联' +
-            count + "条信息</button>"
+              count +
+              "条信息</button>"
           : "--",
       );
     }
     function bindTeacherEvidence(container, c) {
       var button = container.querySelector("[data-teacher-evidence]");
-      if (button) button.onclick = function () {
-        window.openCareEvidenceV3(c, true);
-      };
+      if (button)
+        button.onclick = function () {
+          window.openCareEvidenceV3(c, true);
+        };
     }
     function renderDetail() {
       var c = currentCase;
@@ -2323,10 +2333,7 @@
             return;
           }
           if (statusOf(c) === "已完结") {
-            currentCase = c;
-            renderDetail();
-            callGo("sc-case-v3-detail");
-            toast("该个案已完结，请查看历史关爱记录");
+            toast("该个案已完结，不能继续关爱，请通过详情查看历史记录");
             return;
           }
           openRecordForm(c, "add", null, "sc-detail");
@@ -2371,7 +2378,9 @@
       var k = r.caseId || r.id || r.name;
       return records
         .filter(function (x) {
-          return (x.caseId || x.id || x.name) === k && !x.deletedAt && !x.superseded;
+          return (
+            (x.caseId || x.id || x.name) === k && !x.deletedAt && !x.superseded
+          );
         })
         .sort(function (a, b) {
           return String(a.date).localeCompare(String(b.date));

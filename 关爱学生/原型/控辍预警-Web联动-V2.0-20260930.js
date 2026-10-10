@@ -152,6 +152,9 @@
     var school = !!window.schoolCareV3Data;
     var warningCases = window.CARE_WARNING_CASES || [];
     window.CARE_WARNING_CASES = warningCases;
+    function isProcessed(r) {
+      return r._processed === undefined ? !r._noCase : r._processed;
+    }
     if (!school) {
       var examples = records.filter(function (r) {
         return r.sourceKey === "warning" && r.warning && r.school;
@@ -178,6 +181,78 @@
         },
         _noCase: true,
       });
+      // 每所学校至少12条预警，覆盖无关爱、待处理、已处理与长文本；
+      // 新增预警样例不伪造关爱内容，也不写入第一版个案台账。
+      var demoNames = [
+        "周子涵",
+        "吴思远",
+        "郑雨桐",
+        "钱嘉宁",
+        "冯梓轩",
+        "褚若溪",
+        "卫晨曦",
+        "蒋乐言",
+        "沈书航",
+        "韩可欣",
+        "杨沐阳",
+        "朱欣然",
+      ];
+      function addWarningExamples(branch, path) {
+        if (!Array.isArray(branch)) {
+          Object.keys(branch || {}).forEach(function (name) {
+            addWarningExamples(branch[name], path.concat(name));
+          });
+          return;
+        }
+        branch.forEach(function (schoolName) {
+          var existing = examples.filter(function (r) {
+            return (
+              r.province === path[0] &&
+              r.city === path[1] &&
+              r.district === path[2] &&
+              r.school === schoolName
+            );
+          }).length;
+          for (var i = existing; i < 12; i++) {
+            var kind = i % 3;
+            examples.push({
+              name: demoNames[i],
+              grade: [
+                "七年级（2025级）",
+                "八年级（2024级）",
+                "九年级（2023级）",
+              ][kind],
+              className: (i % 4) + 1 + "班",
+              school: schoolName,
+              province: path[0],
+              city: path[1],
+              district: path[2],
+              warning: {
+                type: ["连续缺勤", "周期缺勤", "连续请假"][kind],
+                reason: [
+                  "连续缺勤3个工作日（09-15~09-17）",
+                  "10个工作日内缺勤4个工作日（09-14、09-17、09-22、09-25）",
+                  "连续请假3个工作日（09-21~09-23）",
+                ][kind],
+                time:
+                  "2026-09-" +
+                  String([18, 25, 23][kind] + Math.floor(i / 3)).padStart(
+                    2,
+                    "0",
+                  ) +
+                  " 09:30",
+              },
+              _noCase: true,
+              _processed: kind !== 0,
+              _result: kind
+                ? "已联系家长核实缺勤原因，约定由班主任持续了解学生的到校与学习情况。"
+                : "--",
+            });
+          }
+        });
+      }
+      if (window.CARE_REGULATOR_V31)
+        addWarningExamples(window.CARE_REGULATOR_V31.tree, []);
       examples.forEach(function (r, i) {
         if (r._noCase) return;
         r.warningId = "warning-" + (i + 1);
@@ -200,7 +275,7 @@
               "2026-05-",
               "2026-09-",
             ),
-            done = !r._noCase;
+            done = isProcessed(r);
           return (
             '<tr data-dom-id="row-warning-' +
             (i + 1) +
@@ -221,7 +296,7 @@
             "</td><td>" +
             (done ? "已处理" : "待处理") +
             "</td><td>" +
-            (done ? "已联系家长并开展劝返" : "--") +
+            (done ? esc(r._result || "已联系家长并开展劝返") : "--") +
             "</td><td>" +
             (done ? time.slice(0, 10) : "--") +
             '</td><td><button type="button" data-dom-id="btn-view-detail-' +
@@ -245,7 +320,22 @@
     });
     var selected = rows[0] || null,
       selectedTab = "visit",
-      currentSchool = "";
+      currentSchool = "",
+      listPage = 1,
+      pageSize = 10,
+      listFooter = table.parentElement.nextElementSibling;
+    if (!listFooter) {
+      listFooter = document.createElement("div");
+      table.parentElement.after(listFooter);
+    }
+    listFooter.className = "care-warning-ledger-footer";
+    listFooter.addEventListener("click", function (event) {
+      var button = event.target.closest("[data-warning-page]");
+      if (!button || button.disabled) return;
+      listPage = Number(button.dataset.warningPage);
+      applyFilters(false);
+      table.parentElement.scrollTop = 0;
+    });
     var section = document.getElementById("section-warning-list");
     var dimensions = studentFilters(section, "filter-", function () {
       return rows.map(info);
@@ -333,7 +423,7 @@
       if (start) start.value = "2026-09-01";
       if (end) end.value = "2026-09-30";
     }
-    function applyFilters() {
+    function applyFilters(resetPage) {
       var name = (filterInput("student") || {}).value || "",
         klass = (filterInput("class") || {}).value || "",
         status = (filterInput("status") || {}).value || "",
@@ -349,12 +439,12 @@
           "continuous-leave": "连续请假",
           leave: "连续请假",
         }[type] || type;
-      rows.forEach(function (row) {
+      var matched = rows.filter(function (row) {
         var w = info(row),
           classNumber = String(klass).match(/(\d+)$/),
           schoolOK =
             !currentSchool || row.dataset.warningSchool === currentSchool;
-        row.hidden = !(
+        return (
           schoolOK &&
           (!dimensions || dimensions.matches(w)) &&
           (!name || w.name.includes(name)) &&
@@ -368,6 +458,37 @@
           (!end || w.time.slice(0, 10) <= end)
         );
       });
+      if (resetPage !== false) listPage = 1;
+      var totalPages = Math.max(1, Math.ceil(matched.length / pageSize));
+      listPage = Math.min(listPage, totalPages);
+      var startIndex = (listPage - 1) * pageSize;
+      rows.forEach(function (row) {
+        row.hidden = true;
+      });
+      matched.slice(startIndex, startIndex + pageSize).forEach(function (row) {
+        row.hidden = false;
+      });
+      listFooter.innerHTML =
+        "<span>显示 " +
+        (matched.length ? startIndex + 1 : 0) +
+        "–" +
+        Math.min(startIndex + pageSize, matched.length) +
+        " 条，共 " +
+        matched.length +
+        ' 条</span><div class="care-warning-ledger-pages">' +
+        '<button type="button" data-warning-page="' +
+        (listPage - 1) +
+        '"' +
+        (listPage === 1 ? " disabled" : "") +
+        ">上一页</button><span>" +
+        listPage +
+        " / " +
+        totalPages +
+        '</span><button type="button" data-warning-page="' +
+        (listPage + 1) +
+        '"' +
+        (listPage === totalPages ? " disabled" : "") +
+        ">下一页</button></div>";
     }
     resetInputs();
     section.addEventListener(
@@ -406,7 +527,8 @@
       return records
         .filter(function (r) {
           return (
-            !r.deletedAt && !r.superseded &&
+            !r.deletedAt &&
+            !r.superseded &&
             (r.warningId === w.id || (r.warningIds || []).includes(w.id))
           );
         })
@@ -421,7 +543,8 @@
         if (index === 0) {
           var first = records.find(function (r) {
             return (
-              !r.deletedAt && !r.superseded &&
+              !r.deletedAt &&
+              !r.superseded &&
               r.sourceKey === "warning" &&
               r.name === w.name &&
               r.grade === w.grade &&
@@ -524,6 +647,17 @@
       th.textContent = "关爱次数";
       th.className = head.lastElementChild.className;
       head.insertBefore(th, head.lastElementChild);
+      table.classList.add("care-warning-ledger");
+      table.parentElement.classList.add("care-warning-ledger-scroll");
+      var columns = document.createElement("colgroup");
+      [90, 140, 60, 90, 180, 150, 90, 190, 130, 90, 140].forEach(
+        function (width) {
+          var col = document.createElement("col");
+          col.style.width = width + "px";
+          columns.appendChild(col);
+        },
+      );
+      table.prepend(columns);
       rows.forEach(function (row) {
         var td = document.createElement("td");
         td.className = "px-4 py-3 text-center whitespace-nowrap";
@@ -541,6 +675,25 @@
             actions.appendChild(operation.firstChild);
           operation.appendChild(actions);
         }
+        [4, 7].forEach(function (index) {
+          var cell = row.cells[index],
+            text = cell.textContent.trim(),
+            span = document.createElement("span");
+          cell.classList.add("care-warning-long-cell");
+          span.className = "care-warning-cell-text";
+          span.title =
+            cell.title || (cell.querySelector("[title]") || {}).title || text;
+          span.textContent = text;
+          cell.replaceChildren(span);
+        });
+        var statusCell = row.cells[6],
+          statusText = statusCell.textContent.trim(),
+          badge = document.createElement("span");
+        badge.className =
+          "care-warning-status " +
+          (statusText === "待处理" ? "pending" : "done");
+        badge.textContent = statusText;
+        statusCell.replaceChildren(badge);
       });
     }
     function refreshCount(row, td) {
@@ -585,25 +738,36 @@
       var ids = [w.id].concat(first.referenceWarningIds || []);
       return {
         caseEvidence: {
-          "控辍保学": rows.map(info).filter(function (item) {
-            return ids.includes(item.id);
-          }).map(function (item) {
-            return item.reason + "（" + item.time + "）";
-          }),
+          控辍保学: rows
+            .map(info)
+            .filter(function (item) {
+              return ids.includes(item.id);
+            })
+            .map(function (item) {
+              return item.reason + "（" + item.time + "）";
+            }),
         },
       };
     }
     function warningCase(w) {
       return warningCases.find(function (c) {
-        return !c.deletedAt &&
-          (c.warningId === w.id || (c.warningIds || []).includes(w.id));
+        return (
+          !c.deletedAt &&
+          (c.warningId === w.id || (c.warningIds || []).includes(w.id))
+        );
       });
     }
     function evidenceField(w) {
       var count = window.careCaseEvidenceItemsV3(careEvidence(w)).length;
-      return '<div class="care-warning-web-row"><span>关联信息</span><span>' +
-        (count ? '<button type="button" class="care-evidence-button" data-web-evidence>关联' +
-          count + "条信息</button>" : "--") + "</span></div>";
+      return (
+        '<div class="care-warning-web-row"><span>关联信息</span><span>' +
+        (count
+          ? '<button type="button" class="care-evidence-button" data-web-evidence>关联' +
+            count +
+            "条信息</button>"
+          : "--") +
+        "</span></div>"
+      );
     }
     function careCards(w) {
       var chain = linked(w),
@@ -711,9 +875,10 @@
         careCards(w) +
         "</div>";
       var evidenceButton = root.querySelector("[data-web-evidence]");
-      if (evidenceButton) evidenceButton.onclick = function () {
-        window.openCareEvidenceV3(careEvidence(w));
-      };
+      if (evidenceButton)
+        evidenceButton.onclick = function () {
+          window.openCareEvidenceV3(careEvidence(w));
+        };
       root.querySelectorAll("[data-web-tab]").forEach(function (button) {
         button.onclick = function () {
           selectedTab = button.dataset.webTab;
@@ -728,11 +893,13 @@
     }
     seed();
     rows.forEach(function (row) {
-      var w = info(row), first = linked(w)[0];
+      var w = info(row),
+        first = linked(w)[0];
       if (first && !warningCase(w))
         warningCases.push(Object.assign({}, first, { id: first.caseId }));
     });
     decorateRows();
+    applyFilters();
     if (!school && window.CARE_REGULATOR_V31) {
       var hierarchy = window.CARE_REGULATOR_V31,
         root = hierarchy.getPath().slice(),
@@ -776,10 +943,10 @@
         return [
           list.length,
           list.filter(function (r) {
-            return r._noCase;
+            return !isProcessed(r);
           }).length,
           list.filter(function (r) {
-            return !r._noCase;
+            return isProcessed(r);
           }).length,
         ];
       }

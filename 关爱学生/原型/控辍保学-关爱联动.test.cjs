@@ -36,6 +36,7 @@ async function test() {
   first.click();
   assert.equal(w.location.hash, "#sc-case-v3-warning-setup");
   const form = d.getElementById("sc-case-v3-warning-setup");
+  assert.equal(form.querySelector(".sub-hd b").textContent, "确认关爱信息");
   assert.deepEqual(
     [...form.querySelectorAll(".cv3-field > label")].map((x) =>
       x.textContent.replace("*", ""),
@@ -248,31 +249,35 @@ async function test() {
     w.getComputedStyle(closedButton).backgroundColor,
     "rgb(241, 243, 246)",
   );
-  const closedWrap = closedButton.closest("[data-warning-closed]");
-  assert.ok(closedWrap && closedWrap.title.includes("已完结"));
-  assert.match(
-    d.getElementById(closedWrap.getAttribute("aria-describedby")).textContent,
-    /不能继续关爱/,
+  assert.equal(closedButton.title, "");
+  assert.equal(closedButton.getAttribute("aria-describedby"), null);
+  assert.notEqual(w.getComputedStyle(closedButton).pointerEvents, "none");
+  assert.equal(
+    d.querySelector(
+      '#wl-cards .care-warning-closed-tip, #wl-cards [id^="warning-closed-tip-"], #wl-cards [data-warning-closed]',
+    ),
+    null,
+    "完结按钮不保留说明文字或提示区",
   );
   const originalToast = w.toast,
     closedMessages = [];
   w.toast = (text) => closedMessages.push(text);
   closedButton.click();
-  closedWrap.click();
-  closedWrap.dispatchEvent(
+  closedButton.dispatchEvent(new w.MouseEvent("click", { bubbles: true }));
+  closedButton.dispatchEvent(
     new w.KeyboardEvent("keydown", { key: "Enter", bubbles: true }),
   );
   w.CARE_CASE_V3_API.openFromWarning(warning);
   record.querySelector(".cv3-bottom button").click();
-  assert.equal(
-    w.location.hash,
-    "#sc-list",
-    "禁用按钮、提示及API入口均不得跳转",
-  );
+  assert.equal(w.location.hash, "#sc-list", "禁用按钮及API入口均不得跳转");
   assert.equal(created.records.length, 2, "完结后不得通过旧表单重复提交");
-  assert.ok(closedMessages.length >= 4);
-  assert.ok(closedMessages.every((text) => /已完结.*不能继续关爱/.test(text)));
+  assert.deepEqual(closedMessages, [], "完结按钮、入口及旧表单均不弹提示");
   w.toast = originalToast;
+  closedButton
+    .closest("[data-warning-index]")
+    .querySelector('[data-warning-action="detail"]')
+    .click();
+  assert.equal(w.location.hash, "#sc-detail", "历史详情仍可查看");
   w.go("sc-care-menu");
   d.querySelector("#cv3-new").click();
   assert.equal(w.location.hash, "#sc-case-v3-add", "第一版独立菜单仍可新增");

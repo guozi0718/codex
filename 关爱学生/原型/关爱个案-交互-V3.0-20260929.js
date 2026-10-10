@@ -526,7 +526,7 @@
     var caseForm = screen("sc-case-v3-add", "新增关爱个案"),
       detail = screen("sc-case-v3-detail", "关爱个案详情"),
       recordForm = screen("sc-case-v3-record", "新建关爱"),
-      warningScreen = screen("sc-case-v3-warning-setup", "确认关爱个案信息");
+      warningScreen = screen("sc-case-v3-warning-setup", "确认关爱信息");
     function addHelp(target, message) {
       var head = target.querySelector(".sub-hd"),
         dot = document.createElement("button"),
@@ -1896,7 +1896,6 @@
         return;
       }
       if (!r && recordBackTarget === "sc-detail" && statusOf(c) === "已完结") {
-        toast("该个案已完结，不能继续关爱，请通过详情查看历史记录");
         return;
       }
       var values = readCare(recordForm);
@@ -2333,7 +2332,6 @@
             return;
           }
           if (statusOf(c) === "已完结") {
-            toast("该个案已完结，不能继续关爱，请通过详情查看历史记录");
             return;
           }
           openRecordForm(c, "add", null, "sc-detail");

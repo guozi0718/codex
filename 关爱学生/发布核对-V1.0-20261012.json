@@ -1,8 +1,8 @@
 {
   "version": "2026-10-12",
-  "localSourceCommit": "b3d4468",
+  "localSourceCommit": "897ad482e3e749b01a8a93c5775d3558f92008ef",
   "repository": "guozi0718/codex",
-  "fileCount": 33,
+  "fileCount": 34,
   "files": [
     {
       "path": "关爱学生/关爱三端原型/老师端关爱管理-V2.9-20260929.html",
@@ -90,31 +90,31 @@
     },
     {
       "path": "关爱学生/关爱产品需求文档/第一版-老师端-关爱菜单-PRD-V1.0-20261010.md",
-      "sha256": "d70b15e457a7731b4c5572864d2b411ef1e159c81d9b7ff3ac75860273d3fd55"
+      "sha256": "ac3b5d7349015e0060d6f9b7cc9b834ed3ee063f202ec0f447e507a93d1e1e93"
     },
     {
       "path": "关爱学生/关爱产品需求文档/第一版-学校端-关爱菜单-PRD-V1.0-20261010.md",
-      "sha256": "6d47e6cebc964c3e3eab5a2ad82c0e2288f9844765d701ad5120ff5b2197a457"
+      "sha256": "05f029ac231f0556f8c83d90be2f05feef3f0b719c0aee3868ee428d72814fec"
     },
     {
       "path": "关爱学生/关爱产品需求文档/第一版-监管端-关爱菜单-PRD-V1.0-20261010.md",
-      "sha256": "832459ec9c2e1ba2d64d3c2531424e36b6d4c68d05a7f10a72fe6f6deb3d3bd2"
+      "sha256": "2a4b96c6e62a095af9286c840de1c699fe3a3b7f25d9900c8d5de0ab5a6bb94a"
     },
     {
       "path": "关爱学生/关爱产品需求文档/第二版-老师端-控辍保学关爱-PRD-V1.0-20261010.md",
-      "sha256": "ed22b5733a4ae6bce84170f813a816875f4dbed1a016704b64a8614249d95789"
+      "sha256": "49bc21e5ae5abe2279cf1fd1516f032adbffca330a1b531dfd7400dc13a1c7ba"
     },
     {
       "path": "关爱学生/关爱产品需求文档/第二版-学校端-控辍保学关爱-PRD-V1.0-20261010.md",
-      "sha256": "8e22f9aa0da1bd7b43f4f18b4e1ec2412948b042298619e23b837ab9c5d7a293"
+      "sha256": "e5e03d1aab5b48a0dac142cff13b8ba12c9f0aef30f6eda32822b5ccb4c06da7"
     },
     {
       "path": "关爱学生/关爱产品需求文档/第二版-监管端-控辍保学关爱-PRD-V1.0-20261010.md",
-      "sha256": "c29ea60153a0d3d58a788ec0cda6a2bd711ea555b25ea9d3b329b8392b291411"
+      "sha256": "f48a565a9df0f822c8b1e0f2003a6e8262f8968058b1a23a3ea69f0e5336d6c1"
     },
     {
       "path": "关爱学生/关爱产品需求文档/第一期-方案总览与验收口径-20261010.md",
-      "sha256": "3fa564c9452971901b0e24a7b95275cd86aeecf5c3f20cbe05c08e89960edd06"
+      "sha256": "d157dd81b67bbcce9ede3eaf474d4cee71d60bdf61634b452a034796d3b5071b"
     },
     {
       "path": "关爱学生/关爱产品需求文档/第一期-代码核对与发布说明-20261010.md",
@@ -135,6 +135,10 @@
     {
       "path": "关爱学生/关爱产品需求文档/控辍保学-关爱联动-PRD-V2.0.0_260930.md",
       "sha256": "cbe23cb5df310266acebe0958f333cd8565b0d77be1445325301dd0e3063ce08"
+    },
+    {
+      "path": "关爱学生/关爱产品需求文档/产品需求文档模板-V1.0-20261012.md",
+      "sha256": "efe7e8b666994ee157973a4aee0fbe0e817528e343d0f102ac11a64a39d8eacd"
     }
   ]
 }

@@ -1,8 +1,8 @@
 {
   "version": "2026-10-12",
-  "localSourceCommit": "897ad482e3e749b01a8a93c5775d3558f92008ef",
+  "localSourceCommit": "b92ef70bbba1ecad84ab1317871bab0c64fdc2ac",
   "repository": "guozi0718/codex",
-  "fileCount": 34,
+  "fileCount": 33,
   "files": [
     {
       "path": "关爱学生/关爱三端原型/老师端关爱管理-V2.9-20260929.html",
@@ -114,7 +114,7 @@
     },
     {
       "path": "关爱学生/关爱产品需求文档/第一期-方案总览与验收口径-20261010.md",
-      "sha256": "d157dd81b67bbcce9ede3eaf474d4cee71d60bdf61634b452a034796d3b5071b"
+      "sha256": "6d6dbfca2eae9173e8fb0b51047d265257f7f2045ae5fc81c0a87446f6fcc946"
     },
     {
       "path": "关爱学生/关爱产品需求文档/第一期-代码核对与发布说明-20261010.md",
@@ -135,10 +135,6 @@
     {
       "path": "关爱学生/关爱产品需求文档/控辍保学-关爱联动-PRD-V2.0.0_260930.md",
       "sha256": "cbe23cb5df310266acebe0958f333cd8565b0d77be1445325301dd0e3063ce08"
-    },
-    {
-      "path": "关爱学生/关爱产品需求文档/产品需求文档模板-V1.0-20261012.md",
-      "sha256": "efe7e8b666994ee157973a4aee0fbe0e817528e343d0f102ac11a64a39d8eacd"
     }
   ]
 }

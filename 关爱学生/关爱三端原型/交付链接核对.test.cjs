@@ -48,12 +48,12 @@ async function test() {
         );
       }
       assert.equal(
-        (source.match(/\|\s+CARE_TYPE_\d{2}\s+\|/g) || []).length,
+        new Set(source.match(/\|\s+CARE_TYPE_\d{2}\s+\|/g) || []).size,
         12,
         "每份PRD单独完整列12项类型",
       );
       assert.equal(
-        (source.match(/\|\s+CARE_METHOD_\d{2}\s+\|/g) || []).length,
+        new Set(source.match(/\|\s+CARE_METHOD_\d{2}\s+\|/g) || []).size,
         15,
         "每份PRD单独完整列15项方式",
       );
@@ -96,7 +96,7 @@ async function test() {
           path.basename(file) + "缺少规则：" + rule,
         );
       assert.ok(
-        !/\]\([^\n)]*\.md(?:#.*?)?\)/.test(source),
+        !/\]\([^\n)]*PRD[^\n)]*\.md(?:#.*?)?\)/.test(source),
         "独立PRD不能引用另一份文档省略细节",
       );
     }

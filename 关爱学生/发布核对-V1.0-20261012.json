@@ -1,6 +1,6 @@
 {
   "version": "2026-10-12",
-  "localSourceCommit": "b3b0e671f96ffc91069645aafb8e060e0551ef0b",
+  "localSourceCommit": "0ef62c9dcea49837d84ff579568e996bd872b0af",
   "repository": "guozi0718/codex",
   "fileCount": 33,
   "files": [
@@ -90,31 +90,31 @@
     },
     {
       "path": "关爱学生/关爱产品需求文档/第一版-老师端-关爱菜单-PRD-V1.0-20261010.md",
-      "sha256": "5209f10c3520c96acb607f992ae954fef349c1855218f99890653cb80f5d57b8"
+      "sha256": "5fe6422c7a303975f0c6fafc4726198e8b3d98294d518e7152d5a789082d6495"
     },
     {
       "path": "关爱学生/关爱产品需求文档/第一版-学校端-关爱菜单-PRD-V1.0-20261010.md",
-      "sha256": "12ead4d56113317a311567a0d1e6ffa1aadde4cef6996c6c273b09e2460e55ba"
+      "sha256": "c31c5e39a51db31fd71554b970ff13f4e16dfe99a4a1a46a2555aecd7a02622f"
     },
     {
       "path": "关爱学生/关爱产品需求文档/第一版-监管端-关爱菜单-PRD-V1.0-20261010.md",
-      "sha256": "04f273e02a784a8626f312eea728039fd369770896a611714aa756a545f6a103"
+      "sha256": "88dcc1e256662cbd6795166dcd6e594d289aba479886388c0dc661474c306283"
     },
     {
       "path": "关爱学生/关爱产品需求文档/第二版-老师端-控辍保学关爱-PRD-V1.0-20261010.md",
-      "sha256": "23cd52b510fbe5b1ea490326bcbc2eed1a0000e0319cabf4db9c36cc4c378988"
+      "sha256": "cc0746feeb1b3e4b4bbf47206bcc3b6432e00c23978025e8ec45be0cac623464"
     },
     {
       "path": "关爱学生/关爱产品需求文档/第二版-学校端-控辍保学关爱-PRD-V1.0-20261010.md",
-      "sha256": "d88a0b82f5e6e931d0a8071164d9c1877a5813a32cebbad6ec26f830cbfc0895"
+      "sha256": "b1de8abfc011ba9f73af2b97b074ba4d3608495136664b3da9fd56184419dc59"
     },
     {
       "path": "关爱学生/关爱产品需求文档/第二版-监管端-控辍保学关爱-PRD-V1.0-20261010.md",
-      "sha256": "3405f1ef2e6370fedd172feda1cc9664173152d377f31c7e91ba5ab29dbf0ed8"
+      "sha256": "554a2e093f689905152024cd98db177344757ef45d9f638ed86fb633f9e0b41a"
     },
     {
       "path": "关爱学生/关爱产品需求文档/第一期-方案总览与验收口径-20261010.md",
-      "sha256": "0d3640c0d054eb8803efb8cd97b6325d56830af024fc7242b054efd1d7f9bb27"
+      "sha256": "13a6e0fb3f20aeed051e98f07e5ed63795d35fcdcd488b30b9adcfae570f23b5"
     },
     {
       "path": "关爱学生/关爱产品需求文档/第一期-代码核对与发布说明-20261010.md",

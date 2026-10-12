@@ -1,15 +1,7 @@
 /* 四级监管关爱个案：统一层级、筛选、汇总与只读详情。演示数据不代表真实统计。 */
 (function () {
   "use strict";
-  var TYPES = [
-    "家庭变故",
-    "学业困难",
-    "同伴关系",
-    "行为问题",
-    "经济困难",
-    "特殊家庭",
-    "其他",
-  ];
+  var TYPES = window.CARE_DICTIONARY_V1.typeLabels;
   var TREE = {
     北京市: {
       省属: {
@@ -49,15 +41,6 @@
         碑林区: ["碑林区实验小学", "碑林区第二中学"],
       },
     },
-  };
-  var TYPE_BY_NAME = {
-    张小明: "学业困难",
-    李小红: "同伴关系",
-    陈小强: "学业困难",
-    王小华: "家庭变故",
-    赵晓雨: "同伴关系",
-    刘晨: "经济困难",
-    孙悦: "特殊家庭",
   };
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -100,17 +83,13 @@
         start: "2026-09-01",
         end: "2026-09-30",
         type: "all",
-        status: "all",
       };
     var seed = records.slice(),
       pending = [];
     seed.forEach(function (r, i) {
       r.province = "陕西省";
       r.city = "宝鸡市";
-      r.caseTypes =
-        r.caseTypes && r.caseTypes.length
-          ? r.caseTypes
-          : [TYPE_BY_NAME[r.name] || "其他"];
+      r.caseTypes = r.caseTypes && r.caseTypes.length ? r.caseTypes : [r.type];
       if (!r.id) r.id = "reg-original-" + i;
       if (!r.caseId) r.caseId = r.id;
     });
@@ -173,36 +152,30 @@
         byCase.get(k).push(r);
       });
       var current = Array.from(byCase.values())
-      .map(function (rows) {
-        rows.sort(function (a, b) {
-          return String(a.date).localeCompare(String(b.date));
-        });
-        var first = rows[0],
-          last = rows[rows.length - 1];
-        return {
-          first: first,
-          last: last,
-          rows: rows,
-          status:
-            last.status === "need" || last.follow === "需要"
-              ? "关爱中"
-              : "已完结",
-          type: first.caseTypes || [TYPE_BY_NAME[first.name] || "其他"],
-          created: first.caseCreatedAt || first.date,
-        };
-      })
-      .concat(
-        pending.map(function (p) {
+        .map(function (rows) {
+          rows.forEach(window.CARE_RECORD_V3.normalize);
+          rows.sort(window.CARE_RECORD_V3.compare);
+          var first = rows[0],
+            last = rows[rows.length - 1];
           return {
-            first: p,
-            last: null,
-            rows: [],
-            status: "待关爱",
-            type: p.caseTypes,
-            created: p.caseCreatedAt,
+            first: first,
+            last: last,
+            rows: rows,
+            type: first.caseTypes || [first.type],
+            created: first.caseCreatedAt || first.date,
           };
-        }),
-      );
+        })
+        .concat(
+          pending.map(function (p) {
+            return {
+              first: p,
+              last: null,
+              rows: [],
+              type: p.caseTypes,
+              created: p.caseCreatedAt,
+            };
+          }),
+        );
       cases.splice.apply(cases, [0, cases.length].concat(current));
     }
     var style = document.createElement("style");
@@ -222,20 +195,23 @@
     }
     function currentCases() {
       refreshCases();
-      return cases.filter(function (c) {
-        var r = c.first,
-          date = c.created;
-        return (
-          (!path[0] || r.province === path[0]) &&
-          (!path[1] || r.city === path[1]) &&
-          (!path[2] || r.district === path[2]) &&
-          (!path[3] || r.school === path[3]) &&
-          (!filter.start || date >= filter.start) &&
-          (!filter.end || date <= filter.end) &&
-          (filter.type === "all" || c.type.includes(filter.type)) &&
-          (filter.status === "all" || c.status === filter.status)
-        );
-      });
+      return cases
+        .filter(function (c) {
+          var r = c.first,
+            date = c.created;
+          return (
+            (!path[0] || r.province === path[0]) &&
+            (!path[1] || r.city === path[1]) &&
+            (!path[2] || r.district === path[2]) &&
+            (!path[3] || r.school === path[3]) &&
+            (!filter.start || date >= filter.start) &&
+            (!filter.end || date <= filter.end) &&
+            (filter.type === "all" || c.type.includes(filter.type))
+          );
+        })
+        .sort(function (a, b) {
+          return b.created.localeCompare(a.created);
+        });
     }
     function toolbar() {
       return (
@@ -251,13 +227,6 @@
           return option(t);
         }).join("") +
         "</select></div>" +
-        '<div class="reg31-filter"><label for="reg31-status">个案状态</label><select id="reg31-status">' +
-        ["全部", "待关爱", "关爱中", "已完结"]
-          .map(function (t, i) {
-            return option(i ? t : "all", t);
-          })
-          .join("") +
-        "</select></div>" +
         '<span class="crv3-spacer"></span><button class="crv3-btn query" id="reg31-query">查询</button><button class="crv3-btn reset" id="reg31-reset">重置</button></div>'
       );
     }
@@ -266,16 +235,12 @@
       var out = {
         students: 0,
         cases: list.length,
-        待关爱: 0,
-        关爱中: 0,
-        已完结: 0,
       };
       TYPES.forEach(function (t) {
         out[t] = 0;
       });
       list.forEach(function (c) {
         names.add(c.first.school + "|" + c.first.name);
-        out[c.status]++;
         c.type.forEach(function (t) {
           if (out[t] != null) out[t]++;
         });
@@ -284,13 +249,7 @@
       return out;
     }
     function values(a) {
-      return [
-        a.students,
-        a.cases,
-        a["待关爱"],
-        a["关爱中"],
-        a["已完结"],
-      ].concat(
+      return [a.students, a.cases].concat(
         TYPES.map(function (t) {
           return a[t];
         }),
@@ -307,14 +266,7 @@
                 ? Object.keys((TREE[path[0]] || {})[path[1]] || {})
                 : ((TREE[path[0]] || {})[path[1]] || {})[path[2]] || [];
       var label = ["省份名称", "地市名称", "区县名称", "学校名称"][stage];
-      var heads = [
-        label,
-        "关爱学生数",
-        "关爱个案数",
-        "待关爱",
-        "关爱中",
-        "已完结",
-      ].concat(
+      var heads = [label, "关爱学生数", "关爱个案数"].concat(
         TYPES.map(function (t) {
           return t;
         }),
@@ -349,10 +301,10 @@
         .join("");
       var all = aggregate(list);
       return (
-        '<div class="crv3-table-wrap"><table class="crv3-table"><thead><tr>' +
+        '<div class="crv3-table-wrap"><table class="crv3-table care-summary-table"><thead><tr>' +
         heads
           .map(function (h) {
-            return "<th>" + esc(h) + "</th>";
+            return '<th title="' + esc(h) + '">' + esc(h) + "</th>";
           })
           .join("") +
         "</tr></thead><tbody>" +
@@ -379,14 +331,19 @@
         "关爱次数",
         "最近关爱日期",
         "关爱结果",
-        "个案状态",
         "操作",
       ];
       return (
-        '<div class="crv3-table-wrap"><table class="crv3-table care-record-table"><thead><tr>' +
+        '<div class="crv3-table-wrap" tabindex="0" aria-label="关爱列表，可左右滑动查看字段"><table class="crv3-table care-record-table"><thead><tr>' +
         heads
           .map(function (h) {
-            return "<th" + (/^关爱(来源|类型)$/.test(h) ? ' class="care-enum-cell"' : "") + ">" + h + "</th>";
+            return (
+              "<th" +
+              (/^关爱(来源|类型)$/.test(h) ? ' class="care-enum-cell"' : "") +
+              ">" +
+              h +
+              "</th>"
+            );
           })
           .join("") +
         "</tr></thead><tbody>" +
@@ -442,8 +399,6 @@
               esc(result) +
               '">' +
               esc(short(result, 10)) +
-              "</td><td>" +
-              c.status +
               '</td><td><button class="crv3-link" data-view="' +
               ci +
               '">个案详情</button></td></tr>'
@@ -458,7 +413,6 @@
         ["start", "reg31-start"],
         ["end", "reg31-end"],
         ["type", "reg31-type"],
-        ["status", "reg31-status"],
       ].forEach(function (pair) {
         var el = document.getElementById(pair[1]);
         if (el) filter[pair[0]] = el.value;
@@ -477,7 +431,7 @@
         toolbar() +
         (path.length === 4 ? bottom(list) : summary(list)) +
         "</div></div>";
-      ["type", "status"].forEach(function (k) {
+      ["type"].forEach(function (k) {
         var e = document.getElementById("reg31-" + k);
         if (e) e.value = filter[k];
       });
@@ -518,7 +472,6 @@
           start: "2026-09-01",
           end: "2026-09-30",
           type: "all",
-          status: "all",
         };
         render();
       };
@@ -548,7 +501,6 @@
         row("关联信息", "--") +
         row("关爱类型", c.type.join("、")) +
         row("关爱原因", r.caseReason) +
-        row("个案状态", "待关爱") +
         '</div><div class="crv3-detail-title">关爱情况（共0次）</div></div><div class="ecm-foot"><button class="ecm-btn" onclick="cityCareClose()">关闭</button></div>';
       mask.classList.add("on");
     }

@@ -90,10 +90,8 @@
       wlData[0].visits[0].proofs = demoProofs;
     var style = document.createElement("style");
     style.textContent =
-      "#sc-detail .care-warning-section{margin-top:12px}#sc-detail .care-warning-section.with-status{display:flex;align-items:center;justify-content:space-between;gap:8px}#sc-detail .care-warning-state{font-size:12px;font-weight:400;color:var(--ink-3)}#sc-detail .care-warning-record{margin-bottom:9px}#sc-detail .care-warning-record h4{margin:0 0 8px;font-size:13px;color:var(--navy)}#sc-detail .care-warning-empty{font-size:12px;color:var(--ink-3)}#sc-detail .care-warning-proof{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:7px}#sc-detail .care-warning-proof img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:7px}#sc-detail .care-warning-tabs{display:flex;background:#fff;border-bottom:1px solid var(--line);margin:0 -16px 12px;padding:0 16px}#sc-detail .care-warning-tab{flex:1;border:0;background:none;padding:12px 0;font:inherit;font-size:14px;color:var(--ink-3);border-bottom:2px solid transparent}#sc-detail .care-warning-tab.on{color:var(--navy);font-weight:600;border-bottom-color:var(--navy)}#wl-cards .care-warning-buttons{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:10px}";
+      "#sc-detail .care-warning-section{margin-top:12px}#sc-detail .care-warning-record{margin-bottom:9px}#sc-detail .care-warning-record h4{margin:0 0 8px;font-size:13px;color:var(--navy)}#sc-detail .care-warning-empty{font-size:12px;color:var(--ink-3)}#sc-detail .care-warning-proof{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:7px}#sc-detail .care-warning-proof img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:7px}#sc-detail .care-warning-tabs{display:flex;background:#fff;border-bottom:1px solid var(--line);margin:0 -16px 12px;padding:0 16px}#sc-detail .care-warning-tab{flex:1;border:0;background:none;padding:12px 0;font:inherit;font-size:14px;color:var(--ink-3);border-bottom:2px solid transparent}#sc-detail .care-warning-tab.on{color:var(--navy);font-weight:600;border-bottom-color:var(--navy)}#wl-cards .care-warning-buttons{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:10px}";
     document.head.appendChild(style);
-    style.textContent +=
-      "#wl-cards button[data-warning-action=care]:disabled{background:#f1f3f6;color:#9aa6b5;border-color:#e0e5ec;opacity:1;cursor:not-allowed}";
     var active = null,
       activeTab = "visit",
       container = document.getElementById("wl-cards");
@@ -114,9 +112,7 @@
       var html = slice
         .map(function (w) {
           var i = wlData.indexOf(w),
-            s = wlStatusMap[w.status],
-            c = matching(w),
-            closed = c && api.status(c) === "已完结";
+            s = wlStatusMap[w.status];
           return (
             '<div class="card" data-warning-index="' +
             i +
@@ -136,7 +132,13 @@
             kv("预警时间", w.time) +
             kv("最后处理", w.last) +
             '<div class="care-warning-buttons"><button type="button" class="btn ghost sm" data-warning-action="detail">详情</button><button type="button" class="btn ghost sm" data-warning-action="care" ' +
-            (closed ? 'disabled aria-disabled="true"' : "") +
+            (api.canTake({
+              studentId: w.studentId || w.name,
+              grade: w.grade,
+              klass: w.cls,
+            })
+              ? ""
+              : "disabled") +
             ">" +
             action(w) +
             '</button><button type="button" class="btn pri sm" data-warning-action="process">' +
@@ -162,8 +164,7 @@
         pad = document.querySelector("#sc-detail .body .pad");
       if (!pad) return;
       var visits = w.visits || [],
-        records = (c && c.records) || [],
-        state = c ? api.status(c) : "待关爱";
+        records = (c && c.records) || [];
       pad.innerHTML =
         '<div class="card"><div class="stu-hd"><div class="avatar">' +
         esc(w.name.slice(0, 1)) +
@@ -239,11 +240,9 @@
         "</div>" +
         '<div class="care-warning-pane" data-warning-pane="care" role="tabpanel" ' +
         (activeTab === "care" ? "" : "hidden") +
-        '><div class="section-t care-warning-section with-status"><span>关爱情况（共' +
+        '><div class="section-t care-warning-section"><span>关爱情况（共' +
         records.length +
-        '次）</span><span class="care-warning-state">个案状态：' +
-        esc(state) +
-        "</span></div>" +
+        "次）</span></div>" +
         (c
           ? '<div class="card care-warning-case-info" data-warning-case-info>' +
             kv("创建日期", c.createdAt) +
@@ -260,32 +259,10 @@
             "</div>"
           : "") +
         (records.length
-          ? records
-              .slice()
-              .reverse()
-              .map(function (r, i) {
-                return (
-                  '<div class="card care-warning-record"><h4>第' +
-                  (records.length - i) +
-                  "次关爱</h4>" +
-                  kv("关爱时间", r.date) +
-                  kv("执行人员", r.people) +
-                  kv("关爱方式", r.method) +
-                  kv("关爱结果", r.result) +
-                  kv(
-                    "证明材料",
-                    (r.proofs || []).length
-                      ? (r.proofs || []).length + "张"
-                      : "--",
-                  ) +
-                  kv("继续跟进", r.follow) +
-                  kv("下次跟进日期", r.next || "--") +
-                  "</div>"
-                );
-              })
-              .join("")
+          ? api.recordCards(c)
           : '<div class="card care-warning-empty">暂无关爱记录</div>') +
         "</div>";
+      if (c) api.bindRecordActions(pad, c, "sc-detail", renderDetail);
       var evidence = pad.querySelector("[data-warning-case-evidence]");
       if (evidence)
         evidence.onclick = function () {

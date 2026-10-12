@@ -3,16 +3,92 @@ const fs = require("node:fs"),
   path = require("node:path"),
   vm = require("node:vm");
 const { load, root, pages } = require("./原型测试工具-V2.0-20261008.cjs");
+function checkTimeline(modal, selector) {
+  assert.ok(!modal.textContent.includes("个案状态"));
+  assert.ok(!modal.textContent.includes("下次跟进日期"));
+  const cards = [...modal.querySelectorAll(selector)];
+  assert.ok(cards.length);
+  for (const card of cards) {
+    const labels = [...card.querySelectorAll(".label")].map(
+      (x) => x.textContent,
+    );
+    assert.deepEqual(labels.slice(-2), ["填写人", "填写时间"]);
+    assert.match(
+      card.querySelectorAll(".value")[labels.length - 1].textContent,
+      /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/,
+    );
+  }
+}
+function checkFixedColumn(w, table) {
+  assert.ok(table);
+  const wrapper = table.parentElement;
+  assert.equal(w.getComputedStyle(wrapper).overflow, "auto");
+  assert.equal(w.getComputedStyle(wrapper).scrollbarWidth, "none");
+  assert.equal(wrapper.tabIndex, 0);
+  for (const row of table.rows) {
+    const cell = row.cells[row.cells.length - 1];
+    if (cell.colSpan > 1) continue;
+    const style = w.getComputedStyle(cell);
+    assert.equal(style.position, "sticky");
+    assert.equal(style.right, "0px");
+    assert.equal(style.textAlign, "center");
+    assert.ok(Number(style.zIndex) >= 2);
+  }
+}
+function checkWebOrder(w, records, open, modal, selector, first) {
+  const original = {
+    date: first.date,
+    filledAt: first.filledAt,
+    result: first.result,
+  };
+  const added = Object.assign({}, first, {
+    id: "sort-probe",
+    result: "sort-probe-B",
+  });
+  records.push(added);
+  try {
+    first.result = "sort-probe-A";
+    first.date = "2026-10-05";
+    added.date = "2026-10-06";
+    first.filledAt = "2026-10-07T15:31:02+08:00";
+    added.filledAt = "2026-10-07T15:31:01+08:00";
+    function results() {
+      open();
+      return [...modal.querySelectorAll(selector)]
+        .filter((card) => card.textContent.includes("sort-probe-"))
+        .map((card) => (card.textContent.includes("sort-probe-A") ? "A" : "B"));
+    }
+    assert.deepEqual(
+      results(),
+      ["B", "A"],
+      "Web实际关爱日期优先，不按补录创建时间",
+    );
+    first.date = added.date;
+    assert.deepEqual(results(), ["A", "B"], "Web同日按创建时间到秒倒序");
+    assert.equal(w.CARE_RECORD_V3.compare(first, added) > 0, true);
+  } finally {
+    Object.assign(first, original);
+    records.splice(records.indexOf(added), 1);
+    open();
+  }
+}
 function checkEnumColumns(w, care, records, render) {
   const saved = records.map((r) => [r, r.caseSources, r.caseTypes]);
   const source = ["班主任发现", "任课教师反映", "学生主动反映"];
-  const types = ["家庭变故", "学业困难", "同伴关系"];
+  const types = [
+    "家庭经济困难学生",
+    "农村留守儿童",
+    "心理行为偏差 / 情绪困扰学生",
+  ];
   records.forEach((r) => {
     r.caseSources = source;
     r.caseTypes = types;
   });
   render();
-  const row = care.querySelector("tbody tr");
+  const row = [...care.querySelectorAll("tbody tr")].find(
+    (row) => parseInt(row.cells[8].textContent) > 0,
+  );
+  assert.ok(row, "选取有内容的个案，不依赖默认行序");
   [4, 6].forEach((index, n) => {
     const td = row.cells[index],
       full = (n ? types : source).join("、");
@@ -40,6 +116,12 @@ async function test() {
     for (const match of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g))
       new vm.Script(match[1], { filename: name });
     const { window: w, document: d, errors } = await load(name);
+    assert.equal(w.CARE_DICTIONARY_V1.typeLabels.length, 12, name + "类型字典");
+    assert.equal(
+      w.CARE_DICTIONARY_V1.methodLabels.length,
+      15,
+      name + "方式字典",
+    );
     assert.deepEqual(errors, [], name + "启动异常");
     const ids = [...d.querySelectorAll("[id]")].map((x) => x.id);
     assert.equal(ids.length, new Set(ids).size, name + "重复 ID");
@@ -171,6 +253,11 @@ async function test() {
     assert.equal(ledger.querySelectorAll("colgroup col").length, 11);
     assert.equal(w.getComputedStyle(ledger).tableLayout, "fixed");
     assert.equal(w.getComputedStyle(ledger.parentElement).overflow, "auto");
+    checkFixedColumn(w, ledger);
+    assert.equal(
+      ledger.querySelector("colgroup col:last-child").style.width,
+      "180px",
+    );
     [...list.querySelectorAll("tbody tr")].forEach((row, rowIndex) => {
       assert.equal(row.cells.length, 11);
       if (rowIndex < 10)
@@ -233,6 +320,23 @@ async function test() {
       (row) => row.querySelector("[data-warning-care-count]").textContent,
     );
     const recordSource = w.schoolCareV3Data || w.careRegV3Data;
+    recordSource
+      .filter((record) => !record.deletedAt && !record.superseded)
+      .forEach((record) => {
+        assert.ok(
+          w.CARE_DICTIONARY_V1.typeLabels.includes(record.type),
+          name + "当前示例类型必须有效：" + record.type,
+        );
+        assert.ok(
+          w.CARE_DICTIONARY_V1.methodLabels.includes(record.method),
+          name + "当前示例方式必须有效：" + record.method,
+        );
+        assert.ok(
+          (record.caseTypes || []).every((type) =>
+            w.CARE_DICTIONARY_V1.typeLabels.includes(type),
+          ),
+        );
+      });
     const currentWarningId =
       "warning-" +
       first.getAttribute("data-dom-id").replace("row-warning-", "");
@@ -290,40 +394,44 @@ async function test() {
           (r.warningIds || []).includes(firstWarningId)),
     );
     if (dateRecord) {
-      const oldNext = dateRecord.next;
-      dateRecord.next = "";
-      count.click();
+      assert.equal(dateRecord.next, undefined);
+      assert.ok(dateRecord.filledAt && dateRecord.filledByName);
+      const rows = [
+        ...d.querySelectorAll("#care-warning-web-detail .care-warning-web-row"),
+      ];
       assert.ok(
-        [
-          ...d.querySelectorAll(
-            "#care-warning-web-detail .care-warning-web-row",
-          ),
-        ].some(
-          (row) =>
-            row.firstElementChild.textContent === "下次跟进日期" &&
-            row.lastElementChild.textContent === "--",
+        !rows.some(
+          (row) => row.firstElementChild.textContent === "下次跟进日期",
         ),
-        "空日期显示 --：" + name,
       );
-      dateRecord.next = "2026-10-12";
-      count.click();
       assert.ok(
-        [
-          ...d.querySelectorAll(
-            "#care-warning-web-detail .care-warning-web-row",
-          ),
-        ].some(
-          (row) =>
-            row.firstElementChild.textContent === "下次跟进日期" &&
-            row.lastElementChild.textContent === "2026-10-12",
-        ),
-        "已填日期应回显：" + name,
+        rows.some((row) => row.firstElementChild.textContent === "填写人"),
       );
-      dateRecord.next = oldNext;
-      count.click();
+      assert.ok(
+        rows.some(
+          (row) =>
+            row.firstElementChild.textContent === "填写时间" &&
+            /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(
+              row.lastElementChild.textContent,
+            ),
+        ),
+      );
+      assert.ok(
+        !d
+          .getElementById("care-warning-web-detail")
+          .textContent.includes("个案状态"),
+      );
     }
     assert.ok(d.getElementById("care-warning-web-detail"));
     const detail = d.getElementById("care-warning-web-detail");
+    checkWebOrder(
+      w,
+      recordSource,
+      () => count.click(),
+      detail,
+      "[data-web-pane='care'] .care-warning-web-card:not([data-warning-case-info])",
+      dateRecord,
+    );
     assert.equal(detail.querySelector('[data-web-pane="care"]').hidden, false);
     assert.deepEqual(
       [
@@ -367,7 +475,7 @@ async function test() {
         "warning-" +
         noCare.getAttribute("data-dom-id").replace("row-warning-", ""),
       caseCreatedAt: "2026-10-10",
-      type: "学业困难",
+      type: "学业困难学生",
       careReason: "已建案零内容",
     };
     w.CARE_WARNING_CASES.push(emptyCase);
@@ -449,6 +557,20 @@ async function test() {
         "第一版关爱台账不得保留第二版追加前的旧计数缓存",
       );
       const care = d.getElementById("section-care-menu-v1");
+      assert.deepEqual(
+        [...care.querySelectorAll("thead th")]
+          .slice(3)
+          .map((x) => x.textContent),
+        Array.from(w.CARE_DICTIONARY_V1.typeLabels),
+        "四级汇总完整12项分类且顺序一致",
+      );
+      assert.deepEqual(
+        [...care.querySelector("#reg31-type").options]
+          .slice(1)
+          .map((x) => x.value),
+        Array.from(w.CARE_DICTIONARY_V1.typeLabels),
+        "监管筛选完整12项",
+      );
       assert.equal(
         care.classList.contains("hidden"),
         false,
@@ -468,7 +590,26 @@ async function test() {
         ["关爱来源", "关联信息", "关爱类型"],
         name + "第一版学校台账字段顺序",
       );
-      care.querySelector("[data-view]").click();
+      [...care.querySelectorAll("tbody tr")]
+        .find((row) => parseInt(row.cells[8].textContent) > 0)
+        .querySelector("[data-view]")
+        .click();
+      checkTimeline(
+        d.getElementById("city-care-modal-v1"),
+        ".care-reg-timeline",
+      );
+      const orderRecord = recordSource.find(
+        (r) => !r.superseded && !r.deletedAt && r.caseId && r.date,
+      );
+      checkWebOrder(
+        w,
+        recordSource,
+        () => w.cityCareView(recordSource.indexOf(orderRecord)),
+        d.getElementById("city-care-modal-v1"),
+        ".care-reg-timeline",
+        orderRecord,
+      );
+      assert.ok(!care.textContent.includes("个案状态"));
       assert.deepEqual(
         [...d.querySelectorAll("#city-care-modal-v1 .crv3-row .label")]
           .slice(5, 8)
@@ -478,6 +619,7 @@ async function test() {
       );
       w.cityCareClose();
       checkEnumColumns(w, care, recordSource, w.careRegV3Render);
+      checkFixedColumn(w, care.querySelector("table.care-record-table"));
     } else {
       const visit = d.getElementById("section-visit-ledger");
       const visitReset = visit.querySelector('[data-dom-id="btn-visit-reset"]');
@@ -520,7 +662,6 @@ async function test() {
         "关爱次数",
         "最近关爱日期",
         "关爱结果",
-        "个案状态",
         "操作",
       ];
       assert.deepEqual(
@@ -529,6 +670,27 @@ async function test() {
         "学校第一版字段不得被菜单重开重置",
       );
       care.querySelector("[data-school-view]").click();
+      checkTimeline(
+        d.getElementById("school-care-modal-v1"),
+        ".school-care-timeline",
+      );
+      assert.ok(
+        [...d.querySelectorAll(".school-care-timeline")].every(
+          (card) => card.firstElementChild.children.length === 1,
+        ),
+        "学校关爱卡不重复展示右侧日期",
+      );
+      const orderRecord = recordSource.find(
+        (r) => !r.superseded && !r.deletedAt && r.caseId && r.date,
+      );
+      checkWebOrder(
+        w,
+        recordSource,
+        () => w.schoolCareView(recordSource.indexOf(orderRecord)),
+        d.getElementById("school-care-modal-v1"),
+        ".school-care-timeline",
+        orderRecord,
+      );
       assert.ok(
         d
           .querySelector("#school-care-modal-v1 .scm-modal-body")
@@ -542,36 +704,19 @@ async function test() {
       );
       w.schoolCareClose();
       checkEnumColumns(w, care, recordSource, w.schoolV3Render);
+      checkFixedColumn(w, care.querySelector("table.care-record-table"));
       w.schoolMenuGo("warning-list");
       w.schoolMenuGo("care");
       assert.deepEqual(
         [...care.querySelectorAll("th")].map((x) => x.textContent),
         expected,
       );
-      w.CARE_CURRENT_PERMISSIONS = { delete: false };
-      care.querySelector("[data-school-delete]").click();
       assert.equal(
-        d.getElementById("school-care-case-delete-mask"),
+        care.querySelector("[data-school-delete]"),
         null,
-        "无权限不允许删除",
+        "学校不提供删除个案",
       );
-      w.CARE_CURRENT_PERMISSIONS = { delete: true };
-      care.querySelector("[data-school-delete]").click();
-      d.querySelector(
-        '#school-care-case-delete-mask [data-action="cancel"]',
-      ).click();
-      assert.ok(care.querySelector("[data-school-view]"), "取消保留个案");
-      const countBefore = w.schoolCareV3Data.length;
-      care.querySelector("[data-school-delete]").click();
-      d.querySelector(
-        '#school-care-case-delete-mask [data-action="confirm"]',
-      ).click();
-      assert.ok(w.schoolCareV3Data.length < countBefore, "确认删除整案");
-      assert.equal(
-        first.querySelector("[data-warning-care-count]").textContent,
-        "--",
-        "预警计数随个案删除刷新",
-      );
+      assert.equal(w.schoolCareDeleteCase, undefined, "不保留隐藏写入接口");
     }
     assert.deepEqual(errors, [], name + "交互异常");
     for (const hash of ["#care-v1", "#care-v2"]) {

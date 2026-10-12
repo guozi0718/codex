@@ -1,4 +1,26 @@
-/* 第二版预警页沿用第一版关爱菜单的视觉语言；仅作用于预警页。 */
+/* 两版 Web 关爱台账：原预警样式、统一内部滚动及固定操作列。 */
+#section-care-menu-v1 table.care-summary-table {
+  width: 2520px;
+  min-width: 2520px;
+  table-layout: fixed;
+}
+#section-care-menu-v1 table.care-summary-table th {
+  width: 180px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+}
+#section-care-menu-v1 table.care-summary-table th:first-child {
+  width: 160px;
+}
+#section-care-menu-v1 table.care-summary-table th:nth-child(2),
+#section-care-menu-v1 table.care-summary-table th:nth-child(3) {
+  width: 100px;
+}
+#section-care-menu-v1 #reg31-type {
+  width: 190px;
+  text-overflow: ellipsis;
+}
 #section-warning-list,
 #section-warning-district,
 #section-warning-school {
@@ -130,9 +152,12 @@
 #section-warning-list .care-warning-ledger-scroll {
   max-height: min(560px, 52vh);
   overflow: auto;
+  max-width: 100%;
+  overscroll-behavior-x: contain;
+  isolation: isolate;
 }
 #section-warning-list table.care-warning-ledger {
-  min-width: 1350px;
+  min-width: 1400px;
   table-layout: fixed;
   font-size: 12px;
 }
@@ -276,4 +301,127 @@
   color: #1677ff;
   border-bottom-color: #1677ff;
   font-weight: 600;
+}
+/* 同一张表实现固定列，不复制表格或按行同步高度。 */
+#section-care-menu-v1 .scm-v3-panel,
+#section-care-menu-v1 .crv3-panel {
+  min-width: 0;
+}
+#section-care-menu-v1 .scm-v3-table-wrap,
+#section-care-menu-v1 .crv3-table-wrap {
+  max-width: 100%;
+  max-height: min(560px, 65vh);
+  overflow: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior-x: contain;
+  isolation: isolate;
+}
+#section-care-menu-v1 .scm-v3-table-wrap::-webkit-scrollbar,
+#section-care-menu-v1 .crv3-table-wrap::-webkit-scrollbar {
+  display: none;
+}
+#section-care-menu-v1 table.care-record-table {
+  width: 100%;
+  min-width: 1585px;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 12px;
+}
+#section-care-menu-v1 table.care-record-table th,
+#section-care-menu-v1 table.care-record-table td {
+  box-sizing: border-box;
+  height: 44px;
+  padding: 10px;
+  vertical-align: middle;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 1px solid #dce2eb;
+  border-bottom: 1px solid #dce2eb;
+}
+#section-care-menu-v1 table.care-record-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #f2f5fa;
+  color: #77849a;
+  font-weight: 500;
+}
+#section-care-menu-v1 table.care-record-table th:nth-child(1) {
+  width: 90px;
+}
+#section-care-menu-v1 table.care-record-table th:nth-child(2) {
+  width: 145px;
+}
+#section-care-menu-v1 table.care-record-table th:nth-child(3) {
+  width: 70px;
+}
+#section-care-menu-v1 table.care-record-table th:nth-child(4) {
+  width: 110px;
+}
+#section-care-menu-v1 table.care-record-table th:nth-child(5) {
+  width: 150px;
+}
+#section-care-menu-v1 table.care-record-table th:nth-child(6) {
+  width: 110px;
+}
+#section-care-menu-v1 table.care-record-table th:nth-child(7) {
+  width: 150px;
+}
+#section-care-menu-v1 table.care-record-table th:nth-child(8) {
+  width: 210px;
+  text-align: left;
+}
+#section-care-menu-v1 table.care-record-table th:nth-child(9) {
+  width: 90px;
+}
+#section-care-menu-v1 table.care-record-table th:nth-child(10) {
+  width: 120px;
+}
+#section-care-menu-v1 table.care-record-table th:nth-child(11) {
+  width: 230px;
+  text-align: left;
+}
+#section-care-menu-v1 table.care-record-table th:nth-child(12) {
+  width: 110px;
+}
+#section-care-menu-v1 table.care-record-table td:nth-child(8),
+#section-care-menu-v1 table.care-record-table td:nth-child(11) {
+  text-align: left;
+}
+#section-care-menu-v1 table.care-record-table td > span[title] {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#section-warning-list table.care-warning-ledger {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+#section-care-menu-v1 table.care-record-table tr > :last-child:not([colspan]),
+#section-warning-list
+  table.care-warning-ledger
+  tr
+  > :last-child:not([colspan]) {
+  position: sticky;
+  right: 0;
+  z-index: 2;
+  background: #fff;
+  box-shadow:
+    -1px 0 0 #dce2eb,
+    -5px 0 8px rgba(54, 76, 110, 0.08);
+  text-align: center;
+  border-right: 0;
+}
+#section-care-menu-v1 table.care-record-table thead tr > :last-child,
+#section-warning-list table.care-warning-ledger thead tr > :last-child {
+  top: 0;
+  z-index: 3;
+  background: #f2f5fa;
+}
+#section-care-menu-v1 table.care-record-table tbody tr:hover > :last-child,
+#section-warning-list table.care-warning-ledger tbody tr:hover > :last-child {
+  background: #f7faff;
 }

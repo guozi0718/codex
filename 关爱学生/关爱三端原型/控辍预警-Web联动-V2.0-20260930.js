@@ -532,9 +532,8 @@
             (r.warningId === w.id || (r.warningIds || []).includes(w.id))
           );
         })
-        .sort(function (a, b) {
-          return String(a.date).localeCompare(String(b.date));
-        });
+        .map(window.CARE_RECORD_V3.normalize)
+        .sort(window.CARE_RECORD_V3.compare);
     }
     function seed() {
       rows.forEach(function (row, index) {
@@ -561,11 +560,10 @@
               source: "预警信息",
               date: "2026-09-18",
               people: "王老师、李老师",
-              type: "家庭关怀",
-              method: "家访",
+              type: "家庭突发变故学生",
+              method: "常态化家访与家校沟通",
               result: "已与家长沟通返校安排，约定持续关注学生返校情况。",
-              status: "need",
-              next: "2026-09-25",
+              follow: "需要",
               proofs: [],
             };
             records.push(first);
@@ -605,10 +603,9 @@
               date: "2026-09-23",
               people: "王老师、李老师",
               type: first.type,
-              method: "谈心谈话",
+              method: "学业帮扶与个性化辅导",
               result: "已再次了解学生返校后的适应情况，并约定继续跟进。",
-              status: "need",
-              next: "2026-09-30",
+              follow: "需要",
               proofs: [],
             });
         } else if (index === 2 && !linked(w).length) {
@@ -626,11 +623,10 @@
             warning: { type: w.type, reason: w.reason, time: w.time },
             date: "2026-09-19",
             people: "班主任",
-            type: "学业困难",
-            method: "谈心谈话",
+            type: "学业困难学生",
+            method: "学业帮扶与个性化辅导",
             result: "已了解缺勤原因并建立持续联系。",
-            status: "done",
-            next: "",
+            follow: "不需要",
             proofs: [],
           });
         }
@@ -649,8 +645,13 @@
       head.insertBefore(th, head.lastElementChild);
       table.classList.add("care-warning-ledger");
       table.parentElement.classList.add("care-warning-ledger-scroll");
+      table.parentElement.tabIndex = 0;
+      table.parentElement.setAttribute(
+        "aria-label",
+        "预警列表，可左右滑动查看字段",
+      );
       var columns = document.createElement("colgroup");
-      [90, 140, 60, 90, 180, 150, 90, 190, 130, 90, 140].forEach(
+      [90, 140, 60, 90, 180, 150, 90, 190, 130, 90, 180].forEach(
         function (width) {
           var col = document.createElement("col");
           col.style.width = width + "px";
@@ -771,15 +772,11 @@
     }
     function careCards(w) {
       var chain = linked(w),
-        c = warningCase(w),
-        last = chain[chain.length - 1],
-        state = !last ? "待关爱" : last.status === "need" ? "关爱中" : "已完结";
+        c = warningCase(w);
       return (
         '<div class="care-warning-web-heading"><b>关爱情况（共' +
         chain.length +
-        "次）</b><span>个案状态：" +
-        state +
-        "</span></div>" +
+        "次）</b></div>" +
         (c
           ? '<div class="care-warning-web-card" data-warning-case-info>' +
             field("创建日期", c.caseCreatedAt || c.createdAt || c.date) +
@@ -808,8 +805,12 @@
                       ? (r.proofs || []).length + "张"
                       : "--",
                   ) +
-                  field("继续跟进", r.status === "need" ? "需要" : "暂不需要") +
-                  field("下次跟进日期", r.next || "--") +
+                  field("继续跟进", r.follow) +
+                  field("填写人", r.filledByName) +
+                  field(
+                    "填写时间",
+                    window.CARE_RECORD_V3.displayTime(r.filledAt),
+                  ) +
                   "</div>"
                 );
               })

@@ -1,15 +1,7 @@
 /* 关爱个案 V3：个案与每次关爱分离。仅增强关爱模块，不改变其他菜单。 */
 (function () {
   "use strict";
-  var TYPE_OPTIONS = [
-    "家庭变故",
-    "学业困难",
-    "同伴关系",
-    "行为问题",
-    "经济困难",
-    "特殊家庭",
-    "其他",
-  ];
+  var TYPE_OPTIONS = window.CARE_DICTIONARY_V1.typeLabels;
   var SOURCE_OPTIONS = [
     "辍学预警",
     "心理测评",
@@ -21,18 +13,7 @@
     "欺凌事件",
     "其他",
   ];
-  var METHOD_OPTIONS = [
-    "谈心谈话",
-    "家校沟通",
-    "家访",
-    "学习辅导",
-    "生活关怀",
-    "同伴关系协调",
-    "行为教育",
-    "资助帮扶",
-    "返校关怀",
-    "其他",
-  ];
+  var METHOD_OPTIONS = window.CARE_DICTIONARY_V1.methodLabels;
   var DEMO_WARNING_EVIDENCE = [
     "连续缺勤2个工作日（09-28~09-29）",
     "10个工作日内缺勤4个工作日（09-14、09-17、09-22、09-25）",
@@ -101,14 +82,76 @@
     return window.CARE_CURRENT_ROLE || "班主任";
   }
   function stamp() {
-    return new Date().toISOString();
+    return new Date().toISOString().replace(/\.\d{3}Z$/, "Z");
   }
-  function statusOf(c) {
-    if (!c.records.length) return "待关爱";
-    return c.records[c.records.length - 1].follow === "需要"
-      ? "关爱中"
-      : "已完结";
+  function personName() {
+    return window.CARE_CURRENT_USER_NAME || "王老师";
   }
+  function normalizeRecord(r, index) {
+    r.filledById = r.filledById || r.createdById || "teacher-wang-demo";
+    r.filledByName = r.filledByName || "王老师";
+    r.filledByRole = r.filledByRole || "班主任";
+    r.revision = r.revision || 1;
+    r.filledAt =
+      r.filledAt ||
+      (r.date || "2026-09-01") +
+        "T" +
+        String(9 + ((index || 0) % 8)).padStart(2, "0") +
+        ":31:00+08:00";
+    r.originalFilledAt = r.originalFilledAt || r.filledAt;
+    r.follow = r.follow || (r.status === "need" ? "需要" : "不需要");
+    delete r.next;
+    delete r.status;
+    return r;
+  }
+  function compareRecords(a, b) {
+    return (
+      String(a.date || "").localeCompare(String(b.date || "")) ||
+      Date.parse(a.filledAt) - Date.parse(b.filledAt) ||
+      String(a.id || "").localeCompare(String(b.id || ""))
+    );
+  }
+  function sortedRecords(records) {
+    return records.map(normalizeRecord).slice().sort(compareRecords);
+  }
+  function displayTime(value) {
+    if (!value || !Number.isFinite(Date.parse(value))) return "--";
+    var parts = new Intl.DateTimeFormat("sv-SE", {
+      timeZone: "Asia/Shanghai",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hourCycle: "h23",
+    }).format(new Date(value));
+    return parts;
+  }
+  var auditLog =
+    window.CARE_OPERATION_ARCHIVE || (window.CARE_OPERATION_ARCHIVE = []);
+  function archive(operation, c, before, after) {
+    auditLog.push(
+      JSON.parse(
+        JSON.stringify({
+          operation: operation,
+          caseId: c.id,
+          warningIds: c.warningIds || [],
+          operatorId: person(),
+          operatorName: personName(),
+          operatorRole: role(),
+          operatedAt: stamp(),
+          before: before,
+          after: after,
+        }),
+      ),
+    );
+  }
+  window.CARE_RECORD_V3 = {
+    normalize: normalizeRecord,
+    sorted: sortedRecords,
+    compare: compareRecords,
+    displayTime: displayTime,
+  };
   function toast(s) {
     if (typeof window.toast === "function") window.toast(s);
     else alert(s);
@@ -237,17 +280,14 @@
   style.textContent = `
   *{scrollbar-width:none;-ms-overflow-style:none}*::-webkit-scrollbar{width:0!important;height:0!important;display:none!important}
   .care-evidence-button{border:0;background:none;padding:0;color:#078d42;cursor:pointer;font:inherit}.care-evidence-mask{position:fixed;inset:0;z-index:2147483100;background:rgba(15,27,45,.42);display:flex;align-items:center;justify-content:center}.care-evidence-dialog{width:min(640px,calc(100vw - 32px));max-height:70vh;display:flex;flex-direction:column;box-sizing:border-box;background:#fff;border-radius:8px;box-shadow:0 10px 35px #0003;padding:18px;color:#203451}.care-evidence-title{border-bottom:1px solid #e5ebf3;padding-bottom:12px;font-size:15px}.care-evidence-list{overflow-y:auto;max-height:270px;min-height:0;padding:8px 0 0;font-size:13px;line-height:1.6}.care-evidence-list section{padding:2px 0 8px}.care-evidence-list h4{font-size:13px;margin:8px 0;color:#365a8c}.care-evidence-list ol{margin:0;padding-left:24px}.care-evidence-list li{display:list-item;padding:8px 0;border-bottom:1px solid #eef1f6;white-space:normal;overflow-wrap:anywhere;word-break:break-word;text-overflow:clip;line-height:1.65}.care-evidence-close{align-self:flex-end;min-width:60px;height:32px;margin-top:12px;padding:0 12px;border:1px solid #d5dfed;border-radius:5px;background:#fff;color:#506480;cursor:pointer;font-size:12px}.care-evidence-mobile{position:absolute;align-items:flex-end}.care-evidence-mobile .care-evidence-dialog{width:100%;max-height:65%;border-radius:14px 14px 0 0;padding:16px}.care-evidence-mobile .care-evidence-list{max-height:230px}.care-evidence-mobile .care-evidence-close{align-self:stretch;width:100%;height:36px;background:#3079ed;border-color:#3079ed;color:#fff}.care-evidence-mobile .care-evidence-button{color:#3079ed}#section-care-menu-v1 table th.care-enum-cell,#section-care-menu-v1 table td.care-enum-cell{text-align:center!important;white-space:nowrap!important}.care-enum-value{display:inline-block;white-space:nowrap}
+  .care-demo-switch{position:fixed;top:8px;left:12px;z-index:100;font:12px/24px system-ui,sans-serif;color:#526581;background:#fff;padding:3px 8px;border:1px solid #dce5f1;border-radius:6px}.care-demo-switch select{font:inherit;color:#243f64;border:0;background:#fff;max-width:190px}@media(max-width:700px){.care-demo-switch{left:50%;transform:translateX(-50%);top:4px;white-space:nowrap}}
   #sc-care-menu .cv3-list-shell{display:flex;flex-direction:column;height:100%;min-height:0;background:var(--bg)}
-  #sc-care-menu .cv3-tabs{display:flex;background:#fff;border-bottom:1px solid #e7edf6}
-  #sc-care-menu .cv3-tabs button{flex:1;border:0;background:#fff;padding:12px 2px;color:#8292aa;font-size:12px}
-  #sc-care-menu .cv3-tabs button.on{border-bottom:2px solid #2d75e8;color:#2d75e8;font-weight:600}
   #sc-care-menu .cv3-scroll{flex:1;min-height:0;overflow:auto;padding:12px 16px 18px}
   #sc-care-menu .cv3-search{width:100%;box-sizing:border-box;height:39px;border:1px solid #dce5f1;border-radius:20px;padding:0 15px;background:#fff}
   #sc-care-menu .cv3-count{font-size:11px;color:#8a99af;margin:12px 1px}
   #sc-care-menu .cv3-case{background:#fff;border-radius:14px;padding:14px;margin-bottom:11px;box-shadow:0 3px 12px rgba(34,67,120,.06)}
   .cv3-student{display:flex;align-items:center;gap:10px;margin-bottom:10px}.cv3-avatar{display:grid;place-items:center;border-radius:50%;width:43px;height:43px;background:#e7f0fd;color:#2358a6;font-weight:700}
   .cv3-student b{font-size:15px;color:#152d51}.cv3-sub{font-size:11px;color:#8a9ab1;margin-top:3px}
-  .cv3-status{font-size:10px;padding:3px 7px;border-radius:10px;background:#fff1d8;color:#a86500}.cv3-status.closed{background:#e5f7ef;color:#078263}.cv3-status.pending{background:#eaf3ff;color:#2470ce}
   .cv3-kv{display:flex;align-items:flex-start;gap:10px;min-height:32px;box-sizing:border-box;padding:6px 0;margin:0;font-size:12px;line-height:20px}.cv3-kv .k{color:#8a9ab1;flex:0 0 66px;font-size:11px}.cv3-kv .v{color:#1e3556;min-width:0;overflow-wrap:anywhere;white-space:pre-wrap}
   .cv3-result-summary{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
   .cv3-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}.cv3-actions button,.cv3-edit-controls button{height:32px;box-sizing:border-box;border:1px solid #d5dfed;background:#fff;border-radius:7px;padding:0 12px;color:#506480;font-size:12px;font-weight:400;line-height:30px}.cv3-actions .danger{border-color:#d5dfed;color:#506480}
@@ -276,7 +316,7 @@
   .cv3-select-trigger::after,.cv3-date-trigger::after{content:'';width:7px;height:7px;flex:0 0 7px;display:inline-block;border-right:1.5px solid #506480;border-bottom:1.5px solid #506480;transform:translateY(-2px) rotate(45deg);align-self:center;margin-left:3px}
   .phone select{appearance:none!important;-webkit-appearance:none!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='m3 5 4 4 4-4' fill='none' stroke='%23506480' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 7px center!important;padding-right:22px!important}
   .cv3-select-trigger:disabled,.cv3-date-trigger:disabled{color:#9aa8bb}
-  .cv3-picker-options.five-rows{max-height:234px;overflow-y:auto}
+  .cv3-picker-options.five-rows{max-height:234px;overflow-y:auto}.cv3-picker-options label{line-height:1.6;overflow-wrap:anywhere}.cv3-picker-options input{flex:0 0 auto}.cv3-select-value{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .cv3-calendar-nav{display:flex;justify-content:space-between;align-items:center;margin:14px 0}.cv3-calendar-nav button{border:1px solid #d5dfed;background:#fff;border-radius:7px;width:32px;height:30px;color:#506480}.cv3-calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.cv3-calendar-grid span,.cv3-calendar-grid button{height:34px;display:grid;place-items:center;font-size:12px}.cv3-calendar-grid button{border:0;border-radius:7px;background:#fff;color:#1e3556}.cv3-calendar-grid button:disabled{color:#c7d0dd}.cv3-calendar-grid button.on{background:#3079ed;color:#fff}
   .cv3-screen .sub-hd{position:relative}.cv3-help-dot{position:absolute;right:110px;top:14px;width:13px;height:13px;border:0;border-radius:50%;background:#e54d56;box-shadow:0 0 0 3px #fff;padding:0}.cv3-help-pop{position:absolute;right:12px;top:48px;z-index:12;width:220px;padding:10px 12px;border:1px solid #dce5f1;border-radius:8px;background:#fff;box-shadow:0 5px 20px rgba(30,53,86,.16);font-size:11px;line-height:1.5;color:#607798}
   .cv3-dialog{position:absolute;inset:0;z-index:2147482000;background:rgba(18,31,53,.5);display:grid;place-items:center}.cv3-dialog-box{width:min(320px,calc(100% - 44px));background:#fff;border-radius:13px;padding:18px;box-sizing:border-box}.cv3-dialog-box h3{margin:0 0 11px;font-size:15px}.cv3-dialog-box p{font-size:12px;line-height:1.5}.cv3-dialog-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}.cv3-dialog-actions button{height:32px;border:1px solid #d5dfed;background:#fff;border-radius:7px;padding:0 12px;color:#506480;font-size:12px}.cv3-dialog-actions .confirm{border-color:#3079ed;background:#3079ed;color:#fff}
@@ -295,7 +335,7 @@
     var teacherCases = [];
     var groups = {};
     oldRows.forEach(function (r) {
-      if (r.deletedAt) return;
+      if (r.deletedAt || r.superseded) return;
       var key = r.caseId || r.id || r.name;
       if (!groups[key]) groups[key] = [];
       groups[key].push(r);
@@ -305,14 +345,8 @@
           return String(a.date).localeCompare(String(b.date));
         }),
         first = rows[0],
-        last = rows[rows.length - 1],
         gradeClass = String(first.cls || "").split("·");
-      var type =
-        first.name === "张小明"
-          ? "学业困难"
-          : first.name === "李小红"
-            ? "同伴关系"
-            : "学业困难";
+      var type = first.type;
       var source =
         first.source === "心理测评"
           ? "心理测评"
@@ -329,7 +363,6 @@
         createdAt: first.caseCreatedAt || first.date,
         createdById: first.createdById || person(),
         types: [type],
-        typeOther: "",
         sources: [source],
         evidence: {
           辍学预警:
@@ -351,14 +384,13 @@
             id: r.id || key + "-" + i,
             date: r.date,
             people: r.people || "王老师",
-            method: r.method === "面谈" ? "谈心谈话" : r.method || "--",
+            method: r.method || "--",
             result: r.result || "",
             proofs: (r.proofs || []).slice(0, 9),
             follow: r.follow === "需要" ? "需要" : "不需要",
-            next: r.next || "",
             filledById: r.filledById || r.createdById || person(),
-            filledAt: r.filledAt || r.createdAt || r.date,
-            versions: [],
+            filledByName: r.filledByName || "王老师",
+            filledAt: r.filledAt,
           };
         }),
       });
@@ -374,8 +406,7 @@
           school: "市实验一小",
           createdAt: "2026-09-18",
           createdById: person(),
-          types: ["学业困难"],
-          typeOther: "",
+          types: ["学业困难学生"],
           sources: ["辍学预警"],
           evidence: { 辍学预警: DEMO_WARNING_EVIDENCE.slice() },
           reason: "该生近期连续缺勤，需要了解原因并持续开展关爱。",
@@ -384,6 +415,7 @@
         },
       ];
     teacherCases.forEach(function (c) {
+      c.records = sortedRecords(c.records);
       if (
         c.name === "张小明" &&
         c.sources.includes("辍学预警") &&
@@ -462,10 +494,10 @@
         return !x.status || x.status === "在读" || x.status === "active";
       },
     );
-    var selectedTab = "全部",
-      currentCase = null,
+    var currentCase = null,
       formMode = "new",
       editingRecord = null,
+      editingRevision = null,
       recordCase = null,
       recordBackTarget = "sc-case-v3-detail",
       caseReturn = "sc-care-menu",
@@ -500,8 +532,10 @@
     pickerStyle.textContent =
       ".cv3-picker-actions{display:flex;gap:12px;flex-shrink:0;margin-top:12px}.cv3-picker-actions button{flex:1;width:0;height:36px;border-radius:7px;font-size:12px}.cv3-picker-cancel{border:1px solid #dce5f1;background:#fff;color:#536b90}.cv3-picker-hint{font-size:12px;line-height:1.6;color:#8292aa;margin:10px 0 0}";
     document.head.appendChild(pickerStyle);
+    pickerStyle.textContent +=
+      ".cv3-record-actions{display:flex;flex-direction:column;gap:8px}.cv3-record-actions button{height:42px;border:0;border-radius:7px;background:#f5f8fc;font:inherit;font-size:14px;color:#203451}.cv3-record-actions [data-action=delete]{color:#d24f4f}.cv3-kv .v{white-space:normal;overflow-wrap:anywhere}#sc-detail .cv3-card{background:#fff;border-radius:14px;padding:14px;margin-bottom:10px}";
     menuBody.innerHTML =
-      '<div class="cv3-list-shell"><div class="cv3-tabs"></div><div class="cv3-scroll"><input class="cv3-search" id="cv3-search" placeholder="搜索学生姓名"><div class="cv3-count" id="cv3-count"></div><div id="cv3-list"></div></div><div class="cv3-bottom"><button type="button" id="cv3-new">新增关爱个案</button></div></div>';
+      '<div class="cv3-list-shell"><div class="cv3-scroll"><input class="cv3-search" id="cv3-search" placeholder="搜索学生姓名"><div class="cv3-count" id="cv3-count"></div><div id="cv3-list"></div></div><div class="cv3-bottom"><button type="button" id="cv3-new">新增关爱个案</button></div></div>';
     menu.querySelector(".sub-hd b").textContent = "关爱个案";
     var legacyAdd = document.querySelector("#care-mobile-upload > button");
     if (legacyAdd) legacyAdd.textContent = "新增关爱个案";
@@ -582,28 +616,11 @@
         return c.id === id;
       });
     }
-    function recordState(c) {
-      return statusOf(c);
-    }
     function sourceText(c) {
       return c.sources.join("、") || "--";
     }
     function typeText(c) {
       return c.types.join("、") || "--";
-    }
-    function evidenceText(c) {
-      return (
-        Object.keys(c.evidence || {})
-          .map(function (k) {
-            return (c.evidence[k] || []).map(function (v) {
-              return k + "：" + v;
-            });
-          })
-          .reduce(function (a, b) {
-            return a.concat(b);
-          }, [])
-          .join("；") || "--"
-      );
     }
     function inYear(date) {
       return (
@@ -612,15 +629,20 @@
       );
     }
     function canTake(c) {
-      var students = window.CARE_CURRENT_HOMEROOM_STUDENT_IDS,
-        classes = window.CARE_HOMEROOM_CLASS_KEYS;
+      if (
+        window.CARE_CURRENT_PERMISSIONS &&
+        window.CARE_CURRENT_PERMISSIONS.care === false
+      )
+        return false;
+      var students = window.CARE_AUTHORIZED_STUDENT_IDS,
+        classes = window.CARE_AUTHORIZED_CLASS_KEYS;
       if (Array.isArray(students)) return students.includes(c.studentId);
       if (Array.isArray(classes))
         return classes.includes(c.grade + "|" + c.klass);
       return true;
     }
     function latest(c) {
-      return c.records[c.records.length - 1];
+      return sortedRecords(c.records).at(-1);
     }
     function row(k, v, extra) {
       return (
@@ -633,44 +655,18 @@
         "</span></div>"
       );
     }
-    function badge(s) {
-      return (
-        '<span class="cv3-status ' +
-        (s === "已完结" ? "closed" : s === "待关爱" ? "pending" : "") +
-        '">' +
-        s +
-        "</span>"
-      );
-    }
     function renderList() {
-      var search = (el("cv3-search") || {}).value || "",
-        tabs = ["全部", "待关爱", "关爱中", "已完结"];
-      menu.querySelector(".cv3-tabs").innerHTML = tabs
-        .map(function (t) {
-          return (
-            '<button type="button" data-tab="' +
-            t +
-            '" class="' +
-            (selectedTab === t ? "on" : "") +
-            '">' +
-            t +
-            "</button>"
-          );
-        })
-        .join("");
-      menu.querySelectorAll(".cv3-tabs button").forEach(function (b) {
-        b.onclick = function () {
-          selectedTab = b.dataset.tab;
-          renderList();
-        };
-      });
+      el("cv3-new").disabled = !!(
+        window.CARE_CURRENT_PERMISSIONS &&
+        window.CARE_CURRENT_PERMISSIONS.care === false
+      );
+      var search = (el("cv3-search") || {}).value || "";
       var list = teacherCases
         .filter(function (c) {
           return (
             c.createdAt >= SCHOOL_YEAR.start &&
             c.createdAt <= SCHOOL_YEAR.end &&
-            (!search || c.name.includes(search)) &&
-            (selectedTab === "全部" || recordState(c) === selectedTab)
+            (!search || c.name.includes(search))
           );
         })
         .sort(function (a, b) {
@@ -680,8 +676,7 @@
       el("cv3-list").innerHTML =
         list
           .map(function (c) {
-            var last = latest(c),
-              state = recordState(c);
+            var last = latest(c);
             return (
               '<div class="cv3-case" data-id="' +
               esc(c.id) +
@@ -690,7 +685,6 @@
               '</span><span style="flex:1"><b>' +
               esc(c.name) +
               "</b> " +
-              badge(state) +
               '<div class="cv3-sub">' +
               esc(c.grade + " · " + c.klass) +
               "</div></span></div>" +
@@ -708,7 +702,13 @@
                       "</span>",
                   )
                 : "") +
-              '<div class="cv3-actions"><button type="button" class="danger" data-act="delete">删除个案</button></div></div>'
+              '<div class="cv3-actions"><button type="button" class="danger" data-act="delete" ' +
+              (!canTake(c) ||
+              (window.CARE_CURRENT_PERMISSIONS &&
+                window.CARE_CURRENT_PERMISSIONS.delete === false)
+                ? "disabled"
+                : "") +
+              ">删除个案</button></div></div>"
             );
           })
           .join("") ||
@@ -721,23 +721,35 @@
               act = e.target.dataset.act;
             if (!c) return;
             if (act === "delete") {
+              if (c.records.length) {
+                toast("请先删除全部关爱内容，再删除个案");
+                return;
+              }
               if (
-                c.createdAt < SCHOOL_YEAR.start ||
-                c.createdAt > SCHOOL_YEAR.end ||
-                !(
-                  c.createdById === person() ||
-                  c.records.some(function (r) {
-                    return r.filledById === person();
-                  })
-                )
+                !canTake(c) ||
+                (window.CARE_CURRENT_PERMISSIONS &&
+                  window.CARE_CURRENT_PERMISSIONS.delete === false)
               ) {
                 toast("暂无权限");
                 return;
               }
+              var caseRevision = c.revision || 0;
               confirmBox(
                 "删除个案",
-                "确认删除该学生的个案吗？删除后不可恢复！",
+                "确认删除该关爱个案？删除后不可恢复！",
                 function () {
+                  if (
+                    !teacherCases.includes(c) ||
+                    (c.revision || 0) !== caseRevision ||
+                    c.records.length ||
+                    !canTake(c) ||
+                    (window.CARE_CURRENT_PERMISSIONS &&
+                      window.CARE_CURRENT_PERMISSIONS.delete === false)
+                  ) {
+                    toast("个案已变化或暂无权限，请重新检查");
+                    return;
+                  }
+                  archive("delete-case", c, c, null);
                   teacherCases.splice(teacherCases.indexOf(c), 1);
                   renderList();
                   toast("已删除关爱个案");
@@ -1030,10 +1042,15 @@
     function refreshSelect(select) {
       var button = select && select.nextElementSibling;
       if (button && button.classList.contains("cv3-select-trigger")) {
-        button.textContent =
+        var value =
           select.value ||
           (select.options[0] && select.options[0].textContent) ||
           "请选择";
+        var span = document.createElement("span");
+        span.className = "cv3-select-value";
+        span.textContent = value;
+        button.replaceChildren(span);
+        button.title = value;
         button.disabled = select.disabled;
       }
     }
@@ -1175,7 +1192,7 @@
         .filter(Boolean)
         .join("、");
     }
-    function bindDateSheet(input, kind) {
+    function bindDateSheet(input) {
       if (
         !input ||
         (input.nextElementSibling &&
@@ -1188,8 +1205,7 @@
       button.className = "cv3-date-trigger";
       input.after(button);
       function refresh() {
-        button.textContent =
-          input.value || (kind === "care" ? "请选择日期" : "请选择日期");
+        button.textContent = input.value || "请选择日期";
         button.disabled = input.disabled;
       }
       refresh();
@@ -1205,7 +1221,7 @@
         sheet.className = "cv3-picker-overlay";
         sheet.innerHTML =
           '<div class="cv3-picker-sheet"><div class="cv3-picker-title"><b>选择' +
-          (kind === "care" ? "关爱时间" : "下次跟进日期") +
+          "关爱时间" +
           '</b><button type="button" data-picker-cancel>取消</button></div><div class="cv3-calendar-nav"><button type="button" data-prev>‹</button><b data-month></b><button type="button" data-next>›</button></div><div class="cv3-calendar-grid" data-calendar></div></div>';
         var pendingDate = input.value;
         var confirmDate = document.createElement("button");
@@ -1237,8 +1253,7 @@
                 String(month).padStart(2, "0"),
                 String(day).padStart(2, "0"),
               ].join("-"),
-              blocked =
-                kind === "care" ? value > localToday() : value < localToday();
+              blocked = value > localToday();
             html +=
               '<button type="button" data-day="' +
               value +
@@ -1400,6 +1415,14 @@
         };
     }
     function openCaseForm(mode, c) {
+      if (
+        (window.CARE_CURRENT_PERMISSIONS &&
+          window.CARE_CURRENT_PERMISSIONS.care === false) ||
+        (mode === "edit" && (!c || !canTake(c) || c.createdById !== person()))
+      ) {
+        toast("暂无权限");
+        return;
+      }
       closePicker();
       closeCaseHelp();
       formMode = mode;
@@ -1417,7 +1440,6 @@
     function snapshot(c) {
       return {
         types: c.types.slice(),
-        typeOther: c.typeOther,
         sources: c.sources.slice(),
         evidence: JSON.parse(JSON.stringify(c.evidence)),
         reason: c.reason,
@@ -1440,8 +1462,7 @@
         people = root.querySelector("[data-care-people]"),
         method = root.querySelector("[data-care-method]"),
         result = root.querySelector("[data-care-result]"),
-        follow = root.querySelector("[data-care-follow]"),
-        next = root.querySelector("[data-care-next]");
+        follow = root.querySelector("[data-care-follow]");
       if (!date.value || !/^\d{4}-\d{2}-\d{2}$/.test(date.value)) {
         toast("请选择关爱时间（YYYY-MM-DD）");
         return null;
@@ -1454,7 +1475,7 @@
         toast("请选择执行人员");
         return null;
       }
-      if (!method.value) {
+      if (!METHOD_OPTIONS.includes(method.value)) {
         toast("请选择关爱方式");
         return null;
       }
@@ -1472,7 +1493,6 @@
         method: method.value,
         result: result.value.trim(),
         follow: follow.value,
-        next: follow.value === "需要" ? next.value : "",
         proofs: (photosByRoot.get(root) || []).slice(0, 9),
       };
     }
@@ -1483,7 +1503,6 @@
         types = selected("关爱类型"),
         sources = selected("关爱来源"),
         reason = el("cv3-reason").value.trim(),
-        typeOther = "",
         old = formMode === "edit" ? currentCase : null;
       if (old && old.records.length) {
         toast("已有的关爱内容，个案信息不可编辑");
@@ -1493,7 +1512,12 @@
         toast("请依次选择年级、班级、学生姓名");
         return;
       }
-      if (!types.length) {
+      if (
+        !types.length ||
+        types.some(function (value) {
+          return !TYPE_OPTIONS.includes(value);
+        })
+      ) {
         toast("请选择关爱类型");
         return;
       }
@@ -1518,31 +1542,10 @@
       for (var i = 0; i < cards.length; i++) {
         var values = readCare(cards[i]);
         if (!values) return;
-        if (i && values.date < careValues[i - 1].date) {
-          toast("关爱时间不能早于上一条记录");
-          return;
-        }
-        if (i && careValues[i - 1].follow !== "需要") {
-          toast("前一条关爱选择“不需要”后，不能继续新增关爱");
-          return;
-        }
         careValues.push(values);
       }
-      if (!old && !canTake({ studentId: name, grade: grade, klass: klass })) {
+      if (!canTake(old || { studentId: name, grade: grade, klass: klass })) {
         toast("暂无权限");
-        return;
-      }
-      if (
-        !old &&
-        teacherCases.some(function (c) {
-          return (
-            c.school === "市实验一小" &&
-            c.name === name &&
-            statusOf(c) !== "已完结"
-          );
-        })
-      ) {
-        toast("该学生已有未完结的关爱个案，请进入原个案继续关爱");
         return;
       }
       if (old) {
@@ -1552,13 +1555,14 @@
         }
         var before = snapshot(old);
         old.types = types;
-        old.typeOther = typeOther;
         old.reason = reason;
         if (!old.records.length) {
           old.sources = sources;
           old.evidence = evidence;
         }
         var changed = JSON.stringify(before) !== JSON.stringify(snapshot(old));
+        if (changed) archive("edit-case", old, before, snapshot(old));
+        if (changed) old.revision = (old.revision || 0) + 1;
         if (changed)
           old.caseVersions.push({
             version: old.caseVersions.length + 1,
@@ -1585,7 +1589,6 @@
         createdById: person(),
         createdByRole: role(),
         types: types,
-        typeOther: typeOther,
         sources: sources,
         evidence: evidence,
         reason: reason,
@@ -1609,7 +1612,7 @@
       toast(
         careValues.length
           ? "个案及" + careValues.length + "次关爱已创建"
-          : "个案已创建，状态为待关爱",
+          : "个案已创建",
       );
     }
     function careFields(r, first, sequence) {
@@ -1646,7 +1649,9 @@
           })
           .join("") +
         "</select></div>" +
-        '<div class="cv3-field"><label>关爱方式<span class="req">*</span></label><select data-care-method><option value="" disabled hidden>请选择关爱方式</option>' +
+        '<div class="cv3-field"><label>关爱方式<span class="req">*</span></label><select data-care-method><option value="" disabled hidden ' +
+        (!(r && r.method) ? "selected" : "") +
+        ">请选择关爱方式</option>" +
         METHOD_OPTIONS.map(function (x) {
           return (
             "<option " +
@@ -1666,9 +1671,7 @@
         '>需要</option><option value="不需要" ' +
         (r && r.follow === "不需要" ? "selected" : "") +
         ">不需要</option></select></div>" +
-        '<div class="cv3-field" data-next-wrap><label>下次跟进日期</label><input data-care-next type="text" placeholder="请选择日期" value="' +
-        esc((r && r.next) || "") +
-        '"></div></div>'
+        "</div>"
       );
     }
     function bindCareFields(root, r) {
@@ -1697,9 +1700,7 @@
       var photos = ((r && r.proofs) || []).slice(0, 9);
       photosByRoot.set(root, photos);
       var input = root.querySelector("[data-file]"),
-        grid = root.querySelector("[data-photos]"),
-        follow = root.querySelector("[data-care-follow]"),
-        next = root.querySelector("[data-next-wrap]");
+        grid = root.querySelector("[data-photos]");
       function renderPhotos() {
         grid.innerHTML =
           (photos.length < 9
@@ -1779,17 +1780,6 @@
           });
         input.value = "";
       };
-      follow.onchange = function () {
-        next.style.display = follow.value === "需要" ? "flex" : "none";
-        if (follow.value !== "需要") {
-          root.querySelector("[data-care-next]").value = "";
-          var dateButton =
-            root.querySelector("[data-care-next]").nextElementSibling;
-          if (dateButton && dateButton.classList.contains("cv3-date-trigger"))
-            dateButton.textContent = "请选择日期";
-        }
-      };
-      follow.onchange();
       [
         ["[data-care-people]", "执行人员"],
         ["[data-care-method]", "关爱方式"],
@@ -1797,8 +1787,7 @@
       ].forEach(function (pair) {
         bindSelectSheet(root.querySelector(pair[0]), pair[1]);
       });
-      bindDateSheet(root.querySelector("[data-care-date]"), "care");
-      bindDateSheet(root.querySelector("[data-care-next]"), "next");
+      bindDateSheet(root.querySelector("[data-care-date]"));
     }
     function addRecord(c, values) {
       var when = stamp(),
@@ -1810,30 +1799,28 @@
               "-" +
               Math.random().toString(36).slice(2),
             filledById: person(),
+            filledByName: personName(),
             filledByRole: role(),
             filledAt: when,
-            versions: [],
           },
           values,
         );
-      record.versions.push({
-        version: 1,
-        kind: "create",
-        after: JSON.parse(JSON.stringify(values)),
-        filledById: person(),
-        filledByRole: role(),
-        filledAt: when,
-      });
       c.records.push(record);
+      c.revision = (c.revision || 0) + 1;
+      normalizeRecord(record);
+      c.records.sort(compareRecords);
     }
     function openRecordForm(c, mode, index, returnTarget) {
       if (!c) return;
-      if (mode === "add" && (!canTake(c) || !inYear(c.createdAt))) {
+      if (
+        !canTake(c) ||
+        (mode === "edit" &&
+          (!c.records[index] ||
+            c.records[index].filledById !== person() ||
+            (window.CARE_CURRENT_PERMISSIONS &&
+              window.CARE_CURRENT_PERMISSIONS.edit === false)))
+      ) {
         toast("暂无权限");
-        return;
-      }
-      if (mode === "add" && statusOf(c) === "已完结") {
-        toast("已完结个案不可继续跟进");
         return;
       }
       closePicker();
@@ -1841,13 +1828,12 @@
       recordBackTarget = returnTarget || "sc-case-v3-detail";
       currentCase = recordCase = c;
       editingRecord = mode === "edit" ? c.records[index] : null;
+      editingRevision = editingRecord ? editingRecord.revision : null;
       recordForm.querySelector(".sub-hd b").textContent =
         mode === "edit"
           ? "编辑关爱"
           : c.records.length
-            ? returnTarget === "sc-detail"
-              ? "继续关爱"
-              : "继续跟进"
+            ? "继续关爱"
             : "新建关爱";
       recordForm.querySelector(".cv3-pad").innerHTML =
         '<div class="cv3-card"><div class="cv3-student"><span class="cv3-avatar">' +
@@ -1868,21 +1854,6 @@
         careFields(editingRecord, false);
       bindTeacherEvidence(recordForm, c);
       bindCareFields(recordForm, editingRecord);
-      var early = editingRecord && editingRecord !== latest(c);
-      if (early)
-        recordForm
-          .querySelectorAll(
-            "[data-care-date],[data-care-people],[data-care-method],[data-care-follow],[data-care-next]",
-          )
-          .forEach(function (x) {
-            x.disabled = true;
-            if (x.tagName === "SELECT") refreshSelect(x);
-            else {
-              var b = x.nextElementSibling;
-              if (b && b.classList.contains("cv3-date-trigger"))
-                b.disabled = true;
-            }
-          });
       recordForm.querySelector(".cv3-bottom button").textContent = "确定";
       recordForm.querySelector(".cv3-bottom button").onclick = saveRecord;
       callGo("sc-case-v3-record");
@@ -1891,30 +1862,35 @@
       var c = recordCase,
         r = editingRecord;
       if (!c) return;
-      if (r && r.filledById !== person()) {
-        toast("暂无权限");
+      if (!c._warningDraft && !teacherCases.includes(c)) {
+        toast("个案已变化，请重新进入");
         return;
       }
-      if (!r && recordBackTarget === "sc-detail" && statusOf(c) === "已完结") {
+      if (
+        !canTake(c) ||
+        (r &&
+          (r.filledById !== person() ||
+            !c.records.includes(r) ||
+            (window.CARE_CURRENT_PERMISSIONS &&
+              window.CARE_CURRENT_PERMISSIONS.edit === false)))
+      ) {
+        toast("暂无权限");
         return;
       }
       var values = readCare(recordForm);
       if (!values) return;
       if (r) {
+        if (r.revision !== editingRevision) {
+          toast("记录已更新，请重新打开编辑");
+          return;
+        }
         var before = JSON.parse(JSON.stringify(r));
-        if (r !== latest(c)) {
-          r.result = values.result;
-          r.proofs = values.proofs;
-        } else Object.assign(r, values);
-        r.versions.push({
-          version: r.versions.length + 1,
-          kind: "edit",
-          before: before,
-          after: JSON.parse(JSON.stringify(r)),
-          filledById: person(),
-          filledByRole: role(),
-          filledAt: stamp(),
+        Object.assign(r, values, {
+          editedAt: stamp(),
+          revision: r.revision + 1,
         });
+        archive("edit-record", c, before, r);
+        c.revision = (c.revision || 0) + 1;
         toast("关爱记录已更新");
       } else {
         if (c._warningDraft) {
@@ -1963,8 +1939,11 @@
         toast("关爱记录已保存");
       }
       currentCase = c;
+      c.records.sort(compareRecords);
       renderDetail();
       renderList();
+      recordCase = null;
+      editingRecord = null;
       callGo(recordBackTarget);
     }
     function teacherEvidenceRow(c) {
@@ -1985,20 +1964,124 @@
           window.openCareEvidenceV3(c, true);
         };
     }
+    function recordCards(c) {
+      var list = sortedRecords(c.records);
+      return list
+        .slice()
+        .reverse()
+        .map(function (r, i) {
+          return (
+            '<div class="cv3-card" data-record-id="' +
+            esc(r.id) +
+            '"><div class="cv3-record-top"><b>第' +
+            (list.length - i) +
+            "次关爱</b>" +
+            (r.filledById === person() && canTake(c)
+              ? '<button type="button" data-record-more aria-label="关爱内容操作">...</button>'
+              : "") +
+            "</div>" +
+            row("关爱时间", esc(r.date)) +
+            row("执行人员", esc(r.people)) +
+            row("关爱方式", esc(r.method)) +
+            row("关爱结果", esc(r.result)) +
+            row(
+              "证明材料",
+              (r.proofs || []).length
+                ? '<span class="cv3-photos">' +
+                    proofImages(r.proofs) +
+                    "</span>"
+                : "--",
+            ) +
+            row("继续跟进", esc(r.follow)) +
+            row("填写人", esc(r.filledByName)) +
+            row("填写时间", esc(displayTime(r.filledAt))) +
+            "</div>"
+          );
+        })
+        .join("");
+    }
+    function bindRecordActions(container, c, backTarget, refresh) {
+      container
+        .querySelectorAll("[data-record-more]")
+        .forEach(function (button) {
+          button.onclick = function () {
+            var id = button.closest("[data-record-id]").dataset.recordId;
+            var r = c.records.find(function (item) {
+              return String(item.id) === id;
+            });
+            if (!r || r.filledById !== person() || !canTake(c)) {
+              toast("暂无权限");
+              return;
+            }
+            var revision = r.revision;
+            closePicker();
+            var overlay = document.createElement("div");
+            overlay.id = "cv3-picker-overlay";
+            overlay.className = "cv3-picker-overlay";
+            overlay.innerHTML =
+              '<div class="cv3-picker-sheet cv3-record-actions" role="dialog" aria-modal="true" aria-label="关爱内容操作"><button type="button" data-action="edit">编辑</button><button type="button" data-action="delete">删除</button><button type="button" data-action="cancel">取消</button></div>';
+            overlay.onclick = function (event) {
+              var action = event.target.dataset.action;
+              if (event.target === overlay || action === "cancel") {
+                overlay.remove();
+                return;
+              }
+              if (action === "edit") {
+                overlay.remove();
+                openRecordForm(c, "edit", c.records.indexOf(r), backTarget);
+              }
+              if (action === "delete") {
+                overlay.remove();
+                confirmBox(
+                  "删除关爱内容",
+                  "确认删除该关爱内容吗？删除后不可恢复！",
+                  function () {
+                    if (
+                      !canTake(c) ||
+                      r.filledById !== person() ||
+                      !c.records.includes(r) ||
+                      r.revision !== revision ||
+                      !teacherCases.includes(c) ||
+                      (window.CARE_CURRENT_PERMISSIONS &&
+                        window.CARE_CURRENT_PERMISSIONS.delete === false)
+                    ) {
+                      toast("记录已变化或暂无权限");
+                      return;
+                    }
+                    archive("delete-record", c, r, null);
+                    c.records.splice(c.records.indexOf(r), 1);
+                    c.revision = (c.revision || 0) + 1;
+                    if ((c.warningIds || []).length && !c.records.length) {
+                      archive("auto-remove-warning-case", c, c, null);
+                      teacherCases.splice(teacherCases.indexOf(c), 1);
+                    }
+                    renderList();
+                    if (backTarget === "sc-detail") refresh();
+                    else if (teacherCases.includes(c)) renderDetail();
+                    else {
+                      currentCase = null;
+                      callGo("sc-care-menu");
+                    }
+                    toast("已删除该关爱内容");
+                  },
+                );
+              }
+            };
+            mountPicker(overlay);
+          };
+        });
+    }
     function renderDetail() {
       var c = currentCase;
       if (!c) return;
-      var state = statusOf(c),
-        pad = detail.querySelector(".cv3-pad");
+      var pad = detail.querySelector(".cv3-pad");
       detail.querySelector(".sub-hd b").textContent = "关爱个案详情";
       pad.innerHTML =
         '<div class="cv3-card"><div class="cv3-student"><span class="cv3-avatar">' +
         esc(c.name.slice(0, 1)) +
         '</span><span style="flex:1"><b>' +
         esc(c.name) +
-        "</b> " +
-        badge(state) +
-        '<div class="cv3-sub">' +
+        '</b><div class="cv3-sub">' +
         esc(c.grade + " · " + c.klass) +
         "</div></span></div>" +
         row("创建日期", esc(c.createdAt)) +
@@ -2010,40 +2093,13 @@
         c.records.length +
         "次）</div>" +
         (c.records.length
-          ? c.records
-              .slice()
-              .reverse()
-              .map(function (r, i) {
-                var index = c.records.length - 1 - i;
-                return (
-                  '<div class="cv3-card" data-record-index="' +
-                  index +
-                  '"><div class="cv3-record-top"><b>第' +
-                  (index + 1) +
-                  "次关爱</b><span>" +
-                  esc(r.date) +
-                  "</span></div>" +
-                  row("关爱时间", esc(r.date)) +
-                  row("执行人员", esc(r.people)) +
-                  row("关爱方式", esc(r.method)) +
-                  row("关爱结果", esc(r.result)) +
-                  '<div class="cv3-kv"><span class="k">证明材料</span><span class="v">' +
-                  (r.proofs.length
-                    ? '<span class="cv3-photos">' +
-                      proofImages(r.proofs) +
-                      "</span>"
-                    : "--") +
-                  "</span></div>" +
-                  row("继续跟进", esc(r.follow)) +
-                  row("下次跟进日期", esc(r.next || "--")) +
-                  '<div class="cv3-edit-controls"><button type="button" data-record-edit>编辑</button><button type="button" data-record-delete>删除</button></div></div>'
-                );
-              })
-              .join("")
+          ? recordCards(c)
           : '<div class="cv3-card cv3-note">尚无关爱记录，请点击下方“关爱”添加首次关爱。</div>');
       bindTeacherEvidence(pad, c);
+      bindRecordActions(pad, c, "sc-case-v3-detail");
+      pad.querySelector("[data-case-edit]").disabled = !canTake(c);
       pad.querySelector("[data-case-edit]").onclick = function () {
-        if (!inYear(c.createdAt) || c.createdById !== person()) {
+        if (!canTake(c) || c.createdById !== person()) {
           toast("暂无权限");
           return;
         }
@@ -2053,40 +2109,9 @@
         }
         openCaseForm("edit", c);
       };
-      pad.querySelectorAll("[data-record-index]").forEach(function (card) {
-        var index = Number(card.dataset.recordIndex),
-          r = c.records[index];
-        card.querySelector("[data-record-edit]").onclick = function () {
-          if (!inYear(r.date) || r.filledById !== person()) {
-            toast("暂无权限");
-            return;
-          }
-          openRecordForm(c, "edit", index);
-        };
-        card.querySelector("[data-record-delete]").onclick = function () {
-          if (!inYear(r.date)) {
-            toast("暂无权限");
-            return;
-          }
-          if (r !== latest(c)) {
-            toast("已有最新关联记录，不可删除");
-            return;
-          }
-          if (r.filledById !== person()) {
-            toast("暂无权限");
-            return;
-          }
-          confirmBox("删除", "确认删除该记录吗？删除后不可恢复！", function () {
-            c.records.splice(index, 1);
-            renderDetail();
-            renderList();
-            toast("已删除该关爱记录");
-          });
-        };
-      });
       var bottom = detail.querySelector(".cv3-bottom button");
-      bottom.textContent = state === "待关爱" ? "关爱" : "继续跟进";
-      bottom.disabled = state === "已完结";
+      bottom.textContent = c.records.length ? "继续关爱" : "关爱";
+      bottom.disabled = !canTake(c);
       bottom.onclick = function () {
         openRecordForm(c, "add");
       };
@@ -2106,7 +2131,6 @@
             (external && (external.warningId || external.id)) ||
             "evidence-" + (w.studentId || w.name) + "-" + index,
           text: text,
-          state: external && (external.caseStatus || external.status),
         };
       });
       (window.wlData || [])
@@ -2124,14 +2148,7 @@
             text: item.reason + "（" + item.time + "）",
           });
         });
-      return rows.filter(function (item) {
-        if (item.state === "已完结") return false;
-        return !teacherCases.some(function (c) {
-          return (
-            (c.warningIds || []).includes(item.id) && statusOf(c) === "已完结"
-          );
-        });
-      });
+      return rows;
     }
     function openWarningPicker(kind) {
       if (!warningSetup) return;
@@ -2153,7 +2170,7 @@
         '<div class="cv3-picker-sheet"><div class="cv3-picker-title"><b>' +
         (isType ? "选择关爱类型" : "关联控辍保学") +
         '</b><button type="button" data-cancel>取消</button></div><div class="cv3-picker-options five-rows">' +
-        Array.from(new Set(opts.concat(order)))
+        Array.from(new Set(isType ? opts : opts.concat(order)))
           .map(function (text) {
             return (
               '<label><input type="checkbox" value="' +
@@ -2212,6 +2229,16 @@
       mountPicker(sheet);
     }
     function openWarningSetup(w, existing) {
+      if (
+        !canTake({
+          studentId: w.studentId || w.name,
+          grade: w.grade,
+          klass: w.cls,
+        })
+      ) {
+        toast("暂无权限");
+        return;
+      }
       closePicker();
       closeWarningHelp();
       warningSetup = {
@@ -2228,14 +2255,14 @@
         existing: existing || null,
       };
       warningScreen.querySelector(".cv3-pad").innerHTML =
-        '<div class="cv3-title">学生与预警</div><div class="cv3-card"><div class="cv3-student"><span class="cv3-avatar">' +
+        '<div class="cv3-title">学生信息</div><div class="cv3-card"><div class="cv3-student"><span class="cv3-avatar">' +
         esc(w.name.slice(0, 1)) +
         "</span><span><b>" +
         esc(w.name) +
         '</b><div class="cv3-sub">' +
         esc(w.grade + " · " + w.cls) +
         "</div></span></div></div>" +
-        '<div class="cv3-title">个案信息</div><div class="cv3-card">' +
+        '<div class="cv3-title">关爱信息</div><div class="cv3-card">' +
         '<div class="cv3-field"><label>关爱来源<span class="req">*</span></label><span class="cv3-warning-source">控辍保学</span></div>' +
         '<div class="cv3-field cv3-picker-row"><label>关联控辍保学<span class="req">*</span></label><button type="button" class="cv3-picker-head" data-warning-association><span data-summary="关联控辍保学" data-warning-association-summary>请选择关联信息</span></button></div>' +
         '<div class="cv3-field cv3-picker-row"><label>关爱类型<span class="req">*</span></label><button type="button" class="cv3-picker-head" data-warning-type><span data-summary="关爱类型" data-warning-type-summary>请选择关爱类型</span></button></div>' +
@@ -2253,8 +2280,23 @@
       var next = warningScreen.querySelector(".cv3-bottom button");
       next.textContent = "下一步";
       next.onclick = function () {
+        if (
+          !canTake({
+            studentId: w.studentId || w.name,
+            grade: w.grade,
+            klass: w.cls,
+          })
+        ) {
+          toast("暂无权限");
+          return;
+        }
         var reason = el("cv3-warning-reason").value.trim();
-        if (!warningSetup.types.length) {
+        if (
+          !warningSetup.types.length ||
+          warningSetup.types.some(function (value) {
+            return !TYPE_OPTIONS.includes(value);
+          })
+        ) {
           toast("请选择关爱类型");
           return;
         }
@@ -2281,7 +2323,6 @@
           createdById: person(),
           createdByRole: role(),
           types: warningSetup.types.slice(),
-          typeOther: "",
           sources: ["辍学预警"],
           evidence: { 辍学预警: warningSetup.associations.slice() },
           reason: reason,
@@ -2311,7 +2352,9 @@
     }
     window.CARE_CASE_V3_API = {
       cases: teacherCases,
-      status: statusOf,
+      canTake: canTake,
+      recordCards: recordCards,
+      bindRecordActions: bindRecordActions,
       findForWarning: function (w) {
         return (
           teacherCases.find(function (c) {
@@ -2331,18 +2374,52 @@
             openWarningSetup(w, c);
             return;
           }
-          if (statusOf(c) === "已完结") {
-            return;
-          }
           openRecordForm(c, "add", null, "sc-detail");
           return;
         }
-        /* 不同预警独立个案；其他预警仅作参考，第一版独立入口的学生限制不变。 */
+        /* 不同预警独立个案；其他预警仅作参考。 */
         openWarningSetup(w);
       },
     };
     window.cmOpen = function () {
       openCaseForm("new");
+    };
+    // 原型专用账号示例，不是生产权限配置入口；切换不会修改业务记录。
+    var demo = document.createElement("label");
+    demo.className = "care-demo-switch";
+    demo.innerHTML =
+      '权限示例 <select aria-label="切换老师权限示例"><option value="wang">王老师（有权限）</option><option value="li">李老师（有权限）</option><option value="readonly">赵老师（无关爱权限）</option></select>';
+    document.body.appendChild(demo);
+    demo.querySelector("select").onchange = function () {
+      var key = this.value,
+        allowed = key !== "readonly";
+      window.CARE_CURRENT_USER_ID =
+        key === "wang"
+          ? "teacher-wang-demo"
+          : key === "li"
+            ? "teacher-li-demo"
+            : "teacher-zhao-readonly-demo";
+      window.CARE_CURRENT_USER_NAME =
+        key === "wang" ? "王老师" : key === "li" ? "李老师" : "赵老师";
+      window.CARE_CURRENT_ROLE = key === "wang" ? "班主任" : "任课教师";
+      window.CARE_CURRENT_PERMISSIONS = {
+        care: allowed,
+        edit: allowed,
+        delete: allowed,
+        detail: true,
+      };
+      closePicker();
+      var confirm = el("cv3-confirm");
+      if (confirm) confirm.remove();
+      recordCase = editingRecord = warningSetup = null;
+      renderList();
+      callGo(
+        location.hash === "#sc-list" ||
+          location.hash === "#sc-detail" ||
+          location.hash === "#sc-case-v3-warning-setup"
+          ? "sc-list"
+          : "sc-care-menu",
+      );
     };
     renderList();
     if (location.hash === "#sc-care-add") openCaseForm("new");
@@ -2359,7 +2436,7 @@
         r.caseEvidence = { 心理测评: DEMO_PSYCH_EVIDENCE.slice() };
     });
     if (school) {
-      // 学校端保留个案详情、删除个案；旧版录入函数仍可能被历史入口调用，统一拒绝。
+      // 学校端只查看，旧录入入口统一拒绝。
       window.schoolCareV2OpenAdd = function () {
         toast("暂无权限");
       };
@@ -2380,16 +2457,8 @@
             (x.caseId || x.id || x.name) === k && !x.deletedAt && !x.superseded
           );
         })
-        .sort(function (a, b) {
-          return String(a.date).localeCompare(String(b.date));
-        });
-    }
-    function status(list) {
-      if (!list.length) return "待关爱";
-      var last = list[list.length - 1];
-      return last.status === "need" || last.follow === "需要"
-        ? "关爱中"
-        : "已完结";
+        .map(normalizeRecord)
+        .sort(compareRecords);
     }
     function meta(first) {
       var source =
@@ -2400,7 +2469,7 @@
           : first.sourceKey === "psych" || first.source === "心理测评"
             ? "心理测评"
             : "班主任发现";
-      var type = first.name === "李小红" ? "同伴关系" : "学业困难";
+      var type = first.type;
       return {
         types: first.caseTypes || [type],
         sources: first.caseSources || [source],
@@ -2475,19 +2544,17 @@
               (school ? "school-care-timeline" : "care-reg-timeline") +
               '"><div style="display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid #e9edf4;padding-bottom:9px;margin-bottom:9px"><b>第' +
               (list.length - i) +
-              "次关爱</b><span>" +
-              esc(r.date) +
-              "</span></div>" +
+              "次关爱</b>" +
+              (school ? "" : "<span>" + esc(r.date) + "</span>") +
+              "</div>" +
               row("关爱时间", esc(r.date)) +
               row("执行人员", esc(r.people)) +
               row("关爱方式", esc(r.method || "--")) +
               row("关爱结果", esc(r.result)) +
               row("证明材料", proof(r)) +
-              row(
-                "继续跟进",
-                r.status === "need" || r.follow === "需要" ? "需要" : "不需要",
-              ) +
-              row("下次跟进日期", esc(r.next || "--")) +
+              row("继续跟进", r.follow) +
+              row("填写人", esc(r.filledByName)) +
+              row("填写时间", esc(displayTime(r.filledAt))) +
               "</div>"
             );
           })
@@ -2507,7 +2574,6 @@
         row("关联信息", evidenceHtml(first)) +
         row("关爱类型", esc(m.types.join("、"))) +
         row("关爱原因", esc(m.reason)) +
-        row("个案状态", status(list)) +
         '</div><div class="' +
         headClass +
         '">关爱情况（共' +

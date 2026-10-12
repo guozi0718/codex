@@ -1483,6 +1483,10 @@
         toast("请填写关爱结果");
         return null;
       }
+      if (result.value.length > 100) {
+        toast("关爱结果最多100字");
+        return null;
+      }
       if (!follow.value) {
         toast("请选择是否继续跟进");
         return null;
@@ -1662,7 +1666,7 @@
           );
         }).join("") +
         "</select></div>" +
-        '<div class="cv3-field stack"><label>关爱结果<span class="req">*</span></label><textarea data-care-result placeholder="请填写关爱过程和结果">' +
+        '<div class="cv3-field stack"><label>关爱结果<span class="req">*</span></label><textarea data-care-result maxlength="100" placeholder="请填写关爱过程和结果">' +
         esc((r && r.result) || "") +
         "</textarea></div>" +
         '<div class="cv3-field stack"><label>证明材料</label><input type="file" data-file accept="image/jpeg,image/jpg,image/png" multiple style="display:none"><div class="cv3-photos" data-photos></div><small>支持JPEG、JPG、PNG格式图片，最多九张，每张不超过10M</small></div>' +

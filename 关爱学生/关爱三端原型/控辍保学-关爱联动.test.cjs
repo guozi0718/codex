@@ -108,6 +108,25 @@ async function test() {
   assert.equal(api.findForWarning(warning), null, "伪造旧方式不可提交建案");
   assert.equal(form.querySelector("[data-care-result]").value, "保留草稿");
   obsoleteMethod.remove();
+  assert.equal(form.querySelector("[data-care-result]").maxLength, 100);
+  submit("测".repeat(101));
+  assert.equal(api.findForWarning(warning), null, "第二版首次关爱超100字不得建案");
+  assert.equal(form.querySelector("[data-care-result]").value.length, 101, "超限失败保留输入");
+  change(w, form.querySelector("[data-care-date]"), "2024-08-31");
+  submit("测".repeat(100));
+  const boundaryCase = api.findForWarning(warning);
+  assert.ok(boundaryCase, "100字与跨学年历史关爱日期允许保存");
+  assert.equal(boundaryCase.records[0].result.length, 100);
+  assert.equal(boundaryCase.records[0].date, "2024-08-31");
+  // 清除本测试刚新增的边界记录，保留后续原流程断言的独立样例。
+  boundaryCase.records.length = 0;
+  api.cases.splice(api.cases.indexOf(boundaryCase), 1);
+  w.go("sc-list");
+  api.openFromWarning(warning);
+  choose(w, setup.querySelector("[data-warning-type]"), [0, 1]);
+  choose(w, setup.querySelector("[data-warning-association]"), [3, 1]);
+  setup.querySelector("textarea").value = "了解缺勤原因";
+  setup.querySelector(".cv3-bottom button").click();
   assert.deepEqual(
     [...form.querySelectorAll("[data-care-fields] .cv3-kv .k")].map(
       (x) => x.textContent,
@@ -222,6 +241,9 @@ async function test() {
       form.querySelector("[data-care-" + field + "]").disabled,
       false,
     );
+  assert.equal(form.querySelector("[data-care-result]").maxLength, 100);
+  submit("改".repeat(101));
+  assert.equal(first.result, "首次关爱", "编辑超过100字不覆盖已保存内容");
   change(w, form.querySelector("[data-care-date]"), "2026-10-01");
   change(w, form.querySelector("[data-care-people]"), "陈老师");
   submit("修改早期记录");
@@ -351,6 +373,20 @@ async function test() {
   assert.equal(d.getElementById("cv3-confirm"), null, "有关爱内容不能删个案");
   v1Card().click();
   actionScope = "#sc-case-v3-detail";
+  const v1Count = v1.records.length;
+  d.querySelector("#sc-case-v3-detail .cv3-bottom button").click();
+  assert.equal(form.querySelector("[data-care-result]").maxLength, 100);
+  submit("测".repeat(101));
+  assert.equal(v1.records.length, v1Count, "第一版超过100字不得追加");
+  const historicalDate = form.querySelector("[data-care-date]");
+  assert.equal(historicalDate.min, "", "关爱日期无最早日期限制");
+  change(w, historicalDate, "2024-08-31");
+  historicalDate.nextElementSibling.click();
+  d.querySelector("#cv3-picker-overlay [data-prev]").click();
+  assert.ok(d.querySelector('#cv3-picker-overlay [data-day="2024-07-01"]:not(:disabled)'), "日历允许跨学年继续向前选择");
+  d.querySelector("#cv3-picker-overlay [data-picker-cancel]").click();
+  submit("测".repeat(100));
+  assert.equal(v1.records.length, v1Count + 1, "第一版100字及跨学年日期允许追加");
   while (v1.records.length) {
     more(v1.records[0].id, "delete");
     d.querySelector("#cv3-confirm [data-yes]").click();
@@ -391,6 +427,7 @@ async function test() {
     "第一版方式选择器完整15项",
   );
   assert.equal(v1Form.querySelector("[data-care-method]").value, "");
+  assert.equal(v1Form.querySelector("[data-care-result]").maxLength, 100, "第一版建案内嵌内容限制一致");
   assert.deepEqual(errors, []);
   console.log(
     "PASS 两版老师端：字段/秒级排序/本人全字段编辑/快照/二次删除/空个案分支",

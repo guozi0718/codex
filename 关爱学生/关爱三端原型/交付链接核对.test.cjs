@@ -48,12 +48,12 @@ async function test() {
         );
       }
       assert.equal(
-        new Set(source.match(/\|\s+CARE_TYPE_\d{2}\s+\|/g) || []).size,
+        new Set(source.match(/CARE_TYPE_\d{2}＝/g) || []).size,
         12,
         "每份PRD单独完整列12项类型",
       );
       assert.equal(
-        new Set(source.match(/\|\s+CARE_METHOD_\d{2}\s+\|/g) || []).size,
+        new Set(source.match(/CARE_METHOD_\d{2}＝/g) || []).size,
         15,
         "每份PRD单独完整列15项方式",
       );
@@ -73,21 +73,24 @@ async function test() {
           "控辍关爱学生自动带入且来源锁定，不套用自由选择校验",
         );
         assert.ok(
-          source.includes(
-            "不在控辍预警列表额外增加关爱来源／关爱类型列、关爱类型筛选或12项关爱分类统计",
-          ),
-          "控辍业务只使用既有预警字段与统计",
+          source.includes("当前预警自动关联。其他预警可作为历史参考；每个预警记录的关爱内容都单独保存") &&
+            source.includes("关爱次数") &&
+            source.includes("原预警"),
+          "控辍业务必须说明单预警独立关爱、次数及原预警不被替换",
         );
       }
+      assert.ok(
+        source.includes("36ac07c8e721808726e286311c76bca31201085b") &&
+          source.includes("8fecf490895c595ca9219058a4b4ec8d7ca80c7b") &&
+          source.includes("## 7. 提交前检查"),
+        "每份PRD必须采用本次GitHub main最新模板",
+      );
       for (const rule of [
         "填写人",
         "填写时间",
-        "创建时间",
+        "首次创建时间",
         "同日",
-        "确认删除该关爱内容吗？删除后不可恢复！",
-        "暂无权限",
         "服务端",
-        "验收",
         "关爱类型",
         "关爱方式",
       ])
@@ -95,6 +98,22 @@ async function test() {
           source.includes(rule),
           path.basename(file) + "缺少规则：" + rule,
         );
+      if (path.basename(file).includes("老师端")) {
+        for (const rule of [
+          "确认删除该关爱内容吗？删除后不可恢复！",
+          "暂无权限",
+          "底部操作面板：编辑、删除、取消",
+        ])
+          assert.ok(
+            source.includes(rule),
+            path.basename(file) + "缺少老师端规则：" + rule,
+          );
+      } else {
+        assert.ok(
+          source.includes("本端只读") && source.includes("不提供新增、编辑或删除"),
+          path.basename(file) + "缺少学校/监管只读边界",
+        );
+      }
       assert.ok(
         !/\]\([^\n)]*PRD[^\n)]*\.md(?:#.*?)?\)/.test(source),
         "独立PRD不能引用另一份文档省略细节",

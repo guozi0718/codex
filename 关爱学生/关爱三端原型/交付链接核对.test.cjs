@@ -15,7 +15,7 @@ async function test() {
   const { document, errors } = await load("index.html");
   assert.deepEqual(errors, []);
   const links = [...document.querySelectorAll("a[href]")];
-  assert.equal(links.length, 19, "六端两入口、总览及六份独立PRD");
+  assert.equal(links.length, 28, "三版六端、总览及九份独立PRD");
   assert.ok(
     !document.body.textContent.includes("家长端"),
     "当前入口不得保留家长端",
@@ -26,7 +26,7 @@ async function test() {
   );
   const documents = [];
   for (const link of links) {
-    const ref = link.getAttribute("href").split("#")[0];
+    const ref = link.getAttribute("href").split(/[?#]/)[0];
     const target = path.resolve(root, ref);
     assert.ok(fs.existsSync(target), "入口失效：" + ref);
     if (target.endsWith(".md")) documents.push(target);
@@ -132,7 +132,17 @@ async function test() {
     documents.filter((file) => /^第[一二]版-/.test(path.basename(file))).length,
     6,
   );
-  console.log("PASS 两版六端统一入口及最新需求文档相对链接");
+  const thirdDocs=documents.filter(file=>/^第三版-/.test(path.basename(file)));
+  assert.equal(thirdDocs.length,3);
+  for(const file of thirdDocs) {
+    const source=fs.readFileSync(file,"utf8");
+    assert.ok(source.length>8000,"第三版文档完整独立");
+    for(const entry of [...dictionary.types,...dictionary.methods]) assert.ok(source.includes(entry.id+"＝"+entry.label),"完整枚举："+entry.label);
+    for(const rule of ["## 7. 提交前检查","首次创建时间","同日","服务端","一条记录","暂无符合条件的关爱记录","填写人","填写时间"]) assert.ok(source.includes(rule),file+"缺少"+rule);
+    assert.ok(!/参见.*(?:第一版|第二版|PRD)/.test(source),"第三版不跨PRD省略规则");
+    assert.ok(!source.includes("${NOT_USED}"),"没有未展开模板");
+  }
+  console.log("PASS 三版六端统一入口及九份独立PRD相对链接");
 }
 test()
   .then(() => process.exit(0))

@@ -138,7 +138,7 @@ async function test() {
     const source=fs.readFileSync(file,"utf8");
     assert.ok(source.length>8000,"第三版文档完整独立");
     for(const entry of [...dictionary.types,...dictionary.methods]) assert.ok(source.includes(entry.id+"＝"+entry.label),"完整枚举："+entry.label);
-    for(const rule of ["## 7. 提交前检查","首次创建时间","同日","服务端","一条记录","暂无符合条件的关爱记录","填写人","填写时间"]) assert.ok(source.includes(rule),file+"缺少"+rule);
+    for(const rule of ["## 7. 提交前检查","首次创建时间","同日","服务端","一条记录","暂无符合条件的关爱记录","创建人","创建时间"]) assert.ok(source.includes(rule),file+"缺少"+rule);
     assert.ok(!/参见.*(?:第一版|第二版|PRD)/.test(source),"第三版不跨PRD省略规则");
     assert.ok(!source.includes("${NOT_USED}"),"没有未展开模板");
     assert.ok(source.includes("YYYY-MM-DD HH:mm") && /服务端保存(?:到)?秒/.test(source),file+"缺少创建时间展示与存储规则");

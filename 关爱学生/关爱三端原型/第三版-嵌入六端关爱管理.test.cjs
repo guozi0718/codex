@@ -12,6 +12,7 @@ const pages = {
   city: '第三版-地市监管端关爱管理-V1.0-20261015.html',
   county: '第三版-区县监管端关爱管理-V1.0-20261015.html',
 };
+const regulatorLabels = {ministry:'部级教育监管端', province:'省级教育监管端', city:'地市教育监管端', county:'区县教育监管端'};
 let checks = 0;
 function ok(value, message) { assert.ok(value, message); checks++; }
 
@@ -20,9 +21,12 @@ async function run() {
   for (const [role, file] of Object.entries(pages)) {
     const html = fs.readFileSync(path.join(root, file), 'utf8');
     ok(html.includes(`window.CARE_V3_EMBED_ROLE="${role}"`), role + '注入身份');
-    ok(html.includes('第三版-关爱记录嵌入-V1.0-20261015.js?v=20261015-3'), role + '加载统一交互');
+    ok(html.includes('第三版-关爱记录嵌入-V1.0-20261015.js?v=20261015-4'), role + '加载统一交互');
     if (role !== 'teacher') {
       ok(!html.includes('独立关爱管理 V1.0（学校端副本新增）') && !html.includes('独立关爱监管 V1.0（教育局端副本新增）'), role + '删除第一版关爱菜单代码');
+    }
+    if (regulatorLabels[role]) {
+      ok(html.includes(regulatorLabels[role]) && !html.includes('关爱监管'), role + '层级标题及菜单统一为关爱管理');
     }
   }
   ok(moduleJs.includes("tab.textContent='关爱记录'") && moduleJs.includes("tabs.appendChild(tab)"), '老师端增加第三个顶部Tab');
@@ -35,6 +39,9 @@ async function run() {
   ok(moduleJs.includes('该学生已不在您的数据范围内，请重新选择学生。'), '数据范围变化提示');
   ok(moduleJs.includes('确认删除该关爱记录吗？删除后不可恢复！'), '删除确认文案');
   ok(moduleJs.includes('选择关爱时间') && moduleJs.includes('data-month="-1"') && moduleJs.includes('data-month="1"'), '整月日历可切换月份');
+  ok(moduleJs.includes("side.getBoundingClientRect().right"), '学校及监管内容区贴齐实际侧栏边界');
+  const moduleCss = fs.readFileSync(path.join(root, '第三版-关爱记录嵌入-V1.0-20261015.css'), 'utf8');
+  ok(moduleCss.includes('.care3.c3-modal-mask{position:fixed') && moduleCss.includes('.phone>.care3.c3-modal-mask{position:absolute}'), '手机弹层定位于手机可视区');
 
   const teacher = await load(pages.teacher, '#care-v3');
   assert.deepEqual(teacher.errors, []);

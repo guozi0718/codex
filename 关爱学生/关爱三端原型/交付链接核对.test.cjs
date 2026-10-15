@@ -141,6 +141,15 @@ async function test() {
     for(const rule of ["## 7. 提交前检查","首次创建时间","同日","服务端","一条记录","暂无符合条件的关爱记录","填写人","填写时间"]) assert.ok(source.includes(rule),file+"缺少"+rule);
     assert.ok(!/参见.*(?:第一版|第二版|PRD)/.test(source),"第三版不跨PRD省略规则");
     assert.ok(!source.includes("${NOT_USED}"),"没有未展开模板");
+    assert.ok(source.includes("YYYY-MM-DD HH:mm") && /服务端保存(?:到)?秒/.test(source),file+"缺少创建时间展示与存储规则");
+    assert.ok(/不单独(?:重复)?展示“创建日期”/.test(source) || source.includes("不显示创建日期"),file+"详情不得单独展示创建日期");
+    if(path.basename(file).includes("老师端")) {
+      for(const rule of ["预警记录","劝返记录","第三个Tab“关爱记录”","当前学年","每批20条","请填写学生的真实情况","完整月历","选择范围暂不限制","记录操作权限"])
+        assert.ok(source.includes(rule),file+"缺少老师端最新规则："+rule);
+    } else {
+      for(const rule of ["开始、结束均为北京时间今天","YYYY-MM-DD","模糊候选回显","首次创建日期时间倒序"])
+        assert.ok(source.includes(rule),file+"缺少学校/监管最新规则："+rule);
+    }
   }
   console.log("PASS 三版六端统一入口及九份独立PRD相对链接");
 }

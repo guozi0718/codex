@@ -17,6 +17,7 @@ async function run(){
       const heads=[...d.querySelectorAll('th')].map(e=>e.textContent);
       assert.deepEqual(heads,['学生姓名','年级','班级','创建日期','关爱来源','关爱类型','关爱原因','关爱时间','关爱结果','操作']);checks++;
       ok(d.querySelectorAll('colgroup col')[3].style.width==='145px','创建日期列完整容纳分钟格式');
+      ok(d.querySelector('.table-scroll table').style.width==='1355px','字段区按列宽横向滑动不压缩日期列');
       ok(d.querySelectorAll('th.operation').length===1,'固定操作列');
       d.querySelector('[data-detail]').click();ok(d.querySelectorAll('[data-single-content]').length===1,'单条详情');
       ok(!d.querySelector('.more'),'学校和监管只读');
